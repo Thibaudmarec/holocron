@@ -20,8 +20,11 @@ if(P.semaine){
   if(!/^\d{4}-\d{2}-\d{2}$/.test(s.id)) err("semaine.id doit être AAAA-MM-JJ");
   else if(new Date(s.id+"T12:00:00").getDay()!==3) err("semaine.id doit être un mercredi : "+s.id);
   if(!s.regle||!s.regle.titre) err("semaine.regle.titre manquant");
-  (s.mots||[]).forEach((m,i)=>{ if(!m.mot||!m.phrase) err("mot "+i+" incomplet"); });
+  (s.mots||[]).forEach((m,i)=>{ if(!m.mot||!m.phrase) err("mot "+i+" incomplet");
+    const v=(m.variantes||[]).filter(x=>x&&x!==m.mot);
+    if(v.length!==3||new Set(v).size!==3) err("mot « "+m.mot+" » : il faut 3 variantes piégées différentes du mot"); });
   if(!(s.mots||[]).length) err("aucun mot");
+  (s.rates||[]).forEach(r=>{ if(!(s.mots||[]).some(m=>m.mot.toLowerCase()===String(r).toLowerCase().trim())) err("semaine.rates : « "+r+" » n'est pas écrit comme dans la liste des mots"); });
   (s.pieges||[]).forEach((p,i)=>{
     if(!p.phrase||p.phrase.indexOf("___")<0) err("piège "+i+" sans ___");
     if(!Array.isArray(p.options)||p.options.indexOf(p.reponse)<0) err("piège "+i+" : réponse absente des options");
@@ -39,6 +42,13 @@ const ids=new Set();
 });
 if(P.packs){
   if(new Date(P.packs.cycle+"T12:00:00").getDay()!==3) err("packs.cycle doit être un mercredi");
+  /* chaque dictée du week-end (texte A) doit contenir TOUS les mots de la liste (pluriel accepté ; une des deux formes pour les adjectifs) */
+  const L="A-Za-zÀ-ÖØ-öø-ÿŒœ0-9\\-";
+  const contient=(t,mot)=>mot.split(",").map(x=>x.trim().replace(/^(un|une|le|la|les)\s+/i,"")).some(c=>
+    new RegExp("(^|[^"+L+"])"+c.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"(s|x)?(?=[^"+L+"]|$)","i").test(t));
+  ["pack1","pack2"].forEach(k=>{ const p=P.packs[k]; if(!p||!p.texteA||!P.semaine) return;
+    const manquants=(P.semaine.mots||[]).map(m=>m.mot).filter(m=>!contient(p.texteA,m));
+    if(manquants.length) err(k+" : mots absents du texte A : "+manquants.join(" · ")); });
   ["pack1","pack2"].forEach(k=>{ const p=P.packs[k]; if(!p) return; if(!p.texteA||!p.texteB) err(k+" incomplet");
     (p.erreursB||[]).forEach((e,j)=>{ if(p.texteB.indexOf(e.faute)<0) err(k+" : faute "+j+" (« "+e.faute+" ») absente du texte B"); }); });
 }
@@ -68,7 +78,7 @@ async function seance(date,avecMots){
   let k=0, dicte=0;
   for(let n=0;n<200;n++){
     const c=d.querySelector('#carte'); if(!c) break;
-    if(/Mot n°/.test(c.textContent) && d.querySelector('#suite')) dicte++;
+    if((/Mot n°|Phrase \d+ sur/.test(c.textContent) && d.querySelector('#suite')) || d.querySelector('.orth:not([disabled])')) dicte++;
     const v=d.querySelector('#verif');
     if(v&&v.disabled){ await pause(700); continue; }
     const s=d.querySelector('#suite'); if(s){ s.click(); await pause(5); continue; }
@@ -87,8 +97,8 @@ async function seance(date,avecMots){
 (async()=>{
   const base=P.semaine ? new Date(P.semaine.id+"T12:00:00") : new Date();
   const jour=(n,h)=>{ const x=new Date(base); x.setDate(x.getDate()+n); return x.toISOString().slice(0,10)+"T"+h; };
-  /* mer, jeu, ven, sam, dim, lun, mar — du jeudi au lundi, la séance doit dicter des mots */
-  for(const [n,h] of [[0,"18:40:00"],[1,"17:00:00"],[2,"17:00:00"],[3,"10:00:00"],[4,"10:00:00"],[5,"18:40:00"],[6,"18:40:00"]]) await seance(jour(n,h), n>=1&&n<=5);
+  /* mer, jeu, ven, sam, dim, lun, mar — du mercredi au lundi, la séance doit faire travailler les mots */
+  for(const [n,h] of [[0,"18:40:00"],[1,"17:00:00"],[2,"17:00:00"],[3,"10:00:00"],[4,"10:00:00"],[5,"18:40:00"],[6,"18:40:00"]]) await seance(jour(n,h), n<=5);
   console.log("✓ Tous les tests passent");
   process.exit(0);
 })().catch(e=>{ console.error("ÉCHEC : "+e.message); process.exit(1); });

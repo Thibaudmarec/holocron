@@ -194,6 +194,14 @@ details summary{cursor:pointer;font-weight:700;margin:.6rem 0}
 .mot-correction{font-size:clamp(2rem,7vw,2.8rem);letter-spacing:.09em;font-weight:700;margin:.2rem 0 1.4rem}
 .choix.colonne{flex-direction:column;align-items:stretch}
 .choix.colonne .opt{text-align:left;font-size:1.25rem}
+.choix.colonne .opt.orth{font-size:1.6rem;letter-spacing:.05em}
+.texte-tap{font-size:1.3rem;line-height:2.1;margin:.5rem 0 1.2rem}
+.tok{font:inherit;color:inherit;background:none;border:none;border-bottom:2px dotted var(--line);border-radius:4px;padding:0 .08em;margin:0;cursor:pointer}
+.tok.sel{background:rgba(168,71,26,.16);border-bottom:2px solid var(--warn);text-decoration:line-through}
+.tok.trouve{background:rgba(29,122,69,.18);border-bottom:2px solid var(--good);text-decoration:line-through}
+.tok.rate{background:rgba(242,180,58,.3);border-bottom:2px solid var(--gold-deep)}
+.tok.fausse{text-decoration:none;opacity:.6}
+.tok:disabled{cursor:default}
 .btn-guide{font-family:"Chakra Petch",sans-serif;font-weight:700;font-size:.95rem;background:var(--surface);color:var(--ink);border:2px solid var(--line);border-radius:8px;padding:.3rem .6rem;cursor:pointer}
 </style>
 </head>
@@ -206,6 +214,7 @@ details summary{cursor:pointer;font-weight:700;margin:.6rem 0}
 /* ================= RÉGLAGES ================= */
 var CODE_PARENTS = "2808";
 var DUREE_MIN = 15;
+var DUREE_WEEKEND = 30;                 // grande dictée Star Wars du samedi et du dimanche (tous les mots)
 var LANCEMENT = "2026-09-30";          // premier mercredi du contrat
 var GAME_SLOT = "1h de jeu";
 
@@ -266,151 +275,353 @@ var PUBLIE = {
   "mots": [
    {
     "mot": "un an",
-    "phrase": "Mon petit frère a un an."
+    "phrase": "Mon petit frère a un an.",
+    "variantes": [
+     "un ans",
+     "un en",
+     "un ant"
+    ]
    },
    {
     "mot": "une ère",
-    "phrase": "Les dinosaures vivaient à une ère très ancienne."
+    "phrase": "Les dinosaures vivaient à une ère très ancienne.",
+    "variantes": [
+     "une aire",
+     "une ére",
+     "une èrre"
+    ],
+    "difficile": true
    },
    {
     "mot": "une époque",
-    "phrase": "À cette époque, les hommes taillaient la pierre."
+    "phrase": "À cette époque, les hommes taillaient la pierre.",
+    "variantes": [
+     "une épocque",
+     "une époc",
+     "une epoque"
+    ],
+    "difficile": true
    },
    {
     "mot": "une pierre",
-    "phrase": "Il ramasse une pierre dans le jardin."
+    "phrase": "Il ramasse une pierre dans le jardin.",
+    "variantes": [
+     "une pière",
+     "une pièrre",
+     "une pierr"
+    ]
    },
    {
     "mot": "un côté",
-    "phrase": "Cette pierre a un côté tout plat."
+    "phrase": "Cette pierre a un côté tout plat.",
+    "variantes": [
+     "un coté",
+     "un côtée",
+     "un cotée"
+    ],
+    "difficile": true
    },
    {
     "mot": "l'est",
-    "phrase": "Le soleil se lève à l'est."
+    "phrase": "Le soleil se lève à l'est.",
+    "variantes": [
+     "l'èst",
+     "l'ést",
+     "l'es"
+    ]
    },
    {
     "mot": "l'ouest",
-    "phrase": "Le soleil se couche à l'ouest."
+    "phrase": "Le soleil se couche à l'ouest.",
+    "variantes": [
+     "l'ouèst",
+     "l'ouess",
+     "l'houest"
+    ]
    },
    {
     "mot": "le nord",
-    "phrase": "La boussole indique le nord."
+    "phrase": "La boussole indique le nord.",
+    "variantes": [
+     "le nort",
+     "le nor",
+     "le nore"
+    ]
    },
    {
     "mot": "un bloc",
-    "phrase": "Les hommes ont déplacé un bloc énorme."
+    "phrase": "Les hommes ont déplacé un bloc énorme.",
+    "variantes": [
+     "un block",
+     "un blok",
+     "un bloque"
+    ]
    },
    {
     "mot": "une allée",
-    "phrase": "Nous marchons dans une allée couverte."
+    "phrase": "Nous marchons dans une allée couverte.",
+    "variantes": [
+     "une alée",
+     "une allé",
+     "une allèe"
+    ],
+    "difficile": true
    },
    {
     "mot": "un mètre",
-    "phrase": "Ce menhir dépasse un mètre de haut."
+    "phrase": "Ce menhir dépasse un mètre de haut.",
+    "variantes": [
+     "un mettre",
+     "un métre",
+     "un maître"
+    ]
    },
    {
     "mot": "la longueur",
-    "phrase": "Il mesure la longueur de la table."
+    "phrase": "Il mesure la longueur de la table.",
+    "variantes": [
+     "la longeur",
+     "la longueure",
+     "la longhueur"
+    ],
+    "difficile": true
    },
    {
     "mot": "la largeur",
-    "phrase": "Quelle est la largeur de cette porte ?"
+    "phrase": "Quelle est la largeur de cette porte ?",
+    "variantes": [
+     "la largueur",
+     "la largeure",
+     "la larjeur"
+    ],
+    "difficile": true
    },
    {
     "mot": "un historien",
-    "phrase": "Un historien étudie le passé."
+    "phrase": "Un historien étudie le passé.",
+    "variantes": [
+     "un istorien",
+     "un histoirien",
+     "un historiein"
+    ],
+    "difficile": true
    },
    {
     "mot": "une tombe",
-    "phrase": "Ce dolmen était une tombe."
+    "phrase": "Ce dolmen était une tombe.",
+    "variantes": [
+     "une tonbe",
+     "une tombbe",
+     "une thombe"
+    ]
    },
    {
     "mot": "la terre",
-    "phrase": "Les graines poussent dans la terre."
+    "phrase": "Les graines poussent dans la terre.",
+    "variantes": [
+     "la tère",
+     "la terr",
+     "la therre"
+    ]
    },
    {
     "mot": "l'origine",
-    "phrase": "On ne connaît pas l'origine de ces pierres."
+    "phrase": "On ne connaît pas l'origine de ces pierres.",
+    "variantes": [
+     "l'orijine",
+     "l'originne",
+     "l'orrigine"
+    ]
    },
    {
     "mot": "un monument",
-    "phrase": "Le dolmen est un monument très ancien."
+    "phrase": "Le dolmen est un monument très ancien.",
+    "variantes": [
+     "un monumant",
+     "un monnument",
+     "un monumment"
+    ]
    },
    {
     "mot": "un curieux",
-    "phrase": "Un curieux s'approche des menhirs."
+    "phrase": "Un curieux s'approche des menhirs.",
+    "variantes": [
+     "un curieu",
+     "un curieus",
+     "un curieut"
+    ],
+    "difficile": true
    },
    {
     "mot": "une année",
-    "phrase": "Il y a douze mois dans une année."
+    "phrase": "Il y a douze mois dans une année.",
+    "variantes": [
+     "une anné",
+     "une annèe",
+     "une anée"
+    ],
+    "difficile": true
    },
    {
     "mot": "la construction",
-    "phrase": "La construction du dolmen a duré longtemps."
+    "phrase": "La construction du dolmen a duré longtemps.",
+    "variantes": [
+     "la construcsion",
+     "la contruction",
+     "la constrution"
+    ]
    },
    {
     "mot": "se dresser",
-    "phrase": "Les menhirs semblent se dresser vers le ciel."
+    "phrase": "Les menhirs semblent se dresser vers le ciel.",
+    "variantes": [
+     "se dreser",
+     "se dressé",
+     "se drèsser"
+    ],
+    "difficile": true
    },
    {
     "mot": "s'aligner",
-    "phrase": "Les élèves doivent s'aligner avant d'entrer."
+    "phrase": "Les élèves doivent s'aligner avant d'entrer.",
+    "variantes": [
+     "s'alligner",
+     "s'aligné",
+     "s'alignier"
+    ],
+    "difficile": true
    },
    {
     "mot": "penser",
-    "phrase": "J'aime penser aux vacances."
+    "phrase": "J'aime penser aux vacances.",
+    "variantes": [
+     "pensé",
+     "panser",
+     "pençer"
+    ]
    },
    {
     "mot": "attirer",
-    "phrase": "Ces pierres géantes vont attirer les visiteurs."
+    "phrase": "Ces pierres géantes vont attirer les visiteurs.",
+    "variantes": [
+     "atirer",
+     "attiré",
+     "attirrer"
+    ]
    },
    {
     "mot": "protéger",
-    "phrase": "Il faut protéger les monuments anciens."
+    "phrase": "Il faut protéger les monuments anciens.",
+    "variantes": [
+     "protèger",
+     "protégé",
+     "protéjer"
+    ]
    },
    {
     "mot": "lointain, lointaine",
-    "phrase": "Un pays lointain, une planète lointaine."
+    "phrase": "Un pays lointain, une planète lointaine.",
+    "variantes": [
+     "lointin, lointine",
+     "loingtain, loingtaine",
+     "lointain, lointainne"
+    ],
+    "difficile": true
    },
    {
     "mot": "rocheux, rocheuse",
-    "phrase": "Un chemin rocheux, une côte rocheuse."
+    "phrase": "Un chemin rocheux, une côte rocheuse.",
+    "variantes": [
+     "rocheu, rocheuse",
+     "rocheux, rocheuze",
+     "rocheus, rocheuse"
+    ]
    },
    {
     "mot": "haut, haute",
-    "phrase": "Un mur haut, une tour haute."
+    "phrase": "Un mur haut, une tour haute.",
+    "variantes": [
+     "hau, haute",
+     "haut, hote",
+     "aut, aute"
+    ]
    },
    {
     "mot": "collectif, collective",
-    "phrase": "Un travail collectif, une tombe collective."
+    "phrase": "Un travail collectif, une tombe collective.",
+    "variantes": [
+     "colectif, colective",
+     "collectife, collective",
+     "collectif, collectiv"
+    ],
+    "difficile": true
    },
    {
     "mot": "impressionnant",
-    "phrase": "Ce menhir géant est impressionnant."
+    "phrase": "Ce menhir géant est impressionnant.",
+    "variantes": [
+     "impressionant",
+     "impréssionnant",
+     "impressionnent"
+    ],
+    "difficile": true
    },
    {
     "mot": "depuis",
-    "phrase": "Ce dolmen est là depuis très longtemps."
+    "phrase": "Ce dolmen est là depuis très longtemps.",
+    "variantes": [
+     "depui",
+     "deupuis",
+     "depuit"
+    ]
    },
    {
     "mot": "avant",
-    "phrase": "Range ta chambre avant le dîner."
+    "phrase": "Range ta chambre avant le dîner.",
+    "variantes": [
+     "avent",
+     "avan",
+     "avans"
+    ]
    },
    {
     "mot": "pour",
-    "phrase": "Il s'entraîne pour progresser."
+    "phrase": "Il s'entraîne pour progresser.",
+    "variantes": [
+     "pourt",
+     "pours",
+     "poure"
+    ]
    },
    {
     "mot": "certainement",
-    "phrase": "Il viendra certainement demain."
+    "phrase": "Il viendra certainement demain.",
+    "variantes": [
+     "certainment",
+     "certènement",
+     "sertainement"
+    ],
+    "difficile": true
    },
    {
     "mot": "environ",
-    "phrase": "Le menhir pèse environ dix tonnes."
+    "phrase": "Le menhir pèse environ dix tonnes.",
+    "variantes": [
+     "envirron",
+     "anviron",
+     "environt"
+    ],
+    "difficile": true
    },
    {
     "mot": "maintenant",
-    "phrase": "Maintenant, nous rentrons à la maison."
+    "phrase": "Maintenant, nous rentrons à la maison.",
+    "variantes": [
+     "maintenan",
+     "maintenent",
+     "mintenant"
+    ],
+    "difficile": true
    }
   ],
   "pieges": [
@@ -877,24 +1088,26 @@ var PUBLIE = {
  "packs": {
   "cycle": "2026-09-23",
   "pack1": {
-   "texteA": "Sur une planète lointaine, un jeune Jedi découvre une allée de pierres qui se dressent depuis des milliers d'années. Il compte quatre-vingts blocs rocheux et deux-cent-douze petites pierres. Un historien pense que cette construction date d'une époque très ancienne : environ trois-mille ans avant la guerre des clones. Le plus haut monument pèse cinq-cents tonnes. Maintenant, le Jedi veut protéger ce lieu impressionnant, qui attire certainement beaucoup de curieux.",
+   "texteA": "À une époque lointaine, bien avant l'ère de l'Empire, un jeune Jedi atterrit sur une terre rocheuse. Depuis le nord jusqu'à l'est, des pierres semblent s'aligner le long d'une allée sans fin. Chaque bloc mesure environ trois mètres de haut. Un historien de la République vient pour étudier ce monument impressionnant. Il se met à penser que c'est une tombe collective, construite il y a quatre-mille ans. Chaque année, des curieux viennent voir ces pierres se dresser vers le ciel. Mais quelle est l'origine de cette construction ? Personne ne le sait. Le Jedi mesure la longueur et la largeur de l'allée : deux-cent-quatre-vingts mètres sur vingt mètres. Maintenant, il doit protéger ce lieu, car il risque d'attirer les soldats de l'Empire venus de l'ouest. Sur un côté du site, il laisse un droïde de garde pour un an. C'est certainement la plus belle découverte de sa vie !",
    "surveiller": [
-    "quatre-vingts",
-    "deux-cent-douze",
-    "trois-mille",
-    "cinq-cents",
+    "deux-cent-quatre-vingts",
+    "quatre-mille",
+    "vingt",
     "lointaine",
-    "se dressent",
-    "époque",
+    "rocheuse",
+    "s'aligner",
+    "se dresser",
     "impressionnant",
+    "longueur",
+    "largeur",
     "certainement",
     "environ"
    ],
-   "texteB": "Depuis deux-cents-dix ans, les droïdes gardent une tombe collective au nord de la vallée. Chaque année, ils comptent les pierres : il y en a exactement quatre-vingt. Un historien pense que l'allée mesure trois-milles mètres de longueur. C'est certainment la plus longue de la galaxie !",
+   "texteB": "Sur la planète Tatooine, deux droïdes gardent une tombe collective depuis trois-cents-deux ans. Leur allée de pierres mesure quatre-vingt mètres de longueur. Un historien curieux pense que ces blocs rocheux sont impressionants. Il faut les protégé avant l'arrivée des pillards venus de l'ouest.",
    "erreursB": [
     {
-     "faute": "deux-cents-dix",
-     "correction": "deux-cent-dix",
+     "faute": "trois-cents-deux",
+     "correction": "trois-cent-deux",
      "test": "Un nombre suit « cent » : pas de s."
     },
     {
@@ -903,46 +1116,43 @@ var PUBLIE = {
      "test": "« Vingt » est multiplié et rien ne suit : s."
     },
     {
-     "faute": "trois-milles",
-     "correction": "trois-mille",
-     "test": "« Mille » ne prend jamais de s."
+     "faute": "impressionants",
+     "correction": "impressionnants",
+     "test": "Mot de la liste : deux n au milieu."
     },
     {
-     "faute": "certainment",
-     "correction": "certainement",
-     "test": "Mot de la liste : certaine + ment."
+     "faute": "protégé",
+     "correction": "protéger",
+     "test": "Après « il faut », le verbe est à l'infinitif : « il faut les prendre », donc -er."
     }
    ],
    "leurres": [
     "collective",
-    "longueur"
+    "rocheux"
    ]
   },
   "pack2": {
-   "texteA": "Maintenant, la flotte rebelle survole une terre rocheuse, à l'est d'une planète lointaine. Au sol, des blocs de pierre s'alignent sur une longueur de neuf-cents mètres et une largeur de vingt mètres. Leur origine reste un mystère : on pense qu'ils ont été dressés il y a quatre-mille ans. Le pilote, très curieux, veut protéger ce site collectif avant l'arrivée de l'Empire. Il note sur son carnet : deux-cent-quatre-vingts pierres, environ !",
+   "texteA": "Maintenant, la flotte rebelle survole une planète lointaine, à l'ouest de la galaxie. Au sol, sur une terre rocheuse, des blocs de pierre semblent s'aligner depuis le nord jusqu'à l'est. Le pilote, très curieux, pose son vaisseau à côté d'un monument impressionnant. Chaque pierre est haute d'environ six mètres. Un vieil historien lui explique que cette construction date d'une époque très ancienne, bien avant l'ère des Jedi. C'est certainement une tombe collective. L'origine de ces pierres reste pourtant un mystère. Le pilote mesure la longueur de l'allée, neuf-cent-quatre-vingts mètres, puis sa largeur, quatre-vingts mètres. Il commence à penser que ces géants de pierre peuvent attirer les chasseurs de trésors. Pour les protéger, il reste un an sur la planète. Chaque année, il regarde les pierres se dresser dans la lumière des deux soleils.",
    "surveiller": [
-    "neuf-cents",
-    "vingt",
-    "quatre-mille",
-    "deux-cent-quatre-vingts",
+    "neuf-cent-quatre-vingts",
+    "quatre-vingts",
+    "lointaine",
     "rocheuse",
-    "s'alignent",
-    "longueur",
-    "largeur",
-    "origine",
-    "collectif"
+    "s'aligner",
+    "se dresser",
+    "haute",
+    "impressionnant",
+    "époque",
+    "ère",
+    "certainement",
+    "l'origine"
    ],
-   "texteB": "Le vaisseau se pose au pied d'un monument impressionant. Il se dresse vers le ciel depuis sept-cent-vingts ans. Un historien très curieu pense qu'il a été construit en l'an mille-deux-cents, à une époque lointaine. Chaque côté mesure trente-cinq mètre.",
+   "texteB": "Depuis cinq-cents-trente ans, un monument se dresse à l'est de la vallée. Sa hauteur est impressionnante : il mesure vingt mètres. Un historien très curieu compte les pierres : il y en a exactement deux-cent-quatre-vingt. Chaque anné, des milliers de visiteurs viennent le voir.",
    "erreursB": [
     {
-     "faute": "impressionant",
-     "correction": "impressionnant",
-     "test": "Mot de la liste : deux n au milieu."
-    },
-    {
-     "faute": "sept-cent-vingts",
-     "correction": "sept-cent-vingt",
-     "test": "« Vingt » n'est pas multiplié ici : pas de s."
+     "faute": "cinq-cents-trente",
+     "correction": "cinq-cent-trente",
+     "test": "Un nombre suit « cent » : pas de s."
     },
     {
      "faute": "curieu",
@@ -950,14 +1160,19 @@ var PUBLIE = {
      "test": "Mot de la liste : curieux finit par un x."
     },
     {
-     "faute": "mètre",
-     "correction": "mètres",
-     "test": "Trente-cinq mètres : pluriel, donc s."
+     "faute": "deux-cent-quatre-vingt",
+     "correction": "deux-cent-quatre-vingts",
+     "test": "« Vingt » est multiplié par quatre et rien ne suit : s."
+    },
+    {
+     "faute": "anné",
+     "correction": "année",
+     "test": "Mot de la liste : année finit par -ée."
     }
    ],
    "leurres": [
-    "mille-deux-cents",
-    "trente-cinq"
+    "impressionnante",
+    "vingt"
    ]
   }
  },
@@ -966,12 +1181,12 @@ var PUBLIE = {
 
 /* Le cycle mercredi → mardi (clé = jour JS : 0 dimanche … 6 samedi) */
 var JOURS = {
-  3:{court:"Mer", nom:"Mercredi", etape:"Découverte des mots", mission:"decouverte", slot:false},
-  4:{court:"Jeu", nom:"Jeudi", etape:"Apprentissage approfondi", mission:"holocron", slot:false},
-  5:{court:"Ven", nom:"Vendredi", etape:"Révision light", mission:"holocron", slot:true},
-  6:{court:"Sam", nom:"Samedi", etape:"Dictée de préparation n°1", mission:"sam", slot:true},
-  0:{court:"Dim", nom:"Dimanche", etape:"Dictée de préparation n°2", mission:"dim", slot:true},
-  1:{court:"Lun", nom:"Lundi", etape:"Révision ciblée", mission:"holocron", slot:false},
+  3:{court:"Mer", nom:"Mercredi", etape:"Découverte : tous les mots", mission:"decouverte", slot:false},
+  4:{court:"Jeu", nom:"Jeudi", etape:"Dictée de tous les mots", mission:"holocron", slot:false},
+  5:{court:"Ven", nom:"Vendredi", etape:"Les mots les plus durs", mission:"holocron", slot:true},
+  6:{court:"Sam", nom:"Samedi", etape:"Dictée Star Wars n°1", mission:"sam", slot:true},
+  0:{court:"Dim", nom:"Dimanche", etape:"Dictée Star Wars n°2", mission:"dim", slot:true},
+  1:{court:"Lun", nom:"Lundi", etape:"Révision des mots durs", mission:"holocron", slot:false},
   2:{court:"Mar", nom:"Mardi", etape:"Dictée en classe", mission:null, slot:false}
 };
 var NB_ANGLAIS = {3:4,4:4,5:3,6:5,0:5,1:3,2:5};
@@ -1090,6 +1305,7 @@ function motsRates(){
   var set={};
   D.seances.forEach(function(s){ if(s.contenu!==D.contenu.id || s.date<D.cycle) return; (s.pieges||[]).forEach(function(p){ if(p.r==="mot") set[norm(p.x)]=true; }); });
   (D.contrat.ratesPapier||[]).forEach(function(m){ set[norm(m)]=true; });
+  (D.contenu.rates||[]).forEach(function(m){ set[norm(m)]=true; }); /* mots faux signalés par maman et publiés par Claude */
   return set;
 }
 function motsVus(){
@@ -1230,36 +1446,33 @@ function vueAccueil(){
     '<div class="jauge" role="img" aria-label="Énergie '+e+' sur '+obj+'"><div style="width:'+(charge*100)+'%"></div></div>'+
     '<p class="energie"><strong>'+e+'</strong> points d\'énergie cette semaine, objectif '+obj+'</p>'+
     '<p class="jour">'+cfg.nom+'<span>'+esc(cfg.etape)+'</span></p>'+
-    '</header><section class="action">'+action+(active?'':blocPapier())+'</section>'+
+    '</header><section class="action">'+action+'</section>'+
     tableauHTML()+
     '<footer>'+boutonGuide()+' <button class="lien" id="parents">Espace parents</button></footer>';
   var go=$("#go"); if(go) go.onclick=function(){ demarrer(active); };
-  brancherPapier(vueAccueil);
   $("#parents").onclick=vueCode; brancherGuide();
 }
 
-/* Dictée papier du week-end avec papa : Erwan confirme lui-même qu'elle est faite (même coche que dans l'espace parents, qui peut la décocher). */
-function papierDuJour(){ var j=dowOf(D.today); return j===6?"sam":j===0?"dim":null; }
-function blocPapier(){
-  var k=papierDuJour(); if(!k || D.today<LANCEMENT) return '';
-  if(D.contrat[k]) return '<p class="note">✓ Dictée papier n°'+(k==="sam"?1:2)+' avec papa : faite.</p>';
-  return '<div class="papier" id="blocPapier"><p class="note">Ta dictée papier n°'+(k==="sam"?1:2)+' avec papa est faite ?</p>'+
-    '<button class="btn" id="papier">✓ Oui, je l\'ai faite</button></div>';
-}
-function brancherPapier(apres){
-  var b=$("#papier"); if(!b) return;
-  b.onclick=function(){
-    var k=papierDuJour(), c=clone(D.contrat)||{}; c[k]=true; b.disabled=true;
-    Store.set("contrat/"+D.cycle,c).then(function(){ D.contrat=c; parler("Dictée papier notée. Bravo !"); if(apres) apres(); else $("#blocPapier").innerHTML='<p class="fait">Dictée papier notée. Bravo !</p>'; });
-  };
-}
-
-/* ================= COMPOSITION DE LA SÉANCE ================= */
+/* ================= COMPOSITION DE LA SÉANCE =================
+   Le cycle (décision Thibaud, 2026-09-27) — la dictée du mardi contient TOUS les mots :
+   Mer : la règle, puis TOUS les mots en choix piégés (la bonne écriture parmi 4 très proches)
+   Jeu : dictée orale de TOUS les mots sur le cahier, relecture, puis maman vérifie le cahier
+   Ven : les mots les plus durs en choix piégés + phrases pièges sur la règle
+   Sam / Dim : dictée Star Wars contenant TOUS les mots (avec papa/maman ou avec le Holocron), correction, chasse aux pièges
+   Lun : les mots les plus durs en choix piégés, puis dictée sur le cahier de ceux qui résistent encore */
 var S=null;
 function it(t,d,extra){ var o={t:t,d:d}; if(extra) for(var k in extra) o[k]=extra[k]; return o; }
 function prioriser(mots,rates,n){
   var r=mots.filter(function(m){ return rates[norm(m.mot)]; }), a=mots.filter(function(m){ return !rates[norm(m.mot)]; });
   return melange(r).concat(melange(a)).slice(0,n);
+}
+/* Les mots les plus durs : ratés cette semaine d'abord, puis ceux marqués « difficile », puis les autres */
+function motsDurs(n){
+  var mots=D.contenu.mots||[], rm=motsRates();
+  var r=mots.filter(function(m){ return rm[norm(m.mot)]; }),
+      d=mots.filter(function(m){ return !rm[norm(m.mot)] && m.difficile; }),
+      a=mots.filter(function(m){ return !rm[norm(m.mot)] && !m.difficile; });
+  return melange(r).concat(melange(d)).concat(melange(a)).slice(0,n);
 }
 /* Dictée de mots sur le cahier : dicter tout → relecture solo → correction mot par mot */
 function cahier(liste){
@@ -1269,26 +1482,21 @@ function cahier(liste){
   liste.forEach(function(d,i){ out.push(it("corrMot",d,{n:i+1})); });
   return out;
 }
+function orth(liste){ return liste.map(function(d){ return it("orth",d); }); }
+function piegesRegle(n){
+  var pieges=D.contenu.pieges||[], rp=piegesRates();
+  return melange(pieges.filter(function(x){ return rp[x.phrase]; })).concat(melange(pieges.filter(function(x){ return !rp[x.phrase]; }))).slice(0,n)
+    .map(function(d){ return it("piege",d); });
+}
+function packDuJour(jour){ return D.packs ? D.packs[jour===6?"pack1":"pack2"] : null; }
 function composer(jour){
-  var blocs=[], C=D.contenu, pieges=C.pieges||[], mots=C.mots||[], rm=motsRates(), rp=piegesRates();
+  var blocs=[], mots=D.contenu.mots||[];
   var dictee=[];
-  if(jour===3) dictee=[it("decouverte",null)];
-  else if(jour===4) dictee=cahier(melange(mots).slice(0,12)).concat(tirer(pieges,6).map(function(d){return it("piege",d);}));
-  else if(jour===5) dictee=cahier(prioriser(mots,rm,5).concat(anciensMots(2)));
-  else if(jour===6 || jour===0){
-    /* Week-end : préparation de la dictée. Mots ratés d'abord, puis ceux pas encore dictés dans le Holocron cette semaine. */
-    var vus=motsVus(), pr=pieges.filter(function(x){ return rp[x.phrase]; });
-    var ordre=melange(mots.filter(function(m){ return rm[norm(m.mot)]; }))
-      .concat(melange(mots.filter(function(m){ return !rm[norm(m.mot)] && !vus[norm(m.mot)]; })))
-      .concat(melange(mots.filter(function(m){ return !rm[norm(m.mot)] && vus[norm(m.mot)]; })));
-    dictee=cahier(ordre.slice(0,8).concat(anciensMots(jour===0?2:1)))
-      .concat(melange(pr).concat(melange(pieges.filter(function(x){ return !rp[x.phrase]; }))).slice(0,jour===0?4:3).map(function(d){return it("piege",d);}));
-  }
-  else if(jour===1){
-    var p=pieges.filter(function(x){ return rp[x.phrase]; }), m=mots.filter(function(x){ return rm[norm(x.mot)]; });
-    dictee=cahier((m.length?melange(m):tirer(mots,5)).slice(0,7).concat(anciensMots(3)))
-      .concat((p.length?p:tirer(pieges,3)).slice(0,4).map(function(d){return it("piege",d);}));
-  }
+  if(jour===3) dictee=[it("regle",null)].concat(orth(melange(mots)));
+  else if(jour===4) dictee=melange(mots).map(function(d,i){ return it("dictMot",d,{n:i+1}); }).concat([it("relecture",mots), it("maman",null)]);
+  else if(jour===5) dictee=orth(motsDurs(12)).concat(piegesRegle(4));
+  else if(jour===6 || jour===0) dictee = packDuJour(jour) ? [it("choixMode",packDuJour(jour))] : orth(melange(mots));
+  else if(jour===1) dictee=orth(motsDurs(10)).concat([it("cahierDyn",null)]).concat(piegesRegle(3));
   if(dictee.length) blocs.push({cle:"dictee", nom:JOURS[jour].etape, items:dictee});
   if(D.leconDuJour){
     var L=D.leconDuJour, np=etatLecon(L.id).passages.length+1;
@@ -1299,16 +1507,67 @@ function composer(jour){
   blocs.forEach(function(b,i){ items.push({t:"intro",bloc:b,num:i+1,total:blocs.length}); b.items.forEach(function(x){ x.bloc=b; x.num=i+1; x.total=blocs.length; items.push(x); }); });
   return {items:items, blocs:blocs};
 }
+/* Remplace l'élément courant par une liste d'éléments calculée pendant la séance */
+function deplier(nouveaux){
+  var x=S.items[S.i], b=x.bloc, k=b.items.indexOf(x);
+  nouveaux.forEach(function(y){ y.bloc=b; y.num=x.num; y.total=x.total; });
+  b.items.splice.apply(b.items,[k,1].concat(nouveaux));
+  S.items.splice.apply(S.items,[S.i,1].concat(nouveaux));
+}
 var TEXTES_INTRO={
-  dictee:{3:"Ce soir, on découvre la feuille de la maîtresse. Tu vas lire la règle, lire les mots, et repérer les pièges.",
-          4:"Prépare ton cahier et ton crayon. Je te dicte les mots, tu les écris bien lisiblement, tu te relis tout seul, puis on corrige ensemble. Ensuite, quelques phrases pièges sur la règle.",
-          5:"Petite révision pour ne pas oublier. Prépare ton cahier : je dicte, tu écris, tu te relis.",
-          6:"On prépare la dictée de mardi. Prépare ton cahier : je te dicte d'abord les mots qui t'ont résisté et ceux qu'on n'a pas encore travaillés, puis quelques phrases pièges.",
-          0:"On prépare la dictée de mardi. Prépare ton cahier : je te dicte d'abord les mots qui t'ont résisté et ceux qu'on n'a pas encore travaillés, puis quelques phrases pièges.",
-          1:"On réactive tes pièges avant la dictée de demain. Prépare ton cahier : seulement les mots qui t'ont résisté."},
+  dictee:{3:"Voici la feuille de la maîtresse. D'abord la règle, puis tous les mots : pour chacun, trouve la bonne écriture. Attention, les pièges sont très proches !",
+          4:"Prépare ton cahier et ton crayon. Je te dicte tous les mots de la semaine, un par un. Tu les écris bien lisiblement, tu te relis, puis tu donnes ton cahier à maman.",
+          5:"Les mots les plus durs, avec des pièges encore plus malins. Ouvre bien les yeux !",
+          6:"La grande dictée Star Wars n°1 : elle contient tous les mots de la semaine. Ensuite, la chasse aux pièges.",
+          0:"La grande dictée Star Wars n°2 : elle contient tous les mots de la semaine. Ensuite, la chasse aux pièges.",
+          1:"Dernière révision avant la dictée de demain : les mots les plus durs, puis tu écris sur ton cahier ceux qui résistent encore."},
   lecon:"D'abord l'essentiel, à lire à voix haute. Ensuite tu récites sans regarder, puis tu réponds aux questions pour vérifier que tu as retenu et compris.",
   anglais:"Listen to the word and tap the right picture. Then say it out loud, two times."
 };
+
+/* ---- Variantes piégées d'un mot (publiées par Claude ; sinon fabriquées automatiquement) ---- */
+function variantesAuto(m){
+  var v=[], add=function(s){ if(s && s!==m && v.indexOf(s)<0) v.push(s); };
+  add(m.replace(/é/,"è")); add(m.replace(/è/,"é")); add(m.replace(/([bcdfglmnprst])\1/,"$1")); add(m.replace(/([aeiouéè])([lmnprst])([aeiouéè])/,"$1$2$2$3"));
+  add(m.replace(/ss/,"s")); add(m.replace(/([^s])s([aeiou])/,"$1ss$2")); add(/[sxt]$/.test(m)?m.slice(0,-1):m+"s"); add(m.replace(/ent$/,"ant")); add(m.replace(/ant$/,"ent")); add(m.replace(/ai/,"è"));
+  return v.slice(0,3);
+}
+function variantes(d){ var v=(d.variantes||[]).filter(function(x){ return x && x!==d.mot; }); return v.length>=2 ? v.slice(0,3) : variantesAuto(d.mot); }
+function coeur(mot){ return String(mot).split(",")[0].replace(/^(un|une|le|la|les)\s+/i,"").replace(/^l['’]/i,"").trim(); }
+function phraseATrou(d){
+  if(!d.phrase) return "";
+  var c=coeur(d.mot), i=d.phrase.toLowerCase().indexOf(c.toLowerCase());
+  if(i<0 || c.length<2) return "";
+  return esc(d.phrase.slice(0,i))+'<span class="trou">?</span>'+esc(d.phrase.slice(i+c.length));
+}
+
+/* ---- Texte découpé en mots touchables (correction de la dictée, chasse aux pièges) ---- */
+var LETTRE=/[A-Za-zÀ-ÖØ-öø-ÿŒœ0-9'’-]/;
+function trouverMot(txt,f,depuis){
+  var i=txt.indexOf(f,depuis||0);
+  while(i>=0){
+    var av=i>0?txt.charAt(i-1):" ", ap=txt.charAt(i+f.length)||" ";
+    if(!/[A-Za-zÀ-ÖØ-öø-ÿŒœ0-9-]/.test(av) && !/[A-Za-zÀ-ÖØ-öø-ÿŒœ0-9-]/.test(ap)) return i;
+    i=txt.indexOf(f,i+1);
+  }
+  return -1;
+}
+/* segments : [{t:texte, tok:bool, f:index de l'erreur ou -1}] */
+function segments(txt,fautes){
+  var zones=[];
+  (fautes||[]).forEach(function(f,k){ var i=trouverMot(txt,f); if(i>=0) zones.push({a:i,b:i+f.length,k:k}); });
+  zones.sort(function(x,y){ return x.a-y.a; });
+  var out=[], pos=0;
+  var libre=function(s){ var re=/[A-Za-zÀ-ÖØ-öø-ÿŒœ0-9'’-]+/g, m, p=0; while((m=re.exec(s))){ if(m.index>p) out.push({t:s.slice(p,m.index),tok:false,f:-1}); out.push({t:m[0],tok:true,f:-1}); p=m.index+m[0].length; } if(p<s.length) out.push({t:s.slice(p),tok:false,f:-1}); };
+  zones.forEach(function(z){ if(z.a<pos) return; libre(txt.slice(pos,z.a)); out.push({t:txt.slice(z.a,z.b),tok:true,f:z.k}); pos=z.b; });
+  libre(txt.slice(pos));
+  return out;
+}
+function texteTouchable(segs){
+  return '<p class="texte-tap">'+segs.map(function(s,i){ return s.tok ? '<button class="tok" data-i="'+i+'" aria-pressed="false">'+esc(s.t)+'</button>' : esc(s.t); }).join("")+'</p>';
+}
+function brancherTokens(){ document.querySelectorAll(".tok").forEach(function(b){ b.onclick=function(){ var on=!b.classList.contains("sel"); b.classList.toggle("sel",on); b.setAttribute("aria-pressed",on?"true":"false"); }; }); }
+function phrasesDe(txt){ return (txt.match(/[^.!?…]+[.!?…]+[»"]?\s*|[^.!?…]+$/g)||[txt]).map(function(s){ return s.trim(); }).filter(Boolean); }
 
 /* ================= SÉANCE ================= */
 function demarrer(active){
@@ -1317,7 +1576,7 @@ function demarrer(active){
   if(active){ id=active._id; fin=active.fin; p=Promise.resolve(); }
   else {
     var nb=seancesDu(D.today).length;
-    id=D.today+(nb?"-"+(nb+1):""); fin=Date.now()+DUREE_MIN*60000;
+    id=D.today+(nb?"-"+(nb+1):""); fin=Date.now()+((jour===6||jour===0)?DUREE_WEEKEND:DUREE_MIN)*60000;
     var doc={date:D.today, cycle:D.cycle, contenu:D.contenu.id, debut:Date.now(), fin:fin, termine:false, points:0, pieges:[], missions:{}, ouvertures:[]};
     p=Store.set("seances/"+id,doc).then(function(){
       doc._id=id; D.seances.push(doc);
@@ -1331,6 +1590,7 @@ function demarrer(active){
 }
 
 function afficher(){
+  if(S.items[S.i].t==="cahierDyn") deplierCahierLundi();
   var x=S.items[S.i], b=x.bloc;
   var dans=b.items, rang=dans.indexOf(x)+1;
   app.innerHTML='<div class="barre"><span class="mission">Mission '+x.num+' sur '+x.total+'</span>'+
@@ -1338,7 +1598,8 @@ function afficher(){
     '<span class="points" id="points">+'+S.points+'</span><span class="chrono" id="chrono">'+fmt(S.fin-Date.now())+'</span>'+boutonGuide()+'</div>'+
     (S.alerte?'<p class="bandeau">Encore 2 minutes.</p>':'')+'<main class="carte" id="carte"></main>';
   brancherGuide();
-  ({intro:vueIntro, decouverte:vueDecouverte, piege:vuePiege, dictMot:vueDictMot, relecture:vueRelecture, corrMot:vueCorrMot, en:vueEn, essentiel:vueEssentiel, recite:vueRecite, qcm:vueQcm, ouverture:vueOuverture})[x.t](x);
+  ({intro:vueIntro, decouverte:vueDecouverte, piege:vuePiege, dictMot:vueDictMot, relecture:vueRelecture, corrMot:vueCorrMot,
+    regle:vueRegle, orth:vueOrth, maman:vueMaman, choixMode:vueChoixMode, dictPhrase:vueDictPhrase, remise:vueRemise, dictParent:vueDictParent, corrTexte:vueCorrTexte, rendre:vueRendre, chasse:vueChasse, en:vueEn, essentiel:vueEssentiel, recite:vueRecite, qcm:vueQcm, ouverture:vueOuverture})[x.t](x);
 }
 function carte(h){ $("#carte").innerHTML=h; }
 function retour(h,c){ var r=$("#retour"); r.className="retour "+(c||""); r.innerHTML=h; }
@@ -1527,6 +1788,154 @@ function vueOuverture(x){
   suivant("Noté !");
 }
 
+/* ---- Mercredi : la règle ---- */
+function vueRegle(){
+  var C=D.contenu;
+  carte('<p class="consigne">La règle de la semaine, à lire à voix haute.</p>'+
+    '<div class="regle-carte"><strong>'+esc(C.regle.titre)+'</strong><p>'+esc(C.regle.resume)+'</p></div>'+
+    '<p class="note">Ensuite, les '+(C.mots||[]).length+' mots de la feuille, un par un.</p>');
+  parler(C.regle.titre+". "+C.regle.resume);
+  S.missions.decouverte=true;
+  suivant("J'ai lu la règle");
+}
+
+/* ---- Choix piégé : la bonne écriture parmi 4 très proches (une seule chance) ---- */
+function vueOrth(x){
+  var d=x.d, ops=melange([d.mot].concat(variantes(d))), trou=phraseATrou(d);
+  carte('<p class="consigne">Écoute. Quelle est la bonne écriture ? Regarde chaque lettre avant de toucher.</p>'+
+    (parole?'<button class="btn ecoute" id="ecoute">🔊 Réécouter</button>':'')+
+    (trou?'<p class="petit">'+trou+'</p>':'')+
+    '<div class="choix colonne">'+ops.map(function(o){ return '<button class="btn opt orth" data-o="'+esc(o)+'">'+esc(o)+'</button>'; }).join("")+'</div>'+
+    '<div class="retour" id="retour" aria-live="polite"></div>');
+  var lire=function(){ dire(d.phrase?[d.mot,d.phrase]:[d.mot],"fr"); };
+  if(parole){ lire(); $("#ecoute").onclick=lire; }
+  document.querySelectorAll(".opt").forEach(function(b){
+    b.onclick=function(){
+      verrouiller();
+      if(b.dataset.o===d.mot){ b.classList.add("juste"); gagner(2); retour("Œil de lynx ! +2","bon"); parler("Œil de lynx !"); }
+      else {
+        b.classList.add("barre-x");
+        document.querySelectorAll(".opt").forEach(function(y){ if(y.dataset.o===d.mot) y.classList.add("juste"); });
+        S.pieges.push({r:"mot",x:d.mot,e:b.dataset.o}); S.orthRates=(S.orthRates||[]).concat([d]);
+        S.resMots=S.resMots||[]; S.resMots.push({mot:d.mot, phrase:d.phrase, v:"faux", semaine:D.contenu.id});
+        retour('Piège ! La bonne écriture : <strong class="mot-juste">'+esc(d.mot)+'</strong><br>Épelle-la dans ta tête, lettre par lettre.',"warn");
+        parler("Piège ! Regarde bien la bonne écriture, et épelle-la dans ta tête.");
+      }
+      suivant();
+    };
+  });
+}
+
+/* ---- Jeudi : fin de la dictée des mots, maman vérifie ---- */
+function vueMaman(){
+  S.cahier=true;
+  carte('<p class="consigne">Dictée terminée.</p><h2>Donne ton cahier à maman</h2>'+
+    '<p>Elle vérifie chaque mot. Les mots faux seront retravaillés vendredi et lundi.</p>');
+  parler("Dictée terminée. Donne ton cahier à maman : elle vérifie chaque mot.");
+  gagner(5);
+  suivant("C'est fait");
+}
+
+/* ---- Lundi : dictée sur le cahier des mots qui résistent encore ---- */
+function deplierCahierLundi(){
+  var rm=motsRates(), vus={}, liste=[];
+  (S.orthRates||[]).concat((D.contenu.mots||[]).filter(function(m){ return rm[norm(m.mot)]; })).forEach(function(m){ if(!vus[norm(m.mot)] && liste.length<8){ vus[norm(m.mot)]=true; liste.push(m); } });
+  if(!liste.length) liste=motsDurs(5);
+  deplier(cahier(liste.concat(anciensMots(2))));
+}
+
+/* ---- Week-end : la grande dictée Star Wars ---- */
+function vueChoixMode(x){
+  var p=x.d;
+  carte('<p class="consigne">Ta grande dictée Star Wars : tous les mots de la semaine sont dedans.</p><h2>Avec qui fais-tu ta dictée ?</h2>'+
+    '<div class="choix colonne"><button class="btn opt" data-m="holo">🔷 Avec le Holocron</button><button class="btn opt" data-m="parent">🧑 Avec papa ou maman</button></div>');
+  parler("Avec qui fais-tu ta dictée ? Avec le Holocron, ou avec papa ou maman ?");
+  document.querySelectorAll(".opt").forEach(function(b){
+    b.onclick=function(){
+      var ph=phrasesDe(p.texteA), suite;
+      if(b.dataset.m==="holo") suite=ph.map(function(f,i){ return it("dictPhrase",f,{n:i+1,total:ph.length}); }).concat([it("relecture",ph), it("corrTexte",p,{mode:"holo"}), it("chasse",p)]);
+      else suite=[it("remise",p), it("dictParent",p), it("corrTexte",p,{mode:"parent"}), it("rendre",p), it("chasse",p)];
+      S.modeDictee=b.dataset.m;
+      deplier(suite); afficher();
+    };
+  });
+}
+function vueDictPhrase(x){
+  carte('<p class="consigne">Écris la phrase sur ton cahier. N\'oublie pas la majuscule et le point.</p>'+
+    '<p class="gros-num">Phrase '+x.n+' sur '+x.total+'</p>'+
+    (parole?'<button class="btn ecoute" id="ecoute">🔊 Réécouter</button>':'<p class="pack">'+esc(x.d)+'</p>'));
+  var lire=function(){ dire([x.d, x.d],"fr"); };
+  if(parole){ lire(); $("#ecoute").onclick=lire; }
+  suivant(x.n<x.total ? "Phrase écrite, la suivante" : "Phrase écrite, j'ai fini");
+}
+function vueRemise(){
+  carte('<p class="consigne">Dictée avec papa ou maman.</p><h2>Donne la tablette à papa ou maman</h2>'+
+    '<label for="codeP" class="petit">Code parents</label><input id="codeP" class="saisie court" inputmode="numeric" autocomplete="off">'+
+    '<button class="btn principal" id="okP">Valider</button><div class="retour" id="retour" aria-live="polite"></div>');
+  parler("Donne la tablette à papa ou maman.");
+  var c=$("#codeP"), ok=function(){ if(c.value.trim()===CODE_PARENTS) avancer(); else { retour("Code incorrect.","warn"); c.value=""; c.focus(); } };
+  $("#okP").onclick=ok; c.addEventListener("keydown",function(e){ if(e.key==="Enter") ok(); });
+}
+function vueDictParent(x){
+  var p=x.d;
+  carte('<p class="consigne">Pour papa ou maman : lisez le texte une fois en entier, puis phrase par phrase (deux fois chacune), en marquant la ponctuation.</p>'+
+    '<div class="pack">'+esc(p.texteA)+'</div>'+
+    ((p.surveiller||[]).length?'<p class="petit">À pointer à la relecture : '+esc(p.surveiller.join(", "))+'</p>':'')+
+    '<p class="petit">Laissez ensuite à Erwan un moment pour se relire seul.</p>');
+  suivant("Dictée terminée, on corrige");
+}
+function vueCorrTexte(x){
+  var p=x.d, segs=segments(p.texteA,[]);
+  x.segs=segs;
+  carte('<p class="consigne">'+(x.mode==="parent"?'Corrigez ensemble, mot par mot, avec le cahier.':'Correction : compare mot par mot avec ton cahier.')+
+    ' Touche chaque mot que tu as mal écrit.</p>'+texteTouchable(segs)+
+    '<button class="btn principal" id="verif">J\'ai tout comparé</button><div class="retour" id="retour" aria-live="polite"></div>');
+  parler("Compare mot par mot avec ton cahier. Touche chaque mot que tu as mal écrit.");
+  brancherTokens();
+  $("#verif").onclick=function(){
+    var faux=[].slice.call(document.querySelectorAll(".tok.sel")).map(function(b){ return segs[+b.dataset.i].t; });
+    document.querySelectorAll(".tok").forEach(function(b){ b.disabled=true; });
+    var listes={}; (D.contenu.mots||[]).forEach(function(m){ String(m.mot).split(",").forEach(function(f){ listes[norm(coeur(f)).replace(/^l'/,"")]=m; }); });
+    faux.forEach(function(w){
+      var m=listes[norm(w).replace(/^[ldjmnst]'/,"").replace(/[sx]$/,"")]||listes[norm(w).replace(/^[ldjmnst]'/,"")];
+      if(m){ S.pieges.push({r:"mot",x:m.mot,e:"dictée : "+w}); S.resMots=S.resMots||[]; S.resMots.push({mot:m.mot, phrase:m.phrase, v:"faux", semaine:D.contenu.id}); }
+      else S.pieges.push({r:"texte",x:w});
+    });
+    S.cahier=true; gagner(5);
+    retour(faux.length ? (faux.length+' mot'+(faux.length>1?'s':'')+' à corriger : barre-les et récris-les juste dans la marge. +5 pour la dictée.') : 'Zéro faute ? Bravo, Jedi ! +5',"bon");
+    parler(faux.length ? "Barre les mots faux et récris-les juste dans la marge." : "Zéro faute ? Bravo !");
+    suivant();
+  };
+}
+function vueRendre(){
+  carte('<p class="consigne">Pour papa ou maman.</p><h2>Rendez la tablette à Erwan</h2><p>Il fait seul la chasse aux pièges.</p>');
+  suivant("Tablette rendue");
+}
+function vueChasse(x){
+  var p=x.d, fautes=(p.erreursB||[]).map(function(e){ return e.faute; }), segs=segments(p.texteB,fautes);
+  carte('<p class="consigne">Chasse aux pièges : ce texte contient '+fautes.length+' erreurs cachées. Touche chaque mot mal écrit. Attention, certains mots ont l\'air faux mais sont justes !</p>'+
+    texteTouchable(segs)+'<button class="btn principal" id="verif">J\'ai fini ma chasse</button><div class="retour" id="retour" aria-live="polite"></div>');
+  parler("Chasse aux pièges. Ce texte contient "+fautes.length+" erreurs cachées. Lis-le lentement, et touche chaque mot mal écrit.");
+  brancherTokens();
+  $("#verif").onclick=function(){
+    var trouve={}, fausses=[];
+    document.querySelectorAll(".tok").forEach(function(b){
+      var s=segs[+b.dataset.i]; b.disabled=true;
+      if(s.f>=0){ b.classList.add(b.classList.contains("sel")?"trouve":"rate"); if(b.classList.contains("sel")) trouve[s.f]=true; }
+      else if(b.classList.contains("sel")){ b.classList.add("fausse"); fausses.push(s.t); }
+    });
+    var n=0, lignes=(p.erreursB||[]).map(function(e,k){
+      if(trouve[k]){ n++; gagner(2); } else S.pieges.push({r:"chasse",x:e.faute+" → "+e.correction});
+      return '<li>'+(trouve[k]?'✓ ':'✗ ')+esc(e.faute)+' → <strong>'+esc(e.correction)+'</strong> '+esc(e.test||"")+'</li>';
+    }).join("");
+    S.missions.dictee=true;
+    retour('<strong>'+n+' sur '+fautes.length+' trouvées.</strong><ul class="pieges">'+lignes+'</ul>'+
+      (fausses.length?'<p>Ces mots étaient justes : '+esc(fausses.join(", "))+'.</p>':''), n===fautes.length?"bon":"warn");
+    parler(n+" sur "+fautes.length+" trouvées.");
+    suivant();
+  };
+}
+
 function fin(tempsEcoule){
   if(!S) return;
   if(parole) speechSynthesis.cancel();
@@ -1546,6 +1955,11 @@ function fin(tempsEcoule){
     p=p.then(function(){ return Store.set("etat/lecons",{etats:etats}); });
   }
   doc.cahier=!!s.cahier;
+  var jf=dowOf(D.today);
+  if(s.missions.dictee && (jf===6||jf===0)){ /* grande dictée faite : la mission du week-end est cochée (les parents peuvent la décocher) */
+    var ct=clone(D.contrat)||{}; ct[jf===6?"sam":"dim"]=true;
+    p=p.then(function(){ return Store.set("contrat/"+D.cycle,ct); });
+  }
   if(s.resMots && s.resMots.length) p=p.then(function(){ return carnetMaj(s.resMots); });
   p.then(charger).then(function(){ vueBilan(doc,tempsEcoule); })
    .catch(function(){ vueBilan(doc,tempsEcoule,true); });
@@ -1560,8 +1974,8 @@ function vueBilan(doc,tempsEcoule,erreur){
   app.innerHTML='<section class="bilan">'+cube()+'<h2>'+(tempsEcoule?"Temps écoulé : la séance s'arrête là.":"Séance terminée")+'</h2>'+
     '<p class="gros">+'+doc.points+'</p><p>points de Force. Note-les dans ton carnet Jedi.</p>'+(doc.cahier?'<p class="suite">Montre ton cahier à maman.</p>':'')+liste+
     (erreur?'<p class="retour warn">Attention : la séance n\'a pas pu être enregistrée. Préviens maman.</p>':'')+
-    blocPapier()+'<p class="suite">'+suite+'</p><button class="btn principal" id="acc">Retour au Holocron</button></section>';
-  $("#acc").onclick=vueAccueil; $("#acc").focus(); brancherPapier();
+    '<p class="suite">'+suite+'</p><button class="btn principal" id="acc">Retour au Holocron</button></section>';
+  $("#acc").onclick=vueAccueil; $("#acc").focus();
 }
 
 setInterval(function(){
@@ -1607,7 +2021,7 @@ function vueParents(){
 
   '<section><h3>Dictées du week-end (Star Wars)</h3>'+
   (D.packs ? packHTML(D.packs.pack1,1)+packHTML(D.packs.pack2,2) : '<p class="petit">Pas encore préparées pour cette semaine : papa les demande à Claude après avoir envoyé la feuille.</p>')+
-  '<label for="ratesPapier">Mots ratés à la dictée de samedi (un par ligne) : ils seront ciblés lundi.</label>'+
+  '<label for="ratesPapier">Mots faux vus sur le cahier (dictée du jeudi, du week-end ou du lundi), un par ligne, écrits comme sur la feuille : ils seront ciblés vendredi et lundi.</label>'+
   '<textarea id="ratesPapier" rows="3">'+esc((ct.ratesPapier||[]).join("\n"))+'</textarea>'+
   '<button class="btn second" id="saveRates">Enregistrer les mots ratés</button><div class="retour" id="retPack" aria-live="polite"></div></section>'+
 
