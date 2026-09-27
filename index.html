@@ -733,6 +733,11 @@ var PUBLIE = {
     "reponse": "quatre-vingt-un",
     "test": "Il y a « un » après « vingt » : pas de s."
    }
+  ],
+  "rates": [
+   "attirer",
+   "collectif, collective",
+   "environ"
   ]
  },
  "lecons": [
@@ -1176,6 +1181,68 @@ var PUBLIE = {
    ]
   }
  },
+ "carnet": [
+  {
+   "mot": "le Paléolithique",
+   "phrase": "Au Paléolithique, les hommes peignaient dans les grottes.",
+   "semaine": "avant"
+  },
+  {
+   "mot": "la Préhistoire",
+   "phrase": "La Préhistoire a duré très longtemps.",
+   "semaine": "avant"
+  },
+  {
+   "mot": "des animaux",
+   "phrase": "Les artistes ont peint des animaux sur la paroi.",
+   "semaine": "avant"
+  },
+  {
+   "mot": "âgé, âgée",
+   "phrase": "Mon grand-père est âgé et ma grand-mère est âgée.",
+   "semaine": "avant"
+  },
+  {
+   "mot": "dans",
+   "phrase": "Il y a des peintures dans la grotte.",
+   "semaine": "avant"
+  },
+  {
+   "mot": "déjà",
+   "phrase": "Tu as déjà fini ton travail ?",
+   "semaine": "avant"
+  },
+  {
+   "mot": "attirer",
+   "phrase": "Ce trésor risque d'attirer les pillards.",
+   "semaine": "2026-09-23"
+  },
+  {
+   "mot": "ornées",
+   "phrase": "Les grottes ornées sont couvertes de peintures.",
+   "semaine": "avant"
+  },
+  {
+   "mot": "la paroi",
+   "phrase": "L'artiste a peint un cheval sur la paroi de la grotte.",
+   "semaine": "avant"
+  },
+  {
+   "mot": "collectif, collective",
+   "phrase": "C'est un travail collectif, une œuvre collective.",
+   "semaine": "2026-09-23"
+  },
+  {
+   "mot": "environ",
+   "phrase": "Ce bloc pèse environ trois tonnes.",
+   "semaine": "2026-09-23"
+  },
+  {
+   "mot": "le Néolithique",
+   "phrase": "Au Néolithique, les hommes ont dressé des menhirs.",
+   "semaine": "avant"
+  }
+ ],
  "deck": null
 };
 
@@ -1283,7 +1350,7 @@ function charger(){
     D.leconDuJour=D.lecons.filter(function(l){ return prochainPassage(l)<=D.today; })
       .sort(function(a,b){ var ea=a.echeance||"9999", eb=b.echeance||"9999"; return ea<eb?-1:ea>eb?1:a._ordre-b._ordre; })[0]||null;
     return Store.get("carnet/mots");
-  }).then(function(cn){
+  }).then(importerCarnet).then(function(cn){
     D.carnet=(cn && cn.mots) || []; D.carnetSortis=(cn && cn.sortis) || 0;
     return Store.list("seances","date",">=",addDays(D.cycle,-2));
   }).then(function(ss){
@@ -1364,8 +1431,22 @@ function carnetMaj(resultats){
     var restants=liste.filter(function(x){ return (x.serie||0)<SORTIE_CARNET; });
     sortis+=liste.length-restants.length;
     D.carnet=restants;
-    return Store.set("carnet/mots",{mots:restants, sortis:sortis});
+    return Store.set("carnet/mots",{mots:restants, sortis:sortis, importes:(doc && doc.importes) || []});
   });
+}
+/* Mots ajoutés au carnet par Claude (PUBLIE.carnet, ex. erreurs passées relevées par les parents).
+   Chacun n'est importé qu'une fois : s'il sort du carnet, il n'y revient pas au rechargement. */
+function importerCarnet(cn){
+  var a=PUBLIE.carnet||[]; cn=cn||{mots:[],sortis:0};
+  var imp=(cn.importes||[]).slice(), liste=(cn.mots||[]).slice(), neuf=false;
+  a.forEach(function(x){
+    var k=norm(x.mot); if(!x.mot || imp.indexOf(k)>=0) return;
+    imp.push(k); neuf=true;
+    if(!liste.some(function(y){ return norm(y.mot)===k; })) liste.push({mot:x.mot, phrase:x.phrase||"", semaine:x.semaine||"avant", ajoute:D.today, vu:"", serie:0, erreurs:1});
+  });
+  if(!neuf) return cn;
+  var doc={mots:liste, sortis:cn.sortis||0, importes:imp};
+  return Store.set("carnet/mots",doc).then(function(){ return doc; });
 }
 function anciensMots(n){
   var actuels={}; (D.contenu.mots||[]).forEach(function(m){ actuels[norm(m.mot)]=true; });

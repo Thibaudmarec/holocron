@@ -30,6 +30,8 @@ PUBLIE = {
               essentiel:[3-5 phrases], recite:[{q, r, options:[r + 2 réponses proches]}] (3-5),
               souvenir:[QCM] (5-6), compris:[QCM] (5-6), ouvertures:[{texte, question}] (2-3) }],
   packs:   { cycle:"AAAA-MM-JJ" (mercredi), pack1:{…}, pack2:{…} },
+  carnet:  [{mot, phrase, semaine:"AAAA-MM-JJ" ou "avant"}] (mots à ajouter au carnet des mots difficiles de la tablette :
+            importés une seule fois chacun, ne jamais retirer une entrée — sinon elle serait réimportée si on la remet),
   deck:    null ou [{mot, emoji}] (vocabulaire anglais — module en pause : ANGLAIS_ACTIF = false)
 }
 QCM = {q, options:[3], reponse (recopiée à l'identique d'une option), explication (1 phrase bienveillante)}
@@ -58,7 +60,7 @@ pack = {texteA, surveiller:[…], texteB, erreursB:[{faute (telle qu'écrite dan
 - Ajoute la leçon en haut de **« 📚 Leçons — Erwan (CM1 2026-2027) »** (transcription fidèle, essentiel, à réciter, points douteux, id Holocron, suivi).
 
 ## Tâche « mots faux » (maman a vérifié le cahier, surtout le jeudi)
-Thibaud t'envoie les mots faux (liste ou photo du cahier corrigé). Ajoute-les dans `semaine.rates`, **écrits exactement comme dans `semaine.mots`** (avec l'article), sans doublon, puis publie : ils passent en tête des révisions du vendredi et du lundi. Reporte-les aussi dans « Mots qui ont résisté » de l'archive du vault. (Les parents peuvent aussi les saisir eux-mêmes dans l'espace parents de la tablette.)
+Thibaud t'envoie les mots faux (liste ou photo du cahier corrigé). Les mots de la semaine en cours vont dans `semaine.rates`, **écrits exactement comme dans `semaine.mots`** (avec l'article), sans doublon ; les mots d'autres semaines (erreurs passées) vont dans `carnet` avec une phrase d'exemple. Puis publie : ils passent en tête des révisions du vendredi et du lundi. Reporte-les aussi dans « Mots qui ont résisté » de l'archive du vault. (Les parents peuvent aussi les saisir eux-mêmes dans l'espace parents de la tablette.)
 
 ## Tâche « cahier » (photo du cahier d'Erwan, le week-end)
 Pas de modification de l'appli. Réponds à Thibaud avec : les mots mal orthographiés, si les mots cochés « juste » dans le Holocron semblent réellement justes sur le cahier (sincérité de l'autocorrection), et un retour bref et bienveillant sur l'écriture. Complète la section de la semaine dans la note du vault « 📒 Archive des mots de dictée — Erwan » (« Mots qui ont résisté », « Écriture ») ; les mots qui résistent plusieurs semaines vont dans « Mots qui résistent sur la durée ».

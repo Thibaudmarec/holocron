@@ -31,6 +31,8 @@ if(P.semaine){
     if(!p.test) err("piège "+i+" sans test");
   });
 }
+const vusCarnet=new Set();
+(P.carnet||[]).forEach((x,i)=>{ if(!x.mot||!x.phrase) err("carnet "+i+" : mot ou phrase manquant"); else if(vusCarnet.has(x.mot.toLowerCase())) err("carnet : doublon « "+x.mot+" »"); else vusCarnet.add(x.mot.toLowerCase()); });
 const ids=new Set();
 (P.lecons||[]).forEach((l,i)=>{
   if(!l.id) err("leçon "+i+" sans id"); else if(ids.has(l.id)) err("id de leçon en double : "+l.id); else ids.add(l.id);
