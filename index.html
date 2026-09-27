@@ -1,0 +1,1587 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Holocron">
+<title>Le Holocron d'Erwan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Chakra+Petch:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EDF0F9; --surface:#FFFFFF; --ink:#18214D; --muted:#4F5885; --line:#C9CFEA;
+  --gold:#E3A21E; --gold-ink:#7E5200; --gold-deep:#A87408; --cyan:#12808F;
+  --good:#1D7A45; --warn:#A8471A; --etoiles:0;
+  --charge:0;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111A40; --surface:#1B2656; --ink:#EEF0FF; --muted:#A8B0DA; --line:#33407C;
+    --gold:#F2B43A; --gold-ink:#F6C95E; --gold-deep:#B47F10; --cyan:#6FD3E0;
+    --good:#62D893; --warn:#FF9E63; --etoiles:.7;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111A40; --surface:#1B2656; --ink:#EEF0FF; --muted:#A8B0DA; --line:#33407C;
+  --gold:#F2B43A; --gold-ink:#F6C95E; --gold-deep:#B47F10; --cyan:#6FD3E0;
+  --good:#62D893; --warn:#FF9E63; --etoiles:.7;
+}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{
+  margin:0;min-height:100%;background:var(--bg);color:var(--ink);
+  font-family:"Atkinson Hyperlegible",Verdana,"Segoe UI",system-ui,sans-serif;
+  font-size:1.125rem;line-height:1.5;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:var(--etoiles);
+  background-image:
+    radial-gradient(1.5px 1.5px at 8% 14%,#fff 50%,transparent 51%),
+    radial-gradient(1px 1px at 23% 62%,#fff 50%,transparent 51%),
+    radial-gradient(2px 2px at 41% 27%,#ffe9b3 50%,transparent 51%),
+    radial-gradient(1px 1px at 57% 81%,#fff 50%,transparent 51%),
+    radial-gradient(1.5px 1.5px at 72% 12%,#fff 50%,transparent 51%),
+    radial-gradient(1px 1px at 88% 48%,#fff 50%,transparent 51%),
+    radial-gradient(1.5px 1.5px at 93% 88%,#cdeffc 50%,transparent 51%),
+    radial-gradient(1px 1px at 14% 92%,#fff 50%,transparent 51%),
+    radial-gradient(1px 1px at 64% 44%,#fff 50%,transparent 51%);
+}
+.page{position:relative;max-width:40rem;margin:0 auto;padding:1.25rem 1.25rem 3rem}
+h1,h2,.titre{font-family:"Chakra Petch","Trebuchet MS",sans-serif;font-weight:700;letter-spacing:.01em;line-height:1.15}
+h1{font-size:clamp(1.8rem,6vw,2.4rem);margin:.6rem 0 .2rem;text-align:center}
+h2{font-size:1.5rem;margin:0 0 .75rem}
+p{margin:.4rem 0}
+
+/* Le holocron : l'élément fort de la page */
+.holo{width:132px;height:132px;perspective:640px;margin:1.5rem auto .5rem;
+  filter:drop-shadow(0 0 calc(6px + var(--charge) * 26px) rgba(242,180,58,calc(.25 + var(--charge) * .6)))}
+.cube{width:100%;height:100%;position:relative;transform-style:preserve-3d;
+  transform:rotateX(-24deg) rotateY(38deg);animation:tourne 22s linear infinite}
+.face{position:absolute;inset:0;border:2px solid var(--gold);border-radius:6px;
+  background:radial-gradient(circle at 50% 50%,
+    rgba(242,180,58,calc(.12 + var(--charge) * .55)) 0%,
+    rgba(242,180,58,calc(.04 + var(--charge) * .12)) 72%);
+  box-shadow:inset 0 0 calc(8px + var(--charge) * 34px) rgba(242,180,58,.55)}
+.face::after{content:"";position:absolute;inset:30%;border:2px solid var(--gold);transform:rotate(45deg);opacity:.8}
+.f1{transform:translateZ(66px)} .f2{transform:rotateY(180deg) translateZ(66px)}
+.f3{transform:rotateY(90deg) translateZ(66px)} .f4{transform:rotateY(-90deg) translateZ(66px)}
+.f5{transform:rotateX(90deg) translateZ(66px)} .f6{transform:rotateX(-90deg) translateZ(66px)}
+@keyframes tourne{from{transform:rotateX(-24deg) rotateY(0deg)}to{transform:rotateX(-24deg) rotateY(360deg)}}
+@media (prefers-reduced-motion: reduce){.cube{animation:none}}
+
+.semaine{text-align:center;color:var(--muted)}
+.jauge{height:14px;border:2px solid var(--gold);border-radius:99px;margin:1rem auto .4rem;max-width:22rem;overflow:hidden}
+.jauge>div{height:100%;background:var(--gold);transition:width .6s ease}
+.energie{text-align:center;color:var(--muted);font-size:1rem}
+.energie strong{color:var(--gold-ink);font-size:1.2rem}
+
+.action{text-align:center;margin:1.75rem 0 1.25rem}
+.note{color:var(--muted);font-size:1rem}
+.fait{font-family:"Chakra Petch",sans-serif;font-weight:700;font-size:1.4rem;color:var(--gold-ink)}
+
+.missions{list-style:none;padding:0;margin:0 auto;max-width:28rem;counter-reset:m}
+.missions li{counter-increment:m;display:grid;grid-template-columns:2.4rem 1fr;column-gap:.6rem;
+  padding:.7rem 0;border-top:1px solid var(--line)}
+.missions li::before{content:counter(m);grid-row:span 2;font-family:"Chakra Petch",sans-serif;font-weight:700;
+  font-size:1.6rem;color:var(--gold-ink);line-height:1.2}
+.missions span{color:var(--muted);font-size:1rem}
+
+footer{text-align:center;margin-top:2.5rem}
+
+.btn{font-family:"Chakra Petch","Trebuchet MS",sans-serif;font-weight:700;font-size:1.15rem;
+  padding:.8rem 1.5rem;border-radius:10px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:disabled{cursor:default}
+.principal{background:var(--gold);border-color:var(--gold);color:#1B1403;box-shadow:0 4px 0 var(--gold-deep)}
+.principal:active{transform:translateY(2px);box-shadow:0 2px 0 var(--gold-deep)}
+.lien{background:none;border:none;color:var(--muted);text-decoration:underline;font:inherit;font-size:1rem;cursor:pointer;padding:.4rem}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
+
+/* Séance */
+.barre{position:sticky;top:env(safe-area-inset-top,0px);z-index:2;display:flex;align-items:center;gap:1rem;
+  background:var(--bg);padding:.7rem 0;border-bottom:2px solid var(--line);
+  font-family:"Chakra Petch",sans-serif;font-weight:500}
+.barre .mission{flex:1;min-width:0}
+.points{color:var(--gold-ink);font-weight:700}
+.points.bump{animation:bump .45s ease}
+@keyframes bump{50%{transform:scale(1.35)}}
+@media (prefers-reduced-motion: reduce){.points.bump{animation:none}}
+.chrono{font-variant-numeric:tabular-nums;font-weight:700;font-size:1.25rem}
+.chrono.bientot{color:var(--warn)}
+.bandeau{margin:.8rem 0 0;padding:.5rem .8rem;border-left:4px solid var(--warn);background:var(--surface);color:var(--warn);font-weight:700}
+
+.carte{margin-top:1.5rem;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:1.4rem}
+.consigne{color:var(--muted);font-size:1rem;margin-bottom:1rem}
+.phrase{font-size:clamp(1.45rem,4.5vw,1.9rem);line-height:1.45;margin:.5rem 0 1.4rem}
+.trou{display:inline-block;min-width:4.5ch;padding:0 .2ch;text-align:center;border-bottom:3px dashed var(--gold);color:var(--muted)}
+.trou.rempli{border-bottom-style:solid;color:var(--gold-ink);font-weight:700}
+.choix{display:flex;flex-wrap:wrap;gap:.8rem}
+.opt{font-family:"Atkinson Hyperlegible",Verdana,sans-serif;font-size:1.5rem;min-width:7rem}
+.opt.barre-x,.emo.barre-x{opacity:.4;text-decoration:line-through}
+.opt.juste,.emo.juste{border-color:var(--good);box-shadow:0 0 0 3px var(--good) inset}
+.emojis{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin:1rem 0}
+@media (max-width:420px){.emojis{grid-template-columns:repeat(2,1fr)}}
+.emo{font-size:2.8rem;padding:.8rem 0;line-height:1}
+.ecoute{margin-bottom:1rem}
+.saisie{display:block;width:100%;font-family:"Atkinson Hyperlegible",Verdana,sans-serif;font-size:1.9rem;letter-spacing:.07em;
+  padding:.6rem .8rem;margin:.4rem 0 1rem;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+.saisie.court{max-width:10rem;font-size:1.5rem}
+.flash{font-size:2rem;font-weight:700;letter-spacing:.07em;min-height:3rem}
+.retour{min-height:3rem;margin:1rem 0;font-size:1.15rem}
+.retour.bon{color:var(--good);font-weight:700}
+.retour.warn{color:var(--warn)}
+.mot-juste,.mot-en{font-size:1.6rem;color:var(--ink);letter-spacing:.05em}
+.mot-en{display:block;margin:.3rem 0;font-weight:700}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+.intro{text-align:center;padding:2.2rem 1.4rem}
+.intro .num{font-family:"Chakra Petch",sans-serif;font-weight:700;color:var(--gold-ink);font-size:1.1rem}
+.intro h2{font-size:2rem;margin:.3rem 0 1rem}
+.intro p{max-width:28rem;margin:0 auto 1.6rem}
+
+.bilan{text-align:center}
+.gros{font-family:"Chakra Petch",sans-serif;font-weight:700;font-size:3.4rem;color:var(--gold-ink);line-height:1;margin:1rem 0 .3rem}
+.pieges{text-align:left;margin:1.4rem 0;padding-left:1.2rem}
+.pieges li{margin:.3rem 0}
+.suite{font-weight:700;margin:1.4rem 0}
+
+.parents label{display:block;margin-top:1rem;font-weight:700}
+.tableau{overflow-x:auto;margin:1rem 0}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{text-align:left;padding:.45rem .5rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:"Chakra Petch",sans-serif}
+.boutons-parents{display:flex;flex-wrap:wrap;gap:.7rem;margin:1.2rem 0}
+.chargement{text-align:center;color:var(--muted);margin-top:1rem}
+.jour{text-align:center;margin:1.2rem 0 0;font-family:"Chakra Petch",sans-serif;font-weight:700;font-size:1.2rem}
+.jour span{display:block;font-family:"Atkinson Hyperlegible",Verdana,sans-serif;font-weight:400;color:var(--muted);font-size:1rem}
+.semaine-bloc{margin:2rem auto 0;max-width:30rem}
+.semaine-bloc h2{font-size:1.25rem;margin-bottom:.3rem}
+.semaine-bloc .note{margin-bottom:.6rem}
+.ligne{display:grid;grid-template-columns:3.2rem 1fr auto;gap:.2rem .7rem;align-items:baseline;padding:.55rem 0;border-top:1px solid var(--line)}
+.ligne .j{font-family:"Chakra Petch",sans-serif;font-weight:700}
+.ligne .m{font-size:1rem}
+.ligne.auj{background:linear-gradient(90deg,rgba(242,180,58,.16),transparent)}
+.etat{font-size:.95rem;font-weight:700;white-space:nowrap}
+.etat.fait{color:var(--good)} .etat.manque{color:var(--warn)} .etat.auj{color:var(--gold-ink)} .etat.libre,.etat.avenir{color:var(--muted);font-weight:400}
+.slot{grid-column:2 / 4;font-size:.95rem;padding:.15rem .5rem;border-radius:6px;justify-self:start;border:1.5px solid var(--line)}
+.slot.debloque{border-color:var(--good);color:var(--good);font-weight:700}
+.slot.perdu{border-color:var(--warn);color:var(--warn);text-decoration:line-through}
+.slot.attente{color:var(--muted)}
+.regle-carte{border-left:4px solid var(--gold);padding:.4rem .9rem;margin:1rem 0}
+.liste-mots{columns:2;column-gap:2rem;font-size:1.35rem;letter-spacing:.04em;padding-left:1.2rem}
+.etapes{padding-left:1.4rem} .etapes li{margin:.35rem 0}
+.essentiel li{margin:.5rem 0;font-size:1.15rem}
+.ouverture{font-size:1.2rem;line-height:1.55}
+.ouverture .question{font-weight:700;color:var(--gold-ink);margin-top:1rem}
+.parents section{margin:1.2rem 0;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:1.2rem}
+.parents h3{font-family:"Chakra Petch",sans-serif;font-size:1.2rem;margin:0 0 .5rem}
+.parents select,.parents textarea,.parents input[type=text]{font:inherit;font-size:1rem;padding:.5rem;border:2px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%;margin:.3rem 0 .8rem}
+.parents input[type=file]{margin:.3rem 0 .8rem;font-size:1rem;max-width:100%}
+.coches label{display:flex;gap:.6rem;align-items:center;font-weight:400;margin:.4rem 0}
+.coches input{width:1.3rem;height:1.3rem}
+.apercu{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--line)}
+.pack{white-space:pre-wrap;font-size:1.25rem;line-height:1.7;background:var(--bg);padding:1rem;border-radius:10px}
+.petit{font-size:.95rem;color:var(--muted)}
+.btn.second{font-size:1rem;padding:.6rem 1rem}
+details summary{cursor:pointer;font-weight:700;margin:.6rem 0}
+.rangee{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+.gros-num{font-family:"Chakra Petch",sans-serif;font-weight:700;font-size:2.2rem;color:var(--gold-ink);margin:.4rem 0 1rem}
+.mot-correction{font-size:clamp(2rem,7vw,2.8rem);letter-spacing:.09em;font-weight:700;margin:.2rem 0 1.4rem}
+.choix.colonne{flex-direction:column;align-items:stretch}
+.choix.colonne .opt{text-align:left;font-size:1.25rem}
+.btn-guide{font-family:"Chakra Petch",sans-serif;font-weight:700;font-size:.95rem;background:var(--surface);color:var(--ink);border:2px solid var(--line);border-radius:8px;padding:.3rem .6rem;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="page" id="app"></div>
+<script>
+(function(){
+"use strict";
+
+/* ================= RÉGLAGES ================= */
+var CODE_PARENTS = "2808";
+var DUREE_MIN = 15;
+var LANCEMENT = "2026-09-30";          // premier mercredi du contrat
+var GAME_SLOT = "1h de jeu";
+
+/* Contenu de secours tant qu'aucune feuille n'est chargée */
+var DEFAUT = {
+  id: "defaut",
+  titre: "Révision générale",
+  regle: {titre:"Les homophones", resume:"a/à, et/est, son/sont, on/ont, ce/se, c'est/s'est, -er/-é, ou/où : fais le test de remplacement avant d'écrire."},
+  mots: [
+    {mot:"plusieurs", phrase:"J'ai plusieurs livres sur les étoiles."},
+    {mot:"toujours", phrase:"Il arrive toujours à l'heure."},
+    {mot:"aujourd'hui", phrase:"Aujourd'hui, il pleut sur le village."},
+    {mot:"peut-être", phrase:"Nous irons peut-être à la piscine."},
+    {mot:"pendant", phrase:"Il a dormi pendant tout le voyage."},
+    {mot:"ensuite", phrase:"Range ton sac, ensuite tu pourras jouer."},
+    {mot:"quelquefois", phrase:"Quelquefois, le hibou chante la nuit."},
+    {mot:"jusqu'à", phrase:"Il a couru jusqu'à la rivière."},
+    {mot:"autrefois", phrase:"Autrefois, ce château était habité."},
+    {mot:"c'est-à-dire", phrase:"Il est parti tôt, c'est-à-dire à six heures."}
+  ],
+  pieges: [
+    {phrase:"Le pilote ___ réparé son vaisseau.", options:["a","à"], reponse:"a", test:"« Le pilote avait réparé » marche, donc « a »."},
+    {phrase:"La patrouille part ___ la base secrète.", options:["a","à"], reponse:"à", test:"« part avait la base » ne marche pas, donc « à »."},
+    {phrase:"Le droïde ___ tombé en panne.", options:["et","est"], reponse:"est", test:"« Le droïde était tombé » marche, donc « est »."},
+    {phrase:"J'aime le tennis ___ la natation.", options:["et","est"], reponse:"et", test:"« et puis la natation » marche, donc « et »."},
+    {phrase:"Les soldats ___ prêts pour la bataille.", options:["son","sont"], reponse:"sont", test:"« Les soldats étaient prêts » marche, donc « sont »."},
+    {phrase:"Le chevalier range ___ épée.", options:["son","sont"], reponse:"son", test:"« range mon épée » marche, donc « son »."},
+    {phrase:"Les rebelles ___ gagné la course.", options:["on","ont"], reponse:"ont", test:"« Les rebelles avaient gagné » marche, donc « ont »."},
+    {phrase:"___ entend le vent dans les arbres.", options:["On","Ont"], reponse:"On", test:"« Il entend le vent » marche, donc « On »."},
+    {phrase:"Le pilote ___ caché derrière un rocher.", options:["c'est","s'est"], reponse:"s'est", test:"« je me suis caché » marche, donc « s'est »."},
+    {phrase:"___ vaisseau est le plus rapide.", options:["Ce","Se"], reponse:"Ce", test:"« Un vaisseau » marche, donc « Ce »."},
+    {phrase:"Il faut ___ le moteur avant la nuit.", options:["réparer","réparé"], reponse:"réparer", test:"« Il faut réussir » marche, donc « réparer »."},
+    {phrase:"___ se cache le trésor ?", options:["Ou","Où"], reponse:"Où", test:"C'est un lieu, donc « Où »."}
+  ]
+};
+var DECK = [
+  {mot:"dog",emoji:"🐶"},{mot:"cat",emoji:"🐱"},{mot:"bird",emoji:"🐦"},{mot:"fish",emoji:"🐟"},
+  {mot:"horse",emoji:"🐴"},{mot:"tree",emoji:"🌳"},{mot:"flower",emoji:"🌸"},{mot:"star",emoji:"⭐"},
+  {mot:"moon",emoji:"🌙"},{mot:"sun",emoji:"☀️"},{mot:"rocket",emoji:"🚀"},{mot:"apple",emoji:"🍎"},
+  {mot:"house",emoji:"🏠"},{mot:"book",emoji:"📖"},{mot:"ball",emoji:"⚽"},{mot:"snow",emoji:"❄️"}
+];
+
+/* ================= CONTENU PUBLIÉ =================
+   Mis à jour par Claude à partir des photos (feuille de dictée, leçons),
+   puis republié au même lien.
+   semaine : {id:"AAAA-MM-JJ" (mercredi), titre, regle:{titre,resume}, mots:[{mot,phrase}], pieges:[{phrase,options,reponse,test}]}
+   lecons  : [{id, titre, matiere, essentiel:[], souvenir:[qcm], compris:[qcm], ouverture:{texte,question}}]
+   packs   : {cycle:"AAAA-MM-JJ", pack1:{texteA,surveiller,texteB,erreursB,leurres}, pack2:{...}}
+   deck    : [{mot,emoji}] (vocabulaire anglais, optionnel) */
+var PUBLIE = {
+ "semaine": {
+  "id": "2026-09-23",
+  "titre": "Les mégalithes du Néolithique",
+  "regle": {
+   "titre": "Les nombres en lettres",
+   "resume": "Plusieurs mots : on les relie par des tirets (trois-cent-quarante-et-un). « Vingt » et « cent » prennent un s quand ils sont multipliés et qu'il n'y a rien après (cinq-cents, quatre-vingts) ; « mille » ne prend jamais de s."
+  },
+  "mots": [
+   {
+    "mot": "un an",
+    "phrase": "Mon petit frère a un an."
+   },
+   {
+    "mot": "une ère",
+    "phrase": "Les dinosaures vivaient à une ère très ancienne."
+   },
+   {
+    "mot": "une époque",
+    "phrase": "À cette époque, les hommes taillaient la pierre."
+   },
+   {
+    "mot": "une pierre",
+    "phrase": "Il ramasse une pierre dans le jardin."
+   },
+   {
+    "mot": "un côté",
+    "phrase": "Cette pierre a un côté tout plat."
+   },
+   {
+    "mot": "l'est",
+    "phrase": "Le soleil se lève à l'est."
+   },
+   {
+    "mot": "l'ouest",
+    "phrase": "Le soleil se couche à l'ouest."
+   },
+   {
+    "mot": "le nord",
+    "phrase": "La boussole indique le nord."
+   },
+   {
+    "mot": "un bloc",
+    "phrase": "Les hommes ont déplacé un bloc énorme."
+   },
+   {
+    "mot": "une allée",
+    "phrase": "Nous marchons dans une allée couverte."
+   },
+   {
+    "mot": "un mètre",
+    "phrase": "Ce menhir dépasse un mètre de haut."
+   },
+   {
+    "mot": "la longueur",
+    "phrase": "Il mesure la longueur de la table."
+   },
+   {
+    "mot": "la largeur",
+    "phrase": "Quelle est la largeur de cette porte ?"
+   },
+   {
+    "mot": "un historien",
+    "phrase": "Un historien étudie le passé."
+   },
+   {
+    "mot": "une tombe",
+    "phrase": "Ce dolmen était une tombe."
+   },
+   {
+    "mot": "la terre",
+    "phrase": "Les graines poussent dans la terre."
+   },
+   {
+    "mot": "l'origine",
+    "phrase": "On ne connaît pas l'origine de ces pierres."
+   },
+   {
+    "mot": "un monument",
+    "phrase": "Le dolmen est un monument très ancien."
+   },
+   {
+    "mot": "un curieux",
+    "phrase": "Un curieux s'approche des menhirs."
+   },
+   {
+    "mot": "une année",
+    "phrase": "Il y a douze mois dans une année."
+   },
+   {
+    "mot": "la construction",
+    "phrase": "La construction du dolmen a duré longtemps."
+   },
+   {
+    "mot": "se dresser",
+    "phrase": "Les menhirs semblent se dresser vers le ciel."
+   },
+   {
+    "mot": "s'aligner",
+    "phrase": "Les élèves doivent s'aligner avant d'entrer."
+   },
+   {
+    "mot": "penser",
+    "phrase": "J'aime penser aux vacances."
+   },
+   {
+    "mot": "attirer",
+    "phrase": "Ces pierres géantes vont attirer les visiteurs."
+   },
+   {
+    "mot": "protéger",
+    "phrase": "Il faut protéger les monuments anciens."
+   },
+   {
+    "mot": "lointain, lointaine",
+    "phrase": "Un pays lointain, une planète lointaine."
+   },
+   {
+    "mot": "rocheux, rocheuse",
+    "phrase": "Un chemin rocheux, une côte rocheuse."
+   },
+   {
+    "mot": "haut, haute",
+    "phrase": "Un mur haut, une tour haute."
+   },
+   {
+    "mot": "collectif, collective",
+    "phrase": "Un travail collectif, une tombe collective."
+   },
+   {
+    "mot": "impressionnant",
+    "phrase": "Ce menhir géant est impressionnant."
+   },
+   {
+    "mot": "depuis",
+    "phrase": "Ce dolmen est là depuis très longtemps."
+   },
+   {
+    "mot": "avant",
+    "phrase": "Range ta chambre avant le dîner."
+   },
+   {
+    "mot": "pour",
+    "phrase": "Il s'entraîne pour progresser."
+   },
+   {
+    "mot": "certainement",
+    "phrase": "Il viendra certainement demain."
+   },
+   {
+    "mot": "environ",
+    "phrase": "Le menhir pèse environ dix tonnes."
+   },
+   {
+    "mot": "maintenant",
+    "phrase": "Maintenant, nous rentrons à la maison."
+   }
+  ],
+  "pieges": [
+   {
+    "phrase": "Ce dolmen a plus de ___ ans.",
+    "options": [
+     "cinq-mille",
+     "cinq-milles"
+    ],
+    "reponse": "cinq-mille",
+    "test": "« Mille » ne prend jamais de s."
+   },
+   {
+    "phrase": "Il y a ___ pierres dans cette allée.",
+    "options": [
+     "quatre-vingts",
+     "quatre-vingt"
+    ],
+    "reponse": "quatre-vingts",
+    "test": "« Vingt » est multiplié par quatre et il n'y a rien après : il prend un s."
+   },
+   {
+    "phrase": "Mon grand-père a ___ ans.",
+    "options": [
+     "quatre-vingt-deux",
+     "quatre-vingts-deux"
+    ],
+    "reponse": "quatre-vingt-deux",
+    "test": "Il y a un nombre après « vingt » : pas de s."
+   },
+   {
+    "phrase": "Le dolmen est au bord de la route ___.",
+    "options": [
+     "trois-cent-quarante-et-un",
+     "trois cent quarante et un"
+    ],
+    "reponse": "trois-cent-quarante-et-un",
+    "test": "Plusieurs mots dans un nombre : des tirets partout."
+   },
+   {
+    "phrase": "Le vaisseau transporte ___ soldats.",
+    "options": [
+     "deux-cents",
+     "deux-cent"
+    ],
+    "reponse": "deux-cents",
+    "test": "« Cent » est multiplié par deux et il n'y a rien après : il prend un s."
+   },
+   {
+    "phrase": "Il a compté ___ étoiles.",
+    "options": [
+     "deux-cent-dix",
+     "deux-cents-dix"
+    ],
+    "reponse": "deux-cent-dix",
+    "test": "Il y a un nombre après « cent » : pas de s."
+   },
+   {
+    "phrase": "Ce monument a ___ ans.",
+    "options": [
+     "trois-mille",
+     "trois-milles"
+    ],
+    "reponse": "trois-mille",
+    "test": "« Mille » ne prend jamais de s."
+   },
+   {
+    "phrase": "La tombe mesure ___ mètres de long.",
+    "options": [
+     "vingt",
+     "vingts"
+    ],
+    "reponse": "vingt",
+    "test": "« Vingt » tout seul n'est pas multiplié : pas de s."
+   },
+   {
+    "phrase": "La sonde a parcouru ___ kilomètres.",
+    "options": [
+     "cent",
+     "cents"
+    ],
+    "reponse": "cent",
+    "test": "« Cent » tout seul n'est pas multiplié : pas de s."
+   },
+   {
+    "phrase": "Le vieux maître Jedi a ___ ans.",
+    "options": [
+     "neuf-cents",
+     "neuf-cent"
+    ],
+    "reponse": "neuf-cents",
+    "test": "« Cent » est multiplié par neuf et il n'y a rien après : il prend un s."
+   },
+   {
+    "phrase": "Le château a été construit en ___.",
+    "options": [
+     "mille-huit-cents",
+     "mille-huit-cent"
+    ],
+    "reponse": "mille-huit-cents",
+    "test": "« Cent » est multiplié par huit et il n'y a rien après : il prend un s."
+   },
+   {
+    "phrase": "Mon école a ___ élèves.",
+    "options": [
+     "quatre-vingt-un",
+     "quatre-vingts-un"
+    ],
+    "reponse": "quatre-vingt-un",
+    "test": "Il y a « un » après « vingt » : pas de s."
+   }
+  ]
+ },
+ "lecons": [
+  {
+   "id": "fr-nombres-lettres-2026-09",
+   "titre": "Les nombres en lettres",
+   "matiere": "Français",
+   "echeance": "2026-09-29",
+   "essentiel": [
+    "Pour écrire un nombre en lettres, il faut savoir écrire 25 mots : de un à seize, puis vingt, trente, quarante, cinquante, soixante, cent, mille, million, milliard.",
+    "Quand un nombre s'écrit avec plusieurs mots, on les relie par des tirets : trois-cent-quarante-et-un.",
+    "« Vingt » et « cent » prennent un s quand ils sont multipliés et qu'il n'y a rien après : cinq-cents, quatre-vingts.",
+    "Mais pas de s quand un nombre suit : cinq-cent-deux, quatre-vingt-deux.",
+    "« Mille » ne prend jamais de s : trois-mille ans."
+   ],
+   "recite": [
+    {
+     "q": "Quand met-on un s à « vingt » et à « cent » ?",
+     "r": "Quand ils sont multipliés et qu'il n'y a rien après. Exemples : cinq-cents, quatre-vingts."
+    },
+    {
+     "q": "Comment relie-t-on les mots d'un nombre écrit en lettres ?",
+     "r": "Avec des tirets : trois-cent-quarante-et-un."
+    },
+    {
+     "q": "Est-ce que « mille » prend un s ?",
+     "r": "Jamais : trois-mille ans."
+    },
+    {
+     "q": "Cite les nombres de onze à seize.",
+     "r": "Onze, douze, treize, quatorze, quinze, seize."
+    },
+    {
+     "q": "Cite les dizaines de vingt à soixante.",
+     "r": "Vingt, trente, quarante, cinquante, soixante."
+    }
+   ],
+   "souvenir": [
+    {
+     "q": "Combien de mots faut-il savoir écrire pour écrire tous les nombres ?",
+     "options": [
+      "25",
+      "10",
+      "100"
+     ],
+     "reponse": "25",
+     "explication": "Avec ces 25 mots, on peut écrire tous les nombres."
+    },
+    {
+     "q": "Que met-on entre les mots d'un nombre ?",
+     "options": [
+      "des tirets",
+      "des virgules",
+      "rien"
+     ],
+     "reponse": "des tirets",
+     "explication": "On relie tous les mots par des tirets."
+    },
+    {
+     "q": "« Mille » prend-il un s au pluriel ?",
+     "options": [
+      "jamais",
+      "toujours",
+      "seulement après deux"
+     ],
+     "reponse": "jamais",
+     "explication": "« Mille » est invariable : trois-mille."
+    },
+    {
+     "q": "Lequel de ces mots fait partie des 25 mots à savoir ?",
+     "options": [
+      "quatorze",
+      "dix-sept",
+      "vingt-deux"
+     ],
+     "reponse": "quatorze",
+     "explication": "Dix-sept et vingt-deux sont faits de deux mots."
+    },
+    {
+     "q": "Quand « cent » prend-il un s ?",
+     "options": [
+      "quand il est multiplié et qu'il n'y a rien après",
+      "toujours au pluriel",
+      "jamais"
+     ],
+     "reponse": "quand il est multiplié et qu'il n'y a rien après",
+     "explication": "Cinq-cents, mais cinq-cent-deux."
+    }
+   ],
+   "compris": [
+    {
+     "q": "Comment écrit-on 300 ?",
+     "options": [
+      "trois-cents",
+      "trois-cent",
+      "trois cents"
+     ],
+     "reponse": "trois-cents",
+     "explication": "« Cent » est multiplié par trois et rien ne suit : s et tiret."
+    },
+    {
+     "q": "Comment écrit-on 80 ?",
+     "options": [
+      "quatre-vingts",
+      "quatre-vingt",
+      "quatre vingts"
+     ],
+     "reponse": "quatre-vingts",
+     "explication": "« Vingt » est multiplié par quatre et rien ne suit."
+    },
+    {
+     "q": "Comment écrit-on 204 ?",
+     "options": [
+      "deux-cent-quatre",
+      "deux-cents-quatre",
+      "deux cent quatre"
+     ],
+     "reponse": "deux-cent-quatre",
+     "explication": "Un nombre suit « cent » : pas de s."
+    },
+    {
+     "q": "Comment écrit-on 2 000 ?",
+     "options": [
+      "deux-mille",
+      "deux-milles",
+      "deux mille"
+     ],
+     "reponse": "deux-mille",
+     "explication": "« Mille » ne prend jamais de s, et on met un tiret."
+    },
+    {
+     "q": "Comment écrit-on 81 ?",
+     "options": [
+      "quatre-vingt-un",
+      "quatre-vingts-un",
+      "quatre-vingt-et-un"
+     ],
+     "reponse": "quatre-vingt-un",
+     "explication": "Un nombre suit « vingt » : pas de s. Et pas de « et » pour 81 !"
+    }
+   ],
+   "ouvertures": [
+    {
+     "texte": "En Belgique et en Suisse, on dit « septante » pour 70 et « nonante » pour 90. Dans certaines régions de Suisse, on dit même « huitante » pour 80.",
+     "question": "À ton avis, pourquoi « quatre-vingts » est plus compliqué que « huitante » ?"
+    },
+    {
+     "texte": "Les Romains écrivaient les nombres avec des lettres : I vaut 1, V vaut 5, X vaut 10, C vaut 100 et M vaut 1 000.",
+     "question": "Comment les Romains écrivaient-ils 20, à ton avis ?"
+    }
+   ]
+  },
+  {
+   "id": "fr-types-phrases-2026-09",
+   "titre": "Les types de phrases",
+   "matiere": "Français",
+   "essentiel": [
+    "Il existe 4 types de phrases : déclarative, interrogative, impérative et exclamative.",
+    "La phrase déclarative donne une information. Elle se termine par un point.",
+    "La phrase interrogative pose une question. Pour la former, on inverse le sujet et le verbe, ou on utilise « est-ce que » ou un mot interrogatif. Elle se termine par un point d'interrogation.",
+    "La phrase impérative donne un conseil, un ordre ou une interdiction. Elle se termine par un point ou un point d'exclamation.",
+    "La phrase exclamative exprime une émotion. Elle se termine par un point d'exclamation."
+   ],
+   "recite": [
+    {
+     "q": "Quels sont les 4 types de phrases ?",
+     "r": "La phrase déclarative, la phrase interrogative, la phrase impérative et la phrase exclamative."
+    },
+    {
+     "q": "Quels sont les 3 moyens de former une phrase interrogative ?",
+     "r": "Inverser le sujet et le verbe, utiliser « est-ce que », ou utiliser un mot interrogatif."
+    },
+    {
+     "q": "À quoi sert la phrase impérative ?",
+     "r": "À donner un conseil, un ordre ou une interdiction."
+    },
+    {
+     "q": "Par quoi se termine chaque type de phrase ?",
+     "r": "Déclarative : un point. Interrogative : un point d'interrogation. Impérative : un point ou un point d'exclamation. Exclamative : un point d'exclamation."
+    }
+   ],
+   "souvenir": [
+    {
+     "q": "Combien existe-t-il de types de phrases ?",
+     "options": [
+      "4",
+      "3",
+      "5"
+     ],
+     "reponse": "4",
+     "explication": "Déclarative, interrogative, impérative et exclamative."
+    },
+    {
+     "q": "Quelle phrase donne un conseil, un ordre ou une interdiction ?",
+     "options": [
+      "la phrase impérative",
+      "la phrase déclarative",
+      "la phrase interrogative"
+     ],
+     "reponse": "la phrase impérative",
+     "explication": "Impératif, comme un ordre."
+    },
+    {
+     "q": "Par quoi se termine une phrase déclarative ?",
+     "options": [
+      "un point",
+      "un point d'interrogation",
+      "un point d'exclamation"
+     ],
+     "reponse": "un point",
+     "explication": "Elle donne une information, tout simplement."
+    },
+    {
+     "q": "Que fait une phrase exclamative ?",
+     "options": [
+      "elle exprime une émotion",
+      "elle pose une question",
+      "elle donne un ordre"
+     ],
+     "reponse": "elle exprime une émotion",
+     "explication": "Joie, peur, surprise… d'où le point d'exclamation."
+    },
+    {
+     "q": "Lequel de ces mots est un mot interrogatif ?",
+     "options": [
+      "pourquoi",
+      "parce que",
+      "donc"
+     ],
+     "reponse": "pourquoi",
+     "explication": "Pourquoi, où, quand, comment, qui… servent à poser des questions."
+    }
+   ],
+   "compris": [
+    {
+     "q": "« Est-ce que tu viens au parc ? » : quel type de phrase ?",
+     "options": [
+      "interrogative",
+      "exclamative",
+      "impérative"
+     ],
+     "reponse": "interrogative",
+     "explication": "« Est-ce que » et le point d'interrogation."
+    },
+    {
+     "q": "« Ferme la porte. » : quel type de phrase ?",
+     "options": [
+      "impérative",
+      "déclarative",
+      "exclamative"
+     ],
+     "reponse": "impérative",
+     "explication": "C'est un ordre, même avec un simple point."
+    },
+    {
+     "q": "« Quel magnifique vaisseau ! » : quel type de phrase ?",
+     "options": [
+      "exclamative",
+      "interrogative",
+      "déclarative"
+     ],
+     "reponse": "exclamative",
+     "explication": "On exprime une émotion : l'admiration."
+    },
+    {
+     "q": "« Le Jedi range son sabre. » : quel type de phrase ?",
+     "options": [
+      "déclarative",
+      "impérative",
+      "interrogative"
+     ],
+     "reponse": "déclarative",
+     "explication": "Elle donne une information."
+    },
+    {
+     "q": "« Ne cours pas dans le couloir ! » : quel type de phrase ?",
+     "options": [
+      "impérative",
+      "exclamative",
+      "déclarative"
+     ],
+     "reponse": "impérative",
+     "explication": "Piège : il y a un point d'exclamation, mais c'est une interdiction, donc impérative."
+    },
+    {
+     "q": "Comment transformer « Tu aimes les dolmens. » en question, en inversant le sujet et le verbe ?",
+     "options": [
+      "Aimes-tu les dolmens ?",
+      "Tu aimes les dolmens !",
+      "Aime les dolmens."
+     ],
+     "reponse": "Aimes-tu les dolmens ?",
+     "explication": "Le verbe passe devant le sujet, avec un tiret."
+    }
+   ],
+   "ouvertures": [
+    {
+     "texte": "En espagnol, une question commence par un point d'interrogation à l'envers, ¿, et se termine par un point d'interrogation normal. Même chose avec le point d'exclamation : ¡Hola!",
+     "question": "À ton avis, pourquoi c'est pratique quand on lit une phrase à voix haute ?"
+    },
+    {
+     "texte": "En 1962, un Américain a inventé un signe qui mélange le point d'interrogation et le point d'exclamation : ‽. Il s'appelle le point exclarogatif, mais presque personne ne l'utilise.",
+     "question": "Invente une phrase où il serait vraiment utile."
+    }
+   ]
+  }
+ ],
+ "packs": {
+  "cycle": "2026-09-23",
+  "pack1": {
+   "texteA": "Sur une planète lointaine, un jeune Jedi découvre une allée de pierres qui se dressent depuis des milliers d'années. Il compte quatre-vingts blocs rocheux et deux-cent-douze petites pierres. Un historien pense que cette construction date d'une époque très ancienne : environ trois-mille ans avant la guerre des clones. Le plus haut monument pèse cinq-cents tonnes. Maintenant, le Jedi veut protéger ce lieu impressionnant, qui attire certainement beaucoup de curieux.",
+   "surveiller": [
+    "quatre-vingts",
+    "deux-cent-douze",
+    "trois-mille",
+    "cinq-cents",
+    "lointaine",
+    "se dressent",
+    "époque",
+    "impressionnant",
+    "certainement",
+    "environ"
+   ],
+   "texteB": "Depuis deux-cents-dix ans, les droïdes gardent une tombe collective au nord de la vallée. Chaque année, ils comptent les pierres : il y en a exactement quatre-vingt. Un historien pense que l'allée mesure trois-milles mètres de longueur. C'est certainment la plus longue de la galaxie !",
+   "erreursB": [
+    {
+     "faute": "deux-cents-dix",
+     "correction": "deux-cent-dix",
+     "test": "Un nombre suit « cent » : pas de s."
+    },
+    {
+     "faute": "quatre-vingt",
+     "correction": "quatre-vingts",
+     "test": "« Vingt » est multiplié et rien ne suit : s."
+    },
+    {
+     "faute": "trois-milles",
+     "correction": "trois-mille",
+     "test": "« Mille » ne prend jamais de s."
+    },
+    {
+     "faute": "certainment",
+     "correction": "certainement",
+     "test": "Mot de la liste : certaine + ment."
+    }
+   ],
+   "leurres": [
+    "collective",
+    "longueur"
+   ]
+  },
+  "pack2": {
+   "texteA": "Maintenant, la flotte rebelle survole une terre rocheuse, à l'est d'une planète lointaine. Au sol, des blocs de pierre s'alignent sur une longueur de neuf-cents mètres et une largeur de vingt mètres. Leur origine reste un mystère : on pense qu'ils ont été dressés il y a quatre-mille ans. Le pilote, très curieux, veut protéger ce site collectif avant l'arrivée de l'Empire. Il note sur son carnet : deux-cent-quatre-vingts pierres, environ !",
+   "surveiller": [
+    "neuf-cents",
+    "vingt",
+    "quatre-mille",
+    "deux-cent-quatre-vingts",
+    "rocheuse",
+    "s'alignent",
+    "longueur",
+    "largeur",
+    "origine",
+    "collectif"
+   ],
+   "texteB": "Le vaisseau se pose au pied d'un monument impressionant. Il se dresse vers le ciel depuis sept-cent-vingts ans. Un historien très curieu pense qu'il a été construit en l'an mille-deux-cents, à une époque lointaine. Chaque côté mesure trente-cinq mètre.",
+   "erreursB": [
+    {
+     "faute": "impressionant",
+     "correction": "impressionnant",
+     "test": "Mot de la liste : deux n au milieu."
+    },
+    {
+     "faute": "sept-cent-vingts",
+     "correction": "sept-cent-vingt",
+     "test": "« Vingt » n'est pas multiplié ici : pas de s."
+    },
+    {
+     "faute": "curieu",
+     "correction": "curieux",
+     "test": "Mot de la liste : curieux finit par un x."
+    },
+    {
+     "faute": "mètre",
+     "correction": "mètres",
+     "test": "Trente-cinq mètres : pluriel, donc s."
+    }
+   ],
+   "leurres": [
+    "mille-deux-cents",
+    "trente-cinq"
+   ]
+  }
+ },
+ "deck": null
+};
+
+/* Le cycle mercredi → mardi (clé = jour JS : 0 dimanche … 6 samedi) */
+var JOURS = {
+  3:{court:"Mer", nom:"Mercredi", etape:"Découverte des mots", mission:"decouverte", slot:false},
+  4:{court:"Jeu", nom:"Jeudi", etape:"Apprentissage approfondi", mission:"holocron", slot:false},
+  5:{court:"Ven", nom:"Vendredi", etape:"Révision light", mission:"holocron", slot:true},
+  6:{court:"Sam", nom:"Samedi", etape:"Dictée de préparation n°1", mission:"sam", slot:true},
+  0:{court:"Dim", nom:"Dimanche", etape:"Dictée de préparation n°2", mission:"dim", slot:true},
+  1:{court:"Lun", nom:"Lundi", etape:"Révision ciblée", mission:"holocron", slot:false},
+  2:{court:"Mar", nom:"Mardi", etape:"Dictée en classe", mission:null, slot:false}
+};
+var NB_ANGLAIS = {3:4,4:4,5:3,6:5,0:5,1:3,2:5};
+
+/* ================= OUTILS ================= */
+function $(s){ return document.querySelector(s); }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];}); }
+function clone(o){ return o==null ? o : JSON.parse(JSON.stringify(o)); }
+function melange(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function tirer(a,n){ return melange(a||[]).slice(0,Math.max(0,Math.min(n,(a||[]).length))); }
+function norm(s){ return String(s).toLowerCase().replace(/[’`´]/g,"'").replace(/\s+/g," ").trim(); }
+function iso(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function parseIso(s){ var p=s.split("-").map(Number); return new Date(p[0],p[1]-1,p[2]); }
+function addDays(s,n){ var d=parseIso(s); d.setDate(d.getDate()+n); return iso(d); }
+function dowOf(s){ return parseIso(s).getDay(); }
+function mercrediDe(s){ var d=parseIso(s); d.setDate(d.getDate()-((d.getDay()-3+7)%7)); return iso(d); }
+function auj(){ return iso(new Date()); }
+function dateFr(s){ var p=s.split("-"); return p[2]+"/"+p[1]; }
+function fmt(ms){ ms=Math.max(0,ms); var t=Math.ceil(ms/1000); return Math.floor(t/60)+":"+String(t%60).padStart(2,"0"); }
+function nouvelId(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+
+/* ================= STOCKAGE (base partagée, ou appareil en secours) ================= */
+var Store = {
+  db:null, local:{},
+  initLocal:function(){ try{ this.local=JSON.parse(localStorage.getItem("holocron-v2"))||{}; }catch(e){ this.local={}; } },
+  saveLocal:function(){ try{ localStorage.setItem("holocron-v2",JSON.stringify(this.local)); }catch(e){} },
+  get:function(p){
+    var self=this;
+    if(self.db) return self.db.doc(p).get().then(function(s){ return s.exists ? clone(s.data()) : null; });
+    return Promise.resolve(self.local[p] ? clone(self.local[p]) : null);
+  },
+  set:function(p,d){
+    if(this.db) return this.db.doc(p).set(d);
+    this.local[p]=clone(d); this.saveLocal(); return Promise.resolve();
+  },
+  list:function(coll,field,op,val){
+    var self=this;
+    if(self.db){
+      var q=self.db.collection(coll); if(field) q=q.where(field,op,val);
+      return q.get().then(function(s){ return s.docs.map(function(x){ var o=clone(x.data()); o._id=x.id; return o; }); });
+    }
+    var out=Object.keys(self.local).filter(function(k){ var p=k.split("/"); return p.length===2 && p[0]===coll; })
+      .map(function(k){ var o=clone(self.local[k]); o._id=k.split("/")[1]; return o; })
+      .filter(function(o){ if(!field) return true; var v=o[field]; return op==="=="?v===val : op===">="?v>=val : true; });
+    return Promise.resolve(out);
+  }
+};
+
+/* ================= VOIX ================= */
+var parole=("speechSynthesis" in window) && typeof SpeechSynthesisUtterance!=="undefined";
+var voix={fr:null,en:null};
+function chargerVoix(){
+  if(!parole) return; var v=speechSynthesis.getVoices()||[];
+  voix.fr=v.find(function(x){return /^fr[-_]FR/i.test(x.lang);})||v.find(function(x){return /^fr/i.test(x.lang);})||null;
+  voix.en=v.find(function(x){return /^en[-_]GB/i.test(x.lang);})||v.find(function(x){return /^en/i.test(x.lang);})||null;
+}
+if(parole){ chargerVoix(); speechSynthesis.onvoiceschanged=chargerVoix; }
+function dire(textes,langue){
+  if(!parole) return; speechSynthesis.cancel();
+  textes.forEach(function(t){ var u=new SpeechSynthesisUtterance(t); u.lang=langue==="fr"?"fr-FR":"en-GB"; if(voix[langue]) u.voice=voix[langue]; u.rate=langue==="fr"?0.85:0.8; speechSynthesis.speak(u); });
+}
+
+/* Guidage vocal : consignes et réactions lues à voix haute (coupable) */
+var guidage=true;
+try{ guidage = localStorage.getItem("holocron-guidage")!=="off"; }catch(e){}
+function parler(t){ if(guidage && t) dire([t],"fr"); }
+function basculerGuidage(){
+  guidage=!guidage;
+  try{ localStorage.setItem("holocron-guidage",guidage?"on":"off"); }catch(e){}
+  if(!guidage && parole) speechSynthesis.cancel();
+  document.querySelectorAll(".btn-guide").forEach(function(b){ b.textContent=guidage?"🔊 Voix":"🔇 Voix"; b.setAttribute("aria-pressed",guidage?"true":"false"); });
+}
+function boutonGuide(){ return parole ? '<button class="btn-guide" aria-pressed="'+(guidage?"true":"false")+'" aria-label="Guidage vocal">'+(guidage?"🔊 Voix":"🔇 Voix")+'</button>' : ''; }
+function brancherGuide(){ document.querySelectorAll(".btn-guide").forEach(function(b){ b.onclick=basculerGuidage; }); }
+
+/* ================= DONNÉES CHARGÉES ================= */
+var sample=null;
+var D = {today:null, cycle:null, contenu:DEFAUT, deck:DECK, lecons:[], seances:[], contrat:{}, deblocage:null};
+
+function charger(){
+  D.today=auj(); D.cycle=mercrediDe(D.today);
+  D.contenu = (PUBLIE.semaine && PUBLIE.semaine.mots && PUBLIE.semaine.mots.length) ? PUBLIE.semaine : DEFAUT;
+  D.deck = (PUBLIE.deck && PUBLIE.deck.length>=4) ? PUBLIE.deck : DECK;
+  D.packs = (PUBLIE.packs && PUBLIE.packs.cycle===D.cycle) ? PUBLIE.packs : null;
+  return Store.get("etat/lecons").then(function(el){
+    D.leconsEtat=(el && el.etats) || {};
+    return Store.get("etat/lecons-faites");
+  }).then(function(lf){
+    /* compatibilité : une leçon marquée « faite » par l'ancienne version compte comme terminée */
+    ((lf && lf.ids) || []).forEach(function(id){ if(!D.leconsEtat[id]) D.leconsEtat[id]={passages:[D.today,D.today,D.today], rates:[]}; });
+    var toutes=(PUBLIE.lecons||[]).map(function(l,i){ var c=clone(l); c._id=l.id; c._ordre=i; return c; });
+    D.lecons=toutes.filter(function(l){ return prochainPassage(l)!==null; });
+    D.leconDuJour=D.lecons.filter(function(l){ return prochainPassage(l)<=D.today; })
+      .sort(function(a,b){ var ea=a.echeance||"9999", eb=b.echeance||"9999"; return ea<eb?-1:ea>eb?1:a._ordre-b._ordre; })[0]||null;
+    return Store.get("carnet/mots");
+  }).then(function(cn){
+    D.carnet=(cn && cn.mots) || []; D.carnetSortis=(cn && cn.sortis) || 0;
+    return Store.list("seances","date",">=",addDays(D.cycle,-2));
+  }).then(function(ss){
+    D.seances = ss;
+    return Store.get("contrat/"+D.cycle);
+  }).then(function(ct){
+    D.contrat = ct || {};
+    return Store.get("etat/deblocage");
+  }).then(function(db){
+    D.deblocage = db && db.date;
+  });
+}
+
+function seancesDu(date){ return D.seances.filter(function(s){ return s.date===date; }); }
+function seanceActive(){ var n=Date.now(); return seancesDu(D.today).find(function(s){ return !s.termine && s.fin>n; })||null; }
+function peutCommencer(){ var faites=seancesDu(D.today).filter(function(s){ return s.termine; }); return faites.length===0 || D.deblocage===D.today; }
+
+function motsRates(){
+  var set={};
+  D.seances.forEach(function(s){ if(s.contenu!==D.contenu.id || s.date<D.cycle) return; (s.pieges||[]).forEach(function(p){ if(p.r==="mot") set[norm(p.x)]=true; }); });
+  (D.contrat.ratesPapier||[]).forEach(function(m){ set[norm(m)]=true; });
+  return set;
+}
+function piegesRates(){
+  var set={};
+  D.seances.forEach(function(s){ if(s.contenu!==D.contenu.id || s.date<D.cycle) return; (s.pieges||[]).forEach(function(p){ if(p.r==="regle" && p.src) set[p.src]=true; }); });
+  return set;
+}
+
+/* ================= LEÇONS : 3 PASSAGES ESPACÉS =================
+   1er passage dès que possible, 2e le lendemain, 3e deux jours après
+   (ou la veille de l'échéance si elle arrive avant). Les questions ratées reviennent en priorité. */
+var NB_PASSAGES=3;
+function etatLecon(id){ return D.leconsEtat[id] || {passages:[], rates:[]}; }
+function prochainPassage(l){
+  var e=etatLecon(l.id), n=e.passages.length;
+  if(n>=NB_PASSAGES) return null;
+  if(l.echeance && D.today>l.echeance) return null;
+  if(n===0) return D.today;
+  var dernier=e.passages[n-1], suivantP=addDays(dernier, n===1?1:2);
+  if(l.echeance){ var veille=addDays(l.echeance,-1); if(veille>dernier && veille<suivantP) suivantP=veille; if(suivantP>l.echeance) return null; }
+  return suivantP;
+}
+function itemsLecon(L){
+  var e=etatLecon(L.id), n=e.passages.length, rates=e.rates||[];
+  var choisir=function(arr,k){ arr=arr||[]; var r=arr.filter(function(q){ return rates.indexOf(q.q)>=0; }), a=arr.filter(function(q){ return rates.indexOf(q.q)<0; }); return melange(r).concat(melange(a)).slice(0,k); };
+  var li=[it("essentiel",L,{passage:n+1})];
+  choisir(L.recite,2).forEach(function(q){ li.push(it("recite",q)); });
+  choisir(L.souvenir,3).forEach(function(q){ li.push(it("qcm",q,{niveau:"Je me souviens"})); });
+  choisir(L.compris,2).forEach(function(q){ li.push(it("qcm",q,{niveau:"J'ai compris"})); });
+  var ouv=(L.ouvertures||(L.ouverture?[L.ouverture]:[]))[n];
+  if(ouv && ouv.texte) li.push(it("ouverture",{ouverture:ouv}));
+  return li;
+}
+
+/* ================= CARNET DES MOTS DIFFICILES =================
+   Tout mot faux ou rattrapé y entre (quelle que soit la semaine).
+   Il en sort quand Erwan l'a écrit juste du premier coup 2 fois de suite. */
+var SORTIE_CARNET=2;
+function carnetMaj(resultats){
+  return Store.get("carnet/mots").then(function(doc){
+    var liste=(doc && doc.mots) || [], sortis=(doc && doc.sortis) || 0;
+    resultats.forEach(function(r){
+      var k=norm(r.mot), e=liste.find(function(x){ return norm(x.mot)===k; });
+      if(r.v==="juste"){
+        if(e){ e.serie=(e.serie||0)+1; e.vu=D.today; }
+      } else {
+        if(e){ e.serie=0; e.vu=D.today; e.erreurs=(e.erreurs||0)+1; if(!e.phrase && r.phrase) e.phrase=r.phrase; }
+        else liste.push({mot:r.mot, phrase:r.phrase||"", semaine:r.semaine||D.contenu.id, ajoute:D.today, vu:D.today, serie:0, erreurs:1});
+      }
+    });
+    var restants=liste.filter(function(x){ return (x.serie||0)<SORTIE_CARNET; });
+    sortis+=liste.length-restants.length;
+    D.carnet=restants;
+    return Store.set("carnet/mots",{mots:restants, sortis:sortis});
+  });
+}
+function anciensMots(n){
+  var actuels={}; (D.contenu.mots||[]).forEach(function(m){ actuels[norm(m.mot)]=true; });
+  return (D.carnet||[]).filter(function(x){ return !actuels[norm(x.mot)]; })
+    .sort(function(a,b){ return (a.vu||"")<(b.vu||"")?-1:1; }).slice(0,n)
+    .map(function(x){ return {mot:x.mot, phrase:x.phrase||"", ancien:true}; });
+}
+
+/* ================= TABLEAU DU CONTRAT ================= */
+function missionFaite(date){
+  var dw=dowOf(date), m=JOURS[dw].mission, cyc=mercrediDe(date);
+  var contrat = cyc===D.cycle ? D.contrat : {};
+  if(m==="holocron") return seancesDu(date).some(function(s){ return s.termine; });
+  if(m==="decouverte") return !!contrat.mer || seancesDu(date).some(function(s){ return s.missions && s.missions.decouverte; });
+  if(m==="sam") return !!contrat.sam;
+  if(m==="dim") return !!contrat.dim;
+  return true;
+}
+function statut(date){
+  var cfg=JOURS[dowOf(date)];
+  if(!cfg.mission || date<LANCEMENT) return "libre";
+  if(missionFaite(date)) return "fait";
+  if(date<D.today) return "manque";
+  if(date===D.today) return "auj";
+  return "avenir";
+}
+function calculTableau(){
+  var lignes=[], penalite=0;
+  var lunPrec=addDays(D.cycle,-2);
+  if(statut(lunPrec)==="manque") penalite=1;
+  for(var o=0;o<7;o++){
+    var date=addDays(D.cycle,o), cfg=JOURS[dowOf(date)], st=statut(date), slot=null;
+    if(st==="manque") penalite++;
+    if(cfg.slot){
+      if(date<LANCEMENT) slot="libre";
+      else if(penalite>0){ slot="perdu"; penalite--; }
+      else if(st==="fait") slot="debloque";
+      else slot="attente";
+    }
+    lignes.push({date:date,cfg:cfg,st:st,slot:slot});
+  }
+  return lignes;
+}
+var ETATS={fait:"✓ Fait", manque:"✗ Manqué", auj:"● Aujourd'hui", avenir:"", libre:"—"};
+var SLOTS={debloque:"🎮 "+GAME_SLOT+" débloquée", perdu:"🎮 "+GAME_SLOT+" perdue", attente:"🎮 "+GAME_SLOT+" à gagner", libre:"🎮 "+GAME_SLOT};
+function tableauHTML(){
+  var h='<section class="semaine-bloc" aria-label="Tableau de la semaine"><h2>Mon contrat de la semaine</h2>'+
+    '<p class="note">Chaque mission manquée fait sauter le prochain créneau de jeu.'+(D.today<LANCEMENT?' Le contrat démarre le mercredi '+dateFr(LANCEMENT)+'.':'')+'</p>';
+  calculTableau().forEach(function(l){
+    h+='<div class="ligne'+(l.date===D.today?' auj':'')+'"><span class="j">'+l.cfg.court+'</span><span class="m">'+esc(l.cfg.etape)+'</span>'+
+       '<span class="etat '+l.st+'">'+ETATS[l.st]+'</span>'+
+       (l.slot?'<span class="slot '+l.slot+'">'+SLOTS[l.slot]+'</span>':'')+'</div>';
+  });
+  return h+'</section>';
+}
+
+/* ================= ACCUEIL ================= */
+var app=$("#app");
+function cube(){ return '<div class="holo" aria-hidden="true"><div class="cube"><div class="face f1"></div><div class="face f2"></div><div class="face f3"></div><div class="face f4"></div><div class="face f5"></div><div class="face f6"></div></div></div>'; }
+function energie(){ return D.seances.filter(function(s){ return s.date>=D.cycle; }).reduce(function(t,s){ return t+(s.points||0); },0); }
+
+function vueChargement(msg){
+  app.innerHTML='<header>'+cube()+'<h1>Le Holocron d\'Erwan</h1><p class="chargement">'+esc(msg||"Connexion au Holocron…")+'</p></header>';
+}
+
+function vueAccueil(){
+  S=null;
+  var e=energie(), obj=120, charge=Math.min(1,e/obj);
+  document.documentElement.style.setProperty("--charge",charge.toFixed(2));
+  var cfg=JOURS[dowOf(D.today)], active=seanceActive(), action;
+  if(active) action='<button class="btn principal" id="go">Reprendre ma séance</button><p class="note">Il reste '+fmt(active.fin-Date.now())+'.</p>';
+  else if(peutCommencer()) action='<button class="btn principal" id="go">Commencer ma séance</button><p class="note">15 minutes au maximum.</p>';
+  else action='<p class="fait">Séance du jour terminée.</p><p class="note">Le Holocron se recharge. Prochaine séance demain.</p>';
+  app.innerHTML='<header>'+cube()+
+    '<h1>Le Holocron d\'Erwan</h1>'+
+    '<p class="semaine">Règle de la semaine : '+esc(D.contenu.regle && D.contenu.regle.titre || D.contenu.titre)+'</p>'+
+    '<div class="jauge" role="img" aria-label="Énergie '+e+' sur '+obj+'"><div style="width:'+(charge*100)+'%"></div></div>'+
+    '<p class="energie"><strong>'+e+'</strong> points d\'énergie cette semaine, objectif '+obj+'</p>'+
+    '<p class="jour">'+cfg.nom+'<span>'+esc(cfg.etape)+'</span></p>'+
+    '</header><section class="action">'+action+'</section>'+
+    tableauHTML()+
+    '<footer>'+boutonGuide()+' <button class="lien" id="parents">Espace parents</button></footer>';
+  var go=$("#go"); if(go) go.onclick=function(){ demarrer(active); };
+  $("#parents").onclick=vueCode; brancherGuide();
+}
+
+/* ================= COMPOSITION DE LA SÉANCE ================= */
+var S=null;
+function it(t,d,extra){ var o={t:t,d:d}; if(extra) for(var k in extra) o[k]=extra[k]; return o; }
+function prioriser(mots,rates,n){
+  var r=mots.filter(function(m){ return rates[norm(m.mot)]; }), a=mots.filter(function(m){ return !rates[norm(m.mot)]; });
+  return melange(r).concat(melange(a)).slice(0,n);
+}
+/* Dictée de mots sur le cahier : dicter tout → relecture solo → correction mot par mot */
+function cahier(liste){
+  if(!liste.length) return [];
+  var out=liste.map(function(d,i){ return it("dictMot",d,{n:i+1}); });
+  out.push(it("relecture",liste));
+  liste.forEach(function(d,i){ out.push(it("corrMot",d,{n:i+1})); });
+  return out;
+}
+function composer(jour){
+  var blocs=[], C=D.contenu, pieges=C.pieges||[], mots=C.mots||[], rm=motsRates(), rp=piegesRates();
+  var dictee=[];
+  if(jour===3) dictee=[it("decouverte",null)];
+  else if(jour===4) dictee=cahier(melange(mots).slice(0,12)).concat(tirer(pieges,6).map(function(d){return it("piege",d);}));
+  else if(jour===5) dictee=cahier(prioriser(mots,rm,5).concat(anciensMots(2)));
+  else if(jour===1){
+    var p=pieges.filter(function(x){ return rp[x.phrase]; }), m=mots.filter(function(x){ return rm[norm(x.mot)]; });
+    dictee=cahier((m.length?melange(m):tirer(mots,5)).slice(0,7).concat(anciensMots(3)))
+      .concat((p.length?p:tirer(pieges,3)).slice(0,4).map(function(d){return it("piege",d);}));
+  }
+  if(dictee.length) blocs.push({cle:"dictee", nom:JOURS[jour].etape, items:dictee});
+  if(D.leconDuJour){
+    var L=D.leconDuJour, np=etatLecon(L.id).passages.length+1;
+    blocs.push({cle:"lecon", nom:"La leçon : "+(L.titre||L.matiere||"du jour")+" ("+(np===1?"1er":np+"e")+" passage sur "+NB_PASSAGES+")", items:itemsLecon(L), lecon:L._id});
+  }
+  blocs.push({cle:"anglais", nom:"English ear", items:tirer(D.deck,NB_ANGLAIS[jour]||4).map(function(d){return it("en",d);})});
+  var items=[];
+  blocs.forEach(function(b,i){ items.push({t:"intro",bloc:b,num:i+1,total:blocs.length}); b.items.forEach(function(x){ x.bloc=b; x.num=i+1; x.total=blocs.length; items.push(x); }); });
+  return {items:items, blocs:blocs};
+}
+var TEXTES_INTRO={
+  dictee:{3:"Ce soir, on découvre la feuille de la maîtresse. Tu vas lire la règle, lire les mots, et repérer les pièges.",
+          4:"Prépare ton cahier et ton crayon. Je te dicte les mots, tu les écris bien lisiblement, tu te relis tout seul, puis on corrige ensemble. Ensuite, quelques phrases pièges sur la règle.",
+          5:"Petite révision pour ne pas oublier. Prépare ton cahier : je dicte, tu écris, tu te relis.",
+          1:"On réactive tes pièges avant la dictée de demain. Prépare ton cahier : seulement les mots qui t'ont résisté."},
+  lecon:"D'abord l'essentiel, à lire à voix haute. Ensuite tu récites sans regarder, puis tu réponds aux questions pour vérifier que tu as retenu et compris.",
+  anglais:"Listen to the word and tap the right picture. Then say it out loud, two times."
+};
+
+/* ================= SÉANCE ================= */
+function demarrer(active){
+  var jour=dowOf(D.today), comp=composer(jour), id, fin;
+  var p;
+  if(active){ id=active._id; fin=active.fin; p=Promise.resolve(); }
+  else {
+    var nb=seancesDu(D.today).length;
+    id=D.today+(nb?"-"+(nb+1):""); fin=Date.now()+DUREE_MIN*60000;
+    var doc={date:D.today, cycle:D.cycle, contenu:D.contenu.id, debut:Date.now(), fin:fin, termine:false, points:0, pieges:[], missions:{}, ouvertures:[]};
+    p=Store.set("seances/"+id,doc).then(function(){
+      doc._id=id; D.seances.push(doc);
+      if(D.deblocage===D.today){ D.deblocage=null; return Store.set("etat/deblocage",{date:null}); }
+    });
+  }
+  p.then(function(){
+    S={id:id, items:comp.items, i:0, points:0, pieges:[], missions:{}, ouvertures:[], leconFaite:null, lecOk:[], lecRates:[], fin:fin, alerte:false};
+    afficher();
+  }).catch(function(){ vueErreur("Impossible de démarrer la séance. Vérifie la connexion et réessaie."); });
+}
+
+function afficher(){
+  var x=S.items[S.i], b=x.bloc;
+  var dans=b.items, rang=dans.indexOf(x)+1;
+  app.innerHTML='<div class="barre"><span class="mission">Mission '+x.num+' sur '+x.total+'</span>'+
+    (x.t!=="intro"?'<span>'+rang+' / '+dans.length+'</span>':'')+
+    '<span class="points" id="points">+'+S.points+'</span><span class="chrono" id="chrono">'+fmt(S.fin-Date.now())+'</span>'+boutonGuide()+'</div>'+
+    (S.alerte?'<p class="bandeau">Encore 2 minutes.</p>':'')+'<main class="carte" id="carte"></main>';
+  brancherGuide();
+  ({intro:vueIntro, decouverte:vueDecouverte, piege:vuePiege, dictMot:vueDictMot, relecture:vueRelecture, corrMot:vueCorrMot, en:vueEn, essentiel:vueEssentiel, recite:vueRecite, qcm:vueQcm, ouverture:vueOuverture})[x.t](x);
+}
+function carte(h){ $("#carte").innerHTML=h; }
+function retour(h,c){ var r=$("#retour"); r.className="retour "+(c||""); r.innerHTML=h; }
+function gagner(n){ S.points+=n; var p=$("#points"); p.textContent="+"+S.points; p.classList.remove("bump"); void p.offsetWidth; p.classList.add("bump"); }
+function verrouiller(){ document.querySelectorAll(".opt,.emo").forEach(function(b){ b.disabled=true; }); }
+function suivant(label){
+  var v=$("#verif"); if(v) v.remove();
+  var b=document.createElement("button"); b.className="btn principal"; b.id="suite";
+  b.textContent=label || (S.i===S.items.length-1?"Terminer":"Suivant");
+  b.onclick=avancer; $("#carte").appendChild(b); b.focus();
+}
+function avancer(){
+  if(parole) speechSynthesis.cancel();
+  var x=S.items[S.i];
+  if(x.bloc && x.bloc.cle==="lecon" && S.i+1<S.items.length && S.items[S.i+1].bloc!==x.bloc) S.leconFaite=x.bloc.lecon;
+  if(x.bloc && x.bloc.cle==="lecon" && S.i===S.items.length-1) S.leconFaite=x.bloc.lecon;
+  S.i++;
+  if(S.i>=S.items.length) fin(false); else afficher();
+}
+
+function vueIntro(x){
+  var b=x.bloc, txt=b.cle==="dictee" ? TEXTES_INTRO.dictee[dowOf(D.today)] : TEXTES_INTRO[b.cle];
+  $("#carte").className="carte intro";
+  carte('<p class="num">Mission '+x.num+'</p><h2>'+esc(b.nom)+'</h2><p>'+esc(txt||"")+'</p><button class="btn principal" id="suite">C\'est parti</button>');
+  var bt=$("#suite"); bt.onclick=avancer; bt.focus();
+  parler(b.nom+". "+(txt||""));
+}
+
+function vueDecouverte(){
+  var C=D.contenu, nouvelle=(C.id===D.cycle);
+  var h='<p class="consigne">Prends la feuille de la maîtresse et un crayon.</p>';
+  if(nouvelle){
+    h+='<div class="regle-carte"><strong>'+esc(C.regle.titre)+'</strong><p>'+esc(C.regle.resume)+'</p></div>'+
+       '<ul class="liste-mots">'+(C.mots||[]).map(function(m){ return '<li>'+esc(m.mot)+'</li>'; }).join("")+'</ul>';
+  } else {
+    h+='<p>La nouvelle feuille n\'est pas encore dans le Holocron : fais ta découverte directement sur la feuille papier.</p>';
+  }
+  h+='<ol class="etapes"><li>Lis la règle à voix haute.</li><li>Lis chaque mot à voix haute.</li><li>Dans chaque mot, entoure la lettre piège (le ss, l\'accent, la lettre muette…).</li></ol>'+
+     '<button class="btn principal" id="verif">J\'ai fini ma découverte</button><div class="retour" id="retour" aria-live="polite"></div>';
+  carte(h);
+  $("#verif").onclick=function(){ S.missions.decouverte=true; gagner(3); retour("Découverte faite ! +3","bon"); parler("Découverte faite ! Plus trois."); suivant(); };
+  parler("Prends la feuille de la maîtresse et un crayon. Lis la règle à voix haute. Lis chaque mot à voix haute. Puis, dans chaque mot, entoure la lettre piège.");
+}
+
+function vuePiege(x){
+  var d=x.d, phrase=esc(d.phrase).replace("___",'<span class="trou" id="trou">?</span>');
+  carte('<p class="consigne">Choisis le bon mot. Fais le test avant de toucher.</p><p class="phrase">'+phrase+'</p>'+
+    '<div class="choix">'+melange(d.options).map(function(o){ return '<button class="btn opt" data-o="'+esc(o)+'">'+esc(o)+'</button>'; }).join("")+'</div>'+
+    '<div class="retour" id="retour" aria-live="polite"></div>');
+  parler(d.phrase.replace("___","…"));
+  document.querySelectorAll(".opt").forEach(function(b){
+    b.onclick=function(){
+      var t=$("#trou"); t.textContent=d.reponse; t.classList.add("rempli"); verrouiller();
+      if(b.dataset.o===d.reponse){ b.classList.add("juste"); gagner(2); retour("Œil de lynx ! +2","bon"); parler("Œil de lynx !"); }
+      else { b.classList.add("barre-x"); S.pieges.push({r:"regle",src:d.phrase,x:d.phrase.replace("___",d.reponse)}); retour("Piège ! Le test : "+esc(d.test),"warn"); parler("Piège ! "+d.test); }
+      suivant();
+    };
+  });
+}
+
+function vueDictMot(x){
+  var d=x.d;
+  carte('<p class="consigne">Sur ton cahier, écris le numéro, puis le mot, bien lisiblement.</p>'+
+    '<p class="gros-num">Mot n°'+x.n+'</p>'+
+    (parole?'<button class="btn ecoute" id="ecoute">🔊 Réécouter</button>':'<p class="flash" id="flash">'+esc(d.mot)+'</p>'));
+  var lire=function(){ dire(d.phrase ? ["Numéro "+x.n+".", d.mot, d.phrase, d.mot] : ["Numéro "+x.n+".", d.mot, d.mot],"fr"); };
+  if(parole){ lire(); $("#ecoute").onclick=lire; } else setTimeout(function(){ var f=$("#flash"); if(f) f.textContent="…"; },3000);
+  if(d.ancien) $("#carte").insertAdjacentHTML("afterbegin",'<p class="petit">Un mot de ton carnet des mots difficiles.</p>');
+  suivant(S.items[S.i+1] && S.items[S.i+1].t==="dictMot" ? "Mot écrit, au suivant" : "Mot écrit, j'ai fini");
+}
+
+function vueRelecture(x){
+  var n=x.d.length, attente=Math.min(45,Math.max(20,n*3));
+  carte('<p class="consigne">Relecture solo, sans aide.</p><h2>Scanne ton cahier</h2>'+
+    '<ol class="etapes"><li>Pointe chaque mot avec ton crayon, lettre par lettre, à voix basse.</li><li>Vérifie les accents et les lettres muettes.</li><li>Cherche les petits pièges : ss, doubles consonnes, traits d\'union.</li></ol>'+
+    '<p>Si tu trouves une erreur, corrige-la proprement sur ton cahier. Une erreur que tu rattrapes toi-même rapporte autant qu\'un mot juste.</p>'+
+    '<button class="btn principal" id="verif" disabled>Patiente '+attente+' s</button>');
+  parler("Relecture solo. Pointe chaque mot avec ton crayon, lettre par lettre. Si tu trouves une erreur, corrige-la proprement.");
+  var b=$("#verif"), reste=attente;
+  var t=setInterval(function(){
+    if(!document.body.contains(b)){ clearInterval(t); return; }
+    reste--; if(reste>0){ b.textContent="Patiente "+reste+" s"; return; }
+    clearInterval(t); b.disabled=false; b.textContent="J'ai tout relu"; b.onclick=avancer;
+  },1000);
+}
+
+function vueCorrMot(x){
+  var d=x.d;
+  carte('<p class="consigne">Correction : compare lettre par lettre avec ton cahier.</p>'+
+    '<p class="gros-num">Mot n°'+x.n+'</p><p class="mot-correction">'+esc(d.mot)+'</p>'+
+    '<div class="choix colonne">'+
+      '<button class="btn opt" data-v="juste">✓ Juste du premier coup</button>'+
+      '<button class="btn opt" data-v="rattrape">✎ Rattrapé à ma relecture</button>'+
+      '<button class="btn opt" data-v="faux">✗ Faux</button></div>'+
+    '<div class="retour" id="retour" aria-live="polite"></div>');
+  parler("Mot numéro "+x.n+" : "+d.mot);
+  document.querySelectorAll(".opt").forEach(function(b){
+    b.onclick=function(){
+      verrouiller(); b.classList.add(b.dataset.v==="faux"?"barre-x":"juste");
+      S.resMots=S.resMots||[]; S.resMots.push({mot:d.mot, phrase:d.phrase, v:b.dataset.v, semaine:d.ancien?null:D.contenu.id});
+      if(b.dataset.v==="juste"){ gagner(2); retour("Bravo ! +2","bon"); parler("Bravo !"); }
+      else if(b.dataset.v==="rattrape"){ gagner(2); S.pieges.push({r:"mot",x:d.mot,rattrape:true}); retour("Œil de lynx ! +2. Se relire paie autant que savoir.","bon"); parler("Œil de lynx !"); }
+      else { S.pieges.push({r:"mot",x:d.mot}); retour('Barre-le et récris-le juste 3 fois dans la marge : <strong class="mot-juste">'+esc(d.mot)+'</strong>',"warn"); parler("Barre-le, et récris-le juste trois fois dans la marge."); }
+      S.cahier=true;
+      suivant();
+    };
+  });
+}
+
+function vueEn(x){
+  var d=x.d; x.essais=0;
+  var choix=melange([d].concat(tirer(D.deck.filter(function(y){ return y.mot!==d.mot; }),3)));
+  carte('<p class="consigne">Listen. Which one is it?</p>'+
+    (parole?'<button class="btn ecoute" id="ecoute">🔊 Listen again</button>':'<p class="flash">'+esc(d.mot)+'</p>')+
+    '<div class="emojis">'+choix.map(function(c,i){ return '<button class="btn emo" data-m="'+esc(c.mot)+'" aria-label="Choix '+(i+1)+'">'+esc(c.emoji)+'</button>'; }).join("")+'</div>'+
+    '<div class="retour" id="retour" aria-live="polite"></div>');
+  var ec=function(){ dire([d.mot],"en"); };
+  if(parole){ ec(); $("#ecoute").onclick=ec; }
+  document.querySelectorAll(".emo").forEach(function(b){
+    b.onclick=function(){
+      if(b.dataset.m===d.mot){ var g=x.essais===0?2:1; gagner(g); verrouiller(); b.classList.add("juste");
+        retour((x.essais===0?"Well done! +2":"Got it! +1")+'<span class="mot-en">'+esc(d.mot)+'</span>Répète-le à voix haute, deux fois.',"bon"); ec(); suivant(); }
+      else if(x.essais===0){ x.essais=1; b.disabled=true; b.classList.add("barre-x"); retour("Listen again.","warn"); ec(); }
+      else { verrouiller(); b.classList.add("barre-x");
+        document.querySelectorAll(".emo").forEach(function(y){ if(y.dataset.m===d.mot) y.classList.add("juste"); });
+        S.pieges.push({r:"en",x:d.mot}); retour('It was <span class="mot-en">'+esc(d.mot)+'</span>Répète-le à voix haute, deux fois.',"warn"); ec(); suivant(); }
+    };
+  });
+}
+
+function vueEssentiel(x){
+  var L=x.d;
+  carte('<p class="consigne">'+esc(L.matiere||"Leçon")+' : '+(x.passage>1?'relis':'lis')+' l\'essentiel à voix haute, doucement.</p><h2>'+esc(L.titre||"La leçon du jour")+'</h2>'+
+    '<ul class="essentiel">'+(L.essentiel||[]).map(function(e){ return '<li>'+esc(e)+'</li>'; }).join("")+'</ul>');
+  suivant("J'ai lu, je suis prêt");
+}
+
+function vueRecite(x){
+  var q=x.d;
+  carte('<p class="consigne">Récite à voix haute, sans regarder ta leçon.</p><p class="phrase">'+esc(q.q)+'</p>'+
+    '<button class="btn principal" id="verif">J\'ai récité, montre la réponse</button><div class="retour" id="retour" aria-live="polite"></div>');
+  parler(q.q+" Récite à voix haute.");
+  $("#verif").onclick=function(){
+    var bt=this; bt.remove();
+    var rep=document.createElement("div"); rep.className="regle-carte"; rep.innerHTML="<strong>La réponse :</strong><p>"+esc(q.r)+"</p>";
+    var ch=document.createElement("div"); ch.className="choix colonne";
+    ch.innerHTML='<button class="btn opt" data-v="su">✓ Je la savais</button><button class="btn opt" data-v="presque">≈ Presque</button><button class="btn opt" data-v="non">✗ Je ne la savais pas</button>';
+    var r=$("#retour"); r.parentNode.insertBefore(rep,r); r.parentNode.insertBefore(ch,r);
+    parler(q.r+". Tu la savais ?");
+    ch.querySelectorAll(".opt").forEach(function(b){
+      b.onclick=function(){
+        verrouiller(); b.classList.add(b.dataset.v==="non"?"barre-x":"juste");
+        if(b.dataset.v==="su"){ gagner(2); S.lecOk.push(q.q); retour("Bravo ! +2","bon"); parler("Bravo !"); }
+        else if(b.dataset.v==="presque"){ gagner(1); S.lecRates.push(q.q); retour("Presque ! +1. Elle reviendra au prochain passage.","bon"); parler("Presque ! Elle reviendra au prochain passage."); }
+        else { S.lecRates.push(q.q); S.pieges.push({r:"lecon",x:q.q+" → "+q.r}); retour("Pas grave : relis la réponse à voix haute. Elle reviendra au prochain passage.","warn"); parler("Pas grave. Relis la réponse à voix haute."); }
+        suivant();
+      };
+    });
+  };
+}
+
+function vueQcm(x){
+  var q=x.d; x.essais=0;
+  carte('<p class="consigne">'+esc(x.niveau)+'</p><p class="phrase">'+esc(q.q)+'</p>'+
+    '<div class="choix">'+melange(q.options).map(function(o){ return '<button class="btn opt" data-o="'+esc(o)+'">'+esc(o)+'</button>'; }).join("")+'</div>'+
+    '<div class="retour" id="retour" aria-live="polite"></div>');
+  parler(q.q);
+  document.querySelectorAll(".opt").forEach(function(b){
+    b.onclick=function(){
+      if(b.dataset.o===q.reponse){ if(x.essais===0) S.lecOk.push(q.q); else S.lecRates.push(q.q); parler((x.essais===0?"Bien vu ! ":"Rattrapé ! ")+(q.explication||"")); var g=x.essais===0?2:1; gagner(g); verrouiller(); b.classList.add("juste"); retour((x.essais===0?"Bien vu ! +2":"Rattrapé ! +1")+"<br>"+esc(q.explication||""),"bon"); suivant(); }
+      else if(x.essais===0 && q.options.length>2){ x.essais=1; b.disabled=true; b.classList.add("barre-x"); retour("Pas tout à fait. Relis la question et réfléchis encore.","warn"); parler("Pas tout à fait. Réfléchis encore."); }
+      else { verrouiller(); b.classList.add("barre-x");
+        document.querySelectorAll(".opt").forEach(function(y){ if(y.dataset.o===q.reponse) y.classList.add("juste"); });
+        S.pieges.push({r:"lecon",x:q.q+" → "+q.reponse}); S.lecRates.push(q.q); retour("La bonne réponse : « "+esc(q.reponse)+" ». "+esc(q.explication||""),"warn"); parler("La bonne réponse était : "+q.reponse+". "+(q.explication||"")); suivant(); }
+    };
+  });
+}
+
+function vueOuverture(x){
+  var o=x.d.ouverture;
+  carte('<p class="consigne">Et si… ?</p><div class="ouverture"><p>'+esc(o.texte)+'</p><p class="question">'+esc(o.question||"")+'</p></div><p class="note">Garde ta réponse dans ta tête et raconte-la à papa jeudi.</p>');
+  S.ouvertures.push(o.question||o.texte);
+  parler("Et si ? "+o.texte+" "+(o.question||""));
+  suivant("Noté !");
+}
+
+function fin(tempsEcoule){
+  if(!S) return;
+  if(parole) speechSynthesis.cancel();
+  var s=S; S=null;
+  var existant=D.seances.find(function(x){ return x._id===s.id; })||{};
+  var doc={date:D.today, cycle:D.cycle, contenu:existant.contenu||D.contenu.id, debut:existant.debut||Date.now(), fin:s.fin,
+    termine:true, complet:!tempsEcoule, points:s.points, pieges:s.pieges, missions:s.missions, ouvertures:s.ouvertures, lecon:s.leconFaite||null};
+  vueChargement("Le Holocron enregistre ta séance…");
+  var p=Store.set("seances/"+s.id,doc);
+  if(s.leconFaite){
+    var e=clone(etatLecon(s.leconFaite));
+    e.passages=(e.passages||[]).concat([D.today]);
+    e.rates=(e.rates||[]).filter(function(q){ return s.lecOk.indexOf(q)<0; });
+    s.lecRates.forEach(function(q){ if(e.rates.indexOf(q)<0) e.rates.push(q); });
+    var etats=clone(D.leconsEtat)||{}; etats[s.leconFaite]=e;
+    p=p.then(function(){ return Store.set("etat/lecons",{etats:etats}); });
+  }
+  doc.cahier=!!s.cahier;
+  if(s.resMots && s.resMots.length) p=p.then(function(){ return carnetMaj(s.resMots); });
+  p.then(charger).then(function(){ vueBilan(doc,tempsEcoule); })
+   .catch(function(){ vueBilan(doc,tempsEcoule,true); });
+}
+
+function vueBilan(doc,tempsEcoule,erreur){
+  var jour=dowOf(D.today), suite = jour===5 ? "La suite : ton créneau de jeu, si tu l'as débloqué." : "La suite : 15 minutes de lecture.";
+  parler((tempsEcoule?"Temps écoulé. ":"Séance terminée. ")+"Tu as gagné "+doc.points+" points de Force."+(doc.cahier?" Montre ton cahier à maman.":"")+" "+suite);
+  var liste = doc.pieges.length
+    ? '<p>Tes pièges du jour, à montrer à maman :</p><ul class="pieges">'+doc.pieges.map(function(p){ return '<li>'+esc(p.x)+(p.rattrape?' (rattrapé tout seul)':'')+'</li>'; }).join("")+'</ul>'
+    : '<p>Aucun piège raté aujourd\'hui. Chapeau.</p>';
+  app.innerHTML='<section class="bilan">'+cube()+'<h2>'+(tempsEcoule?"Temps écoulé : la séance s'arrête là.":"Séance terminée")+'</h2>'+
+    '<p class="gros">+'+doc.points+'</p><p>points de Force. Note-les dans ton carnet Jedi.</p>'+(doc.cahier?'<p class="suite">Montre ton cahier à maman.</p>':'')+liste+
+    (erreur?'<p class="retour warn">Attention : la séance n\'a pas pu être enregistrée. Préviens maman.</p>':'')+
+    '<p class="suite">'+suite+'</p><button class="btn principal" id="acc">Retour au Holocron</button></section>';
+  $("#acc").onclick=vueAccueil; $("#acc").focus();
+}
+
+setInterval(function(){
+  if(!S) return;
+  var r=S.fin-Date.now(), c=$("#chrono");
+  if(c){ c.textContent=fmt(r); c.classList.toggle("bientot",r<=120000); }
+  if(r<=120000 && !S.alerte){ S.alerte=true; var b=document.createElement("p"); b.className="bandeau"; b.textContent="Encore 2 minutes."; var br=$(".barre"); if(br) br.insertAdjacentElement("afterend",b); parler("Encore deux minutes."); }
+  if(r<=0) fin(true);
+},500);
+
+function vueErreur(msg){
+  app.innerHTML='<section class="carte"><h2>Oups</h2><p>'+esc(msg)+'</p><button class="btn principal" id="acc">Retour au Holocron</button></section>';
+  $("#acc").onclick=function(){ vueChargement(); charger().then(vueAccueil).catch(vueAccueil); };
+}
+
+/* ================= ESPACE PARENTS ================= */
+function vueCode(){
+  app.innerHTML='<section class="parents"><section><h2>Espace parents</h2><label for="code">Code</label><input id="code" class="saisie court" inputmode="numeric" autocomplete="off">'+
+    '<button class="btn principal" id="ok">Entrer</button><div class="retour" id="retour" aria-live="polite"></div>'+
+    '<button class="lien" id="ret">Retour au Holocron</button></section></section>';
+  var c=$("#code"); c.focus();
+  var ok=function(){ if(c.value.trim()===CODE_PARENTS) vueParents(); else { retour("Code incorrect.","warn"); c.value=""; c.focus(); } };
+  $("#ok").onclick=ok; c.addEventListener("keydown",function(e){ if(e.key==="Enter") ok(); }); $("#ret").onclick=vueAccueil;
+}
+
+function vueParents(){
+  var C=D.contenu, ct=D.contrat;
+  var journal=D.seances.filter(function(s){ return s.date>=D.cycle && s.termine; }).sort(function(a,b){ return a.date<b.date?-1:1; });
+  var lignesJ=journal.length ? journal.map(function(s){
+      var pg=(s.pieges||[]).map(function(p){ return esc(p.x)+(p.rattrape?' (rattrapé)':'')+(p.e?' (écrit « '+esc(p.e)+' »)':''); }).join("<br>")||"Aucun";
+      var ouv=(s.ouvertures||[]).length?'<br><em>Et si… : '+s.ouvertures.map(esc).join(" / ")+'</em>':'';
+      return '<tr><td>'+JOURS[dowOf(s.date)].court+' '+dateFr(s.date)+'</td><td>+'+s.points+(s.complet?'':' (temps écoulé)')+'</td><td>'+pg+ouv+'</td></tr>';
+    }).join("") : '<tr><td colspan="3">Aucune séance depuis mercredi.</td></tr>';
+  var etatFeuille = C.id===D.cycle ? '<strong>la feuille de cette semaine</strong>' : (C.id==="defaut" ? 'le contenu de révision par défaut' : 'la feuille du '+dateFr(C.id)+' (pas encore celle de cette semaine)');
+
+  app.innerHTML='<div class="parents"><h2>Espace parents</h2>'+
+
+  '<section><h3>Mettre à jour le Holocron</h3>'+
+  '<p>Le mercredi, prends en photo la feuille de la maîtresse (règle et mots), bien à plat. Pour une leçon, c\'est Erwan qui la prend en photo. Envoie les photos à papa : il les transmet à Claude, qui met à jour le Holocron. Le lien ne change pas.</p>'+
+  '<p class="petit">Chargé en ce moment : '+etatFeuille+' — '+esc(C.regle.titre)+', '+(C.mots||[]).length+' mots.</p>'+
+  (D.lecons.length?'<p class="petit">Leçons en cours (3 passages espacés, une leçon par séance) :</p><ul class="petit">'+D.lecons.map(function(l){ var e=etatLecon(l.id), pp=prochainPassage(l); return '<li>'+esc(l.titre||l.matiere)+' : '+e.passages.length+'/'+NB_PASSAGES+' passages'+(pp?', prochain '+(pp<=D.today?'dès aujourd\'hui':'le '+dateFr(pp)):'')+(l.echeance?' (à savoir pour le '+dateFr(l.echeance)+')':'')+(e.rates&&e.rates.length?', '+e.rates.length+' question(s) à revoir':'')+'</li>'; }).join("")+'</ul>':'<p class="petit">Aucune leçon en cours.</p>')+
+  '</section>'+
+
+  '<section><h3>Dictées du week-end (Star Wars)</h3>'+
+  (D.packs ? packHTML(D.packs.pack1,1)+packHTML(D.packs.pack2,2) : '<p class="petit">Pas encore préparées pour cette semaine : papa les demande à Claude après avoir envoyé la feuille.</p>')+
+  '<label for="ratesPapier">Mots ratés à la dictée de samedi (un par ligne) : ils seront ciblés lundi.</label>'+
+  '<textarea id="ratesPapier" rows="3">'+esc((ct.ratesPapier||[]).join("\n"))+'</textarea>'+
+  '<button class="btn second" id="saveRates">Enregistrer les mots ratés</button><div class="retour" id="retPack" aria-live="polite"></div></section>'+
+
+  '<section class="coches"><h3>Missions faites sur papier</h3>'+
+  '<label><input type="checkbox" id="cMer"'+(ct.mer?' checked':'')+'> Mercredi : découverte des mots</label>'+
+  '<label><input type="checkbox" id="cSam"'+(ct.sam?' checked':'')+'> Samedi : dictée de préparation n°1</label>'+
+  '<label><input type="checkbox" id="cDim"'+(ct.dim?' checked':'')+'> Dimanche : dictée de préparation n°2</label>'+
+  '<div class="retour" id="retCoches" aria-live="polite"></div></section>'+
+
+  '<section><h3>Carnet des mots difficiles</h3>'+
+  '<p class="petit">Chaque mot faux ou rattrapé y entre. Il en sort après avoir été écrit juste du premier coup '+SORTIE_CARNET+' fois de suite. Les anciens mots reviennent le vendredi et le lundi.'+(D.carnetSortis?' Déjà sortis du carnet : '+D.carnetSortis+'.':'')+'</p>'+
+  (D.carnet && D.carnet.length ? '<div class="tableau"><table><thead><tr><th>Mot</th><th>Série</th><th>Depuis</th></tr></thead><tbody>'+
+    D.carnet.map(function(x){ return '<tr><td>'+esc(x.mot)+'</td><td>'+(x.serie||0)+' / '+SORTIE_CARNET+'</td><td>'+dateFr(x.ajoute)+'</td></tr>'; }).join("")+'</tbody></table></div>'
+    : '<p>Le carnet est vide pour l\'instant.</p>')+
+  '</section>'+
+
+  '<section><h3>Journal de la semaine</h3><p class="petit">Les mots « rattrapés » ou faux sont ciblés automatiquement les jours suivants.</p>'+
+  '<div class="tableau"><table><thead><tr><th>Jour</th><th>Points</th><th>Pièges</th></tr></thead><tbody>'+lignesJ+'</tbody></table></div>'+
+  '<button class="btn second" id="debloquer">Autoriser une autre séance aujourd\'hui</button><div class="retour" id="retDeb" aria-live="polite"></div></section>'+
+
+  '<button class="lien" id="ret">Retour au Holocron</button></div>';
+
+  $("#ret").onclick=vueAccueil;
+  $("#debloquer").onclick=function(){ Store.set("etat/deblocage",{date:D.today}).then(function(){ D.deblocage=D.today; retour2("#retDeb","Une nouvelle séance est autorisée aujourd'hui.","bon"); }); };
+  ["cMer","cSam","cDim"].forEach(function(id){
+    $("#"+id).onchange=function(){
+      var c=clone(D.contrat)||{}; c.mer=$("#cMer").checked; c.sam=$("#cSam").checked; c.dim=$("#cDim").checked;
+      Store.set("contrat/"+D.cycle,c).then(function(){ D.contrat=c; retour2("#retCoches","Enregistré.","bon"); });
+    };
+  });
+  $("#saveRates").onclick=function(){
+    var c=clone(D.contrat)||{}; c.ratesPapier=$("#ratesPapier").value.split("\n").map(function(x){ return x.trim(); }).filter(Boolean);
+    var phrases={}; (D.contenu.mots||[]).forEach(function(m){ phrases[norm(m.mot)]=m.phrase; });
+    Store.set("contrat/"+D.cycle,c).then(function(){ D.contrat=c;
+      return carnetMaj(c.ratesPapier.map(function(m){ return {mot:m, phrase:phrases[norm(m)]||"", v:"faux"}; }));
+    }).then(function(){ retour2("#retPack","Mots ratés enregistrés : ils seront ciblés lundi et ajoutés au carnet des mots difficiles.","bon"); });
+  };
+}
+function retour2(sel,h,c){ var r=$(sel); if(!r) return; r.className="retour "+(c||""); r.innerHTML=h; }
+
+/* ---- Dictées du week-end (contenu publié) ---- */
+function packHTML(p,n){
+  if(!p) return "";
+  return '<div class="apercu"><h3>Dictée n°'+n+(n===1?' (samedi)':' (dimanche)')+'</h3>'+
+    '<p class="petit">Texte A, à lire à Erwan (une fois en entier, puis phrase par phrase) :</p><div class="pack">'+esc(p.texteA)+'</div>'+
+    '<p class="petit">À pointer à la relecture : '+esc((p.surveiller||[]).join(", "))+'</p>'+
+    '<p class="petit">Texte B, la chasse aux pièges ('+(p.erreursB||[]).length+' erreurs cachées) : Erwan le recopie sur son cahier et corrige.</p><div class="pack">'+esc(p.texteB)+'</div>'+
+    '<details><summary>Corrigé de la chasse</summary><ol>'+(p.erreursB||[]).map(function(e){ return '<li>'+esc(e.faute)+' → <strong>'+esc(e.correction)+'</strong> '+esc(e.test||"")+'</li>'; }).join("")+'</ol>'+
+    ((p.leurres||[]).length?'<p class="petit">Leurres corrects à ne pas toucher : '+esc(p.leurres.join(" / "))+'</p>':'')+'</details></div>';
+}
+
+/* ================= DÉMARRAGE (tablette, sans compte) ================= */
+Store.initLocal();
+vueChargement();
+charger().then(vueAccueil).catch(function(){ vueErreur("Le Holocron n'a pas pu se charger. Recharge la page."); });
+})();
+
+</script>
+</body>
+</html>
