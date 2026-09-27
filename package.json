@@ -1,0 +1,11 @@
+{
+  "name": "holocron",
+  "private": true,
+  "description": "Le Holocron d'Erwan : entraînement quotidien (dictée, leçons, anglais)",
+  "scripts": {
+    "test": "node tests/smoke.test.js"
+  },
+  "devDependencies": {
+    "jsdom": "^24.1.0"
+  }
+}
