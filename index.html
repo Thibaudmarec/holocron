@@ -215,7 +215,7 @@ details summary{cursor:pointer;font-weight:700;margin:.6rem 0}
 var CODE_PARENTS = "2808";
 var DUREE_MIN = 15;
 var DUREE_WEEKEND = 30;                 // grande dictée Star Wars du samedi et du dimanche (tous les mots)
-var LANCEMENT = "2026-09-30";          // premier mercredi du contrat
+var LANCEMENT = "2026-10-07";          // premier mercredi du contrat (validé avec Blandine le 4/10)
 var GAME_SLOT = "1h de jeu";
 
 /* Contenu de secours tant qu'aucune feuille n'est chargée */
@@ -1492,7 +1492,7 @@ function packDuJour(jour){ return D.packs ? D.packs[jour===6?"pack1":"pack2"] : 
 function composer(jour){
   var blocs=[], mots=D.contenu.mots||[];
   var dictee=[];
-  if(jour===3) dictee=[it("regle",null)].concat(orth(melange(mots)));
+  if(jour===3) dictee = D.contenu.id===D.cycle ? [it("regle",null)].concat(orth(melange(mots))) : [it("decouverte",null)]; /* feuille pas encore chargée : découverte sur papier */
   else if(jour===4) dictee=melange(mots).map(function(d,i){ return it("dictMot",d,{n:i+1}); }).concat([it("relecture",mots), it("maman",null)]);
   else if(jour===5) dictee=orth(motsDurs(12)).concat(piegesRegle(4));
   else if(jour===6 || jour===0) dictee = packDuJour(jour) ? [it("choixMode",packDuJour(jour))] : orth(melange(mots));

@@ -46,7 +46,7 @@ pack = {texteA, surveiller:[…], texteB, erreursB:[{faute (telle qu'écrite dan
    - texte A : **contient TOUS les mots de la liste** (le test le vérifie : nom au singulier ou au pluriel, une des deux formes pour les adjectifs, **verbes à l'infinitif** tels que sur la feuille), en phrases courtes et naturelles, et au moins 4 occasions d'appliquer la règle ; pas de guillemets ni de dialogue (le Holocron découpe le texte en phrases pour le dicter) ; `surveiller` = mots à pointer à la relecture ;
    - texte B : 4 ou 5 phrases, **exactement 4 erreurs** (règle ou mots de la liste), chacune un mot ou un nombre entier tel qu'écrit dans le texte (Erwan les touche à l'écran) + 1 ou 2 leurres corrects ;
    - la dictée n°2 est un autre texte, qui contient elle aussi tous les mots ; elle peut réintégrer 2 ou 3 mots difficiles des semaines passées (voir l'archive des mots dans le vault).
-6. Ajoute la semaine en haut du journal de la note du vault **« 📒 Archive des mots de dictée — Erwan »** (règle et **tous** les mots), selon le modèle de section de la note, et la règle dans « Règles déjà travaillées ».
+6. Ajoute la semaine en haut du journal de la note du vault **« 📒 Archive des mots de dictée — Erwan »** (règle et **tous** les mots), selon le modèle de section de la note, et la règle dans « Règles déjà travaillées ». Ajoute aussi la règle (et son « À retenir ») dans **« 📚 Leçons — Erwan (CM1 2026-2027) »**.
 7. Les anciennes semaines ne restent pas dans `PUBLIE` : seule la semaine en cours y figure (le carnet des mots difficiles vit dans la tablette).
 
 ## Tâche « leçon » (photo d'une leçon, souvent prise par Erwan)
@@ -55,6 +55,7 @@ pack = {texteA, surveiller:[…], texteB, erreursB:[{faute (telle qu'écrite dan
 - `id` : `matiere-sujet-AAAA-MM` (ex. `fr-types-phrases-2026-09`), jamais réutilisé. `echeance` si Thibaud donne la date du contrôle.
 - Chaque leçon passe 3 fois automatiquement (J, J+1, J+3 ou veille de l'échéance). Retire de `PUBLIE` les leçons terminées depuis plus de 3 semaines.
 - **Avant de publier, envoie à Thibaud un résumé court** (titre, essentiel, points douteux) et attends son accord.
+- Ajoute la leçon en haut de **« 📚 Leçons — Erwan (CM1 2026-2027) »** (transcription fidèle, essentiel, à réciter, points douteux, id Holocron, suivi).
 
 ## Tâche « mots faux » (maman a vérifié le cahier, surtout le jeudi)
 Thibaud t'envoie les mots faux (liste ou photo du cahier corrigé). Ajoute-les dans `semaine.rates`, **écrits exactement comme dans `semaine.mots`** (avec l'article), sans doublon, puis publie : ils passent en tête des révisions du vendredi et du lundi. Reporte-les aussi dans « Mots qui ont résisté » de l'archive du vault. (Les parents peuvent aussi les saisir eux-mêmes dans l'espace parents de la tablette.)
@@ -74,7 +75,10 @@ Pas de modification de l'appli. Réponds à Thibaud avec : les mots mal orthogra
 3. Réponds à Thibaud en 3 à 5 lignes : ce qui a été chargé, ce qu'Erwan verra à sa prochaine séance, les points à vérifier. Rappelle-lui, si c'est le cas, que la tablette doit être rouverte (fermer complètement l'appli).
 
 ## Liens avec le vault de Thibaud
+**Règle permanente : chaque fois que Thibaud partage un contenu de la maîtresse** (feuille de dictée, leçon, encadré « À retenir », exercice, évaluation, mot du cahier de liaison sur le travail), **mets à jour la note du vault « 📚 Leçons — Erwan (CM1 2026-2027) »**, même si le contenu n'est pas (encore) chargé dans le Holocron : une section par contenu, la plus récente en haut, selon le modèle de section de la note (transcription fidèle, essentiel, à réciter, points douteux, id Holocron s'il y en a un, suivi). Pour une feuille de dictée : la règle et son « À retenir » vont dans cette note, la liste des mots dans l'archive des mots (et un renvoi entre les deux). Mets aussi à jour le « Suivi » d'une leçon quand elle passe dans le Holocron ou quand une date de contrôle est connue.
+
 Notes de référence, dans `02 - Areas/Famille/Erwan/` :
+- **« 📚 Leçons — Erwan (CM1 2026-2027) »** : tout le contenu de la maîtresse partagé avec Claude (voir la règle ci-dessus).
 - **« 💠 Holocron — mode d'emploi »** : les règles de l'appli, pour les parents et pour toi. Si tu fais évoluer l'appli (sur demande), mets à jour cette note et ajoute une ligne datée dans ses « Décisions & jalons ».
 - **« Dictées d'entraînement/📒 Archive des mots de dictée — Erwan »** : l'archive de toutes les feuilles, à tenir à jour (voir les tâches ci-dessus).
 - **« Dictées d'entraînement/🔄 Cycle dictée hebdo — Erwan »** et **« 00 - Note d'Area - Erwan »** : lecture seulement, sauf demande de Thibaud.
