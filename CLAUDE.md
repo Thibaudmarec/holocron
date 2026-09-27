@@ -19,7 +19,7 @@ PUBLIE = {
   semaine: { id:"AAAA-MM-JJ" (le MERCREDI du cycle), titre, regle:{titre, resume},
              mots:[{mot, phrase}], pieges:[{phrase:"… ___ …", options:[2 ou 3], reponse, test}] },
   lecons:  [{ id (unique, jamais réutilisé), titre, matiere, echeance?:"AAAA-MM-JJ",
-              essentiel:[3-5 phrases], recite:[{q, r}] (3-5),
+              essentiel:[3-5 phrases], recite:[{q, r, options:[r + 2 réponses proches]}] (3-5),
               souvenir:[QCM] (5-6), compris:[QCM] (5-6), ouvertures:[{texte, question}] (2-3) }],
   packs:   { cycle:"AAAA-MM-JJ" (mercredi), pack1:{…}, pack2:{…} },
   deck:    null ou [{mot, emoji}] (vocabulaire anglais)
@@ -42,7 +42,7 @@ pack = {texteA, surveiller:[…], texteB, erreursB:[{faute (telle qu'écrite dan
 
 ## Tâche « leçon » (photo d'une leçon, souvent prise par Erwan)
 - Transcris fidèlement (souvent manuscrit, au crayon). Si un passage est illisible ou semble faux, **signale-le à Thibaud** au lieu d'inventer.
-- `essentiel` et questions **strictement dans le contenu de la leçon** ; `compris` = appliquer à un cas nouveau ; `recite` = ce qui se sait par cœur (définitions, règles, listes) ; `ouvertures` = un fait **exact et vérifiable**, adapté à 9 ans, + une question ouverte (une ouverture par passage).
+- `essentiel` et questions **strictement dans le contenu de la leçon** ; `compris` = appliquer à un cas nouveau ; `recite` = ce qui se sait par cœur (définitions, règles, listes) : Erwan récite à voix haute puis **choisit la bonne réponse** parmi `options` = la réponse exacte `r` + 2 réponses **proches** (un seul détail faux : un mot, une lettre, un élément de liste en trop ou en moins). **Jamais d'auto-évaluation** (« je la savais / je ne la savais pas ») : la seule auto-correction admise est la comparaison des mots écrits sur le cahier ; `ouvertures` = un fait **exact et vérifiable**, adapté à 9 ans, + une question ouverte (une ouverture par passage).
 - `id` : `matiere-sujet-AAAA-MM` (ex. `fr-types-phrases-2026-09`), jamais réutilisé. `echeance` si Thibaud donne la date du contrôle.
 - Chaque leçon passe 3 fois automatiquement (J, J+1, J+3 ou veille de l'échéance). Retire de `PUBLIE` les leçons terminées depuis plus de 3 semaines.
 - **Avant de publier, envoie à Thibaud un résumé court** (titre, essentiel, points douteux) et attends son accord.

@@ -34,7 +34,8 @@ const ids=new Set();
   if(l.echeance && !/^\d{4}-\d{2}-\d{2}$/.test(l.echeance)) err("échéance invalide : "+l.id);
   if(!(l.essentiel||[]).length) err("leçon "+l.id+" sans essentiel");
   ["souvenir","compris"].forEach(k=>(l[k]||[]).forEach((q,j)=>{ if(!q.q||!Array.isArray(q.options)||q.options.indexOf(q.reponse)<0) err("leçon "+l.id+" "+k+" "+j+" : réponse absente des options"); }));
-  (l.recite||[]).forEach((q,j)=>{ if(!q.q||!q.r) err("leçon "+l.id+" recite "+j+" incomplet"); });
+  (l.recite||[]).forEach((q,j)=>{ if(!q.q||!q.r) err("leçon "+l.id+" recite "+j+" incomplet");
+    else if(!Array.isArray(q.options)||q.options.length<3||q.options.indexOf(q.r)<0) err("leçon "+l.id+" recite "+j+" : il faut options = [r + au moins 2 réponses proches]"); });
 });
 if(P.packs){
   if(new Date(P.packs.cycle+"T12:00:00").getDay()!==3) err("packs.cycle doit être un mercredi");
@@ -46,7 +47,7 @@ console.log("✓ Contenu cohérent ("+((P.semaine&&P.semaine.mots)||[]).length+"
 
 /* ---------- 2. Simulation de séances ---------- */
 let stock=null;
-async function seance(date){
+async function seance(date,avecMots){
   const dom=new JSDOM(html,{runScripts:"dangerously",url:"https://holocron.test/",beforeParse(w){
     const RD=w.Date, fixe=new RD(date).getTime();
     class FD extends RD{constructor(...a){ if(a.length===0) super(fixe); else super(...a);} static now(){return fixe;}}
@@ -62,9 +63,10 @@ async function seance(date){
   await pause(100);
   const go=d.querySelector('#go'); assert(go,date+" : bouton de séance absent");
   go.click(); await pause(30);
-  let k=0;
+  let k=0, dicte=0;
   for(let n=0;n<200;n++){
     const c=d.querySelector('#carte'); if(!c) break;
+    if(/Mot n°/.test(c.textContent) && d.querySelector('#suite')) dicte++;
     const v=d.querySelector('#verif');
     if(v&&v.disabled){ await pause(700); continue; }
     const s=d.querySelector('#suite'); if(s){ s.click(); await pause(5); continue; }
@@ -75,6 +77,7 @@ async function seance(date){
   await pause(150);
   assert(d.querySelector('.bilan'),date+" : la séance n'arrive pas au bilan");
   assert.deepStrictEqual(errs,[],date+" : erreurs JavaScript "+errs.join(" | "));
+  if(avecMots) assert(dicte>0,date+" : aucun mot dicté dans la séance");
   stock=w.localStorage.getItem('holocron-v2');
   console.log("✓ Séance du "+date.slice(0,10)+" ("+d.querySelector('.gros').textContent+" points)");
   w.close();
@@ -82,7 +85,8 @@ async function seance(date){
 (async()=>{
   const base=P.semaine ? new Date(P.semaine.id+"T12:00:00") : new Date();
   const jour=(n,h)=>{ const x=new Date(base); x.setDate(x.getDate()+n); return x.toISOString().slice(0,10)+"T"+h; };
-  for(const [n,h] of [[0,"18:40:00"],[1,"17:00:00"],[2,"17:00:00"],[5,"18:40:00"],[6,"18:40:00"]]) await seance(jour(n,h));
+  /* mer, jeu, ven, sam, dim, lun, mar — du jeudi au lundi, la séance doit dicter des mots */
+  for(const [n,h] of [[0,"18:40:00"],[1,"17:00:00"],[2,"17:00:00"],[3,"10:00:00"],[4,"10:00:00"],[5,"18:40:00"],[6,"18:40:00"]]) await seance(jour(n,h), n>=1&&n<=5);
   console.log("✓ Tous les tests passent");
   process.exit(0);
 })().catch(e=>{ console.error("ÉCHEC : "+e.message); process.exit(1); });

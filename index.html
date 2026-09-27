@@ -540,23 +540,48 @@ var PUBLIE = {
    "recite": [
     {
      "q": "Quand met-on un s à « vingt » et à « cent » ?",
-     "r": "Quand ils sont multipliés et qu'il n'y a rien après. Exemples : cinq-cents, quatre-vingts."
+     "r": "Quand ils sont multipliés et qu'il n'y a rien après. Exemples : cinq-cents, quatre-vingts.",
+     "options": [
+      "Quand ils sont multipliés et qu'il n'y a rien après. Exemples : cinq-cents, quatre-vingts.",
+      "Quand ils sont multipliés, même si un nombre suit. Exemples : cinq-cents-deux, quatre-vingts-deux.",
+      "Toujours quand ils sont au pluriel. Exemples : cinq-cents, quatre-vingts-un."
+     ]
     },
     {
      "q": "Comment relie-t-on les mots d'un nombre écrit en lettres ?",
-     "r": "Avec des tirets : trois-cent-quarante-et-un."
+     "r": "Avec des tirets : trois-cent-quarante-et-un.",
+     "options": [
+      "Avec des tirets : trois-cent-quarante-et-un.",
+      "Avec des tirets, sauf autour de « et » : trois-cent-quarante et un.",
+      "Avec des espaces : trois cent quarante et un."
+     ]
     },
     {
      "q": "Est-ce que « mille » prend un s ?",
-     "r": "Jamais : trois-mille ans."
+     "r": "Jamais : trois-mille ans.",
+     "options": [
+      "Jamais : trois-mille ans.",
+      "Oui, quand il est multiplié : trois-milles ans.",
+      "Seulement quand il n'y a rien après : trois-milles."
+     ]
     },
     {
      "q": "Cite les nombres de onze à seize.",
-     "r": "Onze, douze, treize, quatorze, quinze, seize."
+     "r": "Onze, douze, treize, quatorze, quinze, seize.",
+     "options": [
+      "Onze, douze, treize, quatorze, quinze, seize.",
+      "Onze, douze, treize, quatorse, quinze, seize.",
+      "Onze, douze, treize, quatorze, quinze, seize, dix-sept."
+     ]
     },
     {
      "q": "Cite les dizaines de vingt à soixante.",
-     "r": "Vingt, trente, quarante, cinquante, soixante."
+     "r": "Vingt, trente, quarante, cinquante, soixante.",
+     "options": [
+      "Vingt, trente, quarante, cinquante, soixante.",
+      "Vingt, trente, quarente, cinquante, soixante.",
+      "Vingt, trente, quarante, cinquante, soixante, septante."
+     ]
     }
    ],
    "souvenir": [
@@ -688,19 +713,39 @@ var PUBLIE = {
    "recite": [
     {
      "q": "Quels sont les 4 types de phrases ?",
-     "r": "La phrase déclarative, la phrase interrogative, la phrase impérative et la phrase exclamative."
+     "r": "La phrase déclarative, la phrase interrogative, la phrase impérative et la phrase exclamative.",
+     "options": [
+      "La phrase déclarative, la phrase interrogative, la phrase impérative et la phrase exclamative.",
+      "La phrase déclarative, la phrase interrogative, la phrase négative et la phrase exclamative.",
+      "La phrase déclarative, la phrase interrogative, la phrase impérative et la phrase affirmative."
+     ]
     },
     {
      "q": "Quels sont les 3 moyens de former une phrase interrogative ?",
-     "r": "Inverser le sujet et le verbe, utiliser « est-ce que », ou utiliser un mot interrogatif."
+     "r": "Inverser le sujet et le verbe, utiliser « est-ce que », ou utiliser un mot interrogatif.",
+     "options": [
+      "Inverser le sujet et le verbe, utiliser « est-ce que », ou utiliser un mot interrogatif.",
+      "Inverser le sujet et le verbe, utiliser « est-ce que », ou mettre un point d'exclamation.",
+      "Inverser le verbe et le complément, utiliser « est-ce que », ou utiliser un mot interrogatif."
+     ]
     },
     {
      "q": "À quoi sert la phrase impérative ?",
-     "r": "À donner un conseil, un ordre ou une interdiction."
+     "r": "À donner un conseil, un ordre ou une interdiction.",
+     "options": [
+      "À donner un conseil, un ordre ou une interdiction.",
+      "À donner un conseil, un ordre ou une information.",
+      "À poser une question, donner un ordre ou une interdiction."
+     ]
     },
     {
      "q": "Par quoi se termine chaque type de phrase ?",
-     "r": "Déclarative : un point. Interrogative : un point d'interrogation. Impérative : un point ou un point d'exclamation. Exclamative : un point d'exclamation."
+     "r": "Déclarative : un point. Interrogative : un point d'interrogation. Impérative : un point ou un point d'exclamation. Exclamative : un point d'exclamation.",
+     "options": [
+      "Déclarative : un point. Interrogative : un point d'interrogation. Impérative : un point ou un point d'exclamation. Exclamative : un point d'exclamation.",
+      "Déclarative : un point. Interrogative : un point d'interrogation. Impérative : toujours un point d'exclamation. Exclamative : un point d'exclamation.",
+      "Déclarative : un point. Interrogative : un point d'interrogation. Impérative : un point ou un point d'exclamation. Exclamative : un point."
+     ]
     }
    ],
    "souvenir": [
@@ -1046,6 +1091,11 @@ function motsRates(){
   (D.contrat.ratesPapier||[]).forEach(function(m){ set[norm(m)]=true; });
   return set;
 }
+function motsVus(){
+  var set={};
+  D.seances.forEach(function(s){ if(s.contenu!==D.contenu.id || s.date<D.cycle) return; (s.motsVus||[]).forEach(function(m){ set[norm(m)]=true; }); });
+  return set;
+}
 function piegesRates(){
   var set={};
   D.seances.forEach(function(s){ if(s.contenu!==D.contenu.id || s.date<D.cycle) return; (s.pieges||[]).forEach(function(p){ if(p.r==="regle" && p.src) set[p.src]=true; }); });
@@ -1206,6 +1256,15 @@ function composer(jour){
   if(jour===3) dictee=[it("decouverte",null)];
   else if(jour===4) dictee=cahier(melange(mots).slice(0,12)).concat(tirer(pieges,6).map(function(d){return it("piege",d);}));
   else if(jour===5) dictee=cahier(prioriser(mots,rm,5).concat(anciensMots(2)));
+  else if(jour===6 || jour===0){
+    /* Week-end : préparation de la dictée. Mots ratés d'abord, puis ceux pas encore dictés dans le Holocron cette semaine. */
+    var vus=motsVus(), pr=pieges.filter(function(x){ return rp[x.phrase]; });
+    var ordre=melange(mots.filter(function(m){ return rm[norm(m.mot)]; }))
+      .concat(melange(mots.filter(function(m){ return !rm[norm(m.mot)] && !vus[norm(m.mot)]; })))
+      .concat(melange(mots.filter(function(m){ return !rm[norm(m.mot)] && vus[norm(m.mot)]; })));
+    dictee=cahier(ordre.slice(0,8).concat(anciensMots(jour===0?2:1)))
+      .concat(melange(pr).concat(melange(pieges.filter(function(x){ return !rp[x.phrase]; }))).slice(0,jour===0?4:3).map(function(d){return it("piege",d);}));
+  }
   else if(jour===1){
     var p=pieges.filter(function(x){ return rp[x.phrase]; }), m=mots.filter(function(x){ return rm[norm(x.mot)]; });
     dictee=cahier((m.length?melange(m):tirer(mots,5)).slice(0,7).concat(anciensMots(3)))
@@ -1225,6 +1284,8 @@ var TEXTES_INTRO={
   dictee:{3:"Ce soir, on découvre la feuille de la maîtresse. Tu vas lire la règle, lire les mots, et repérer les pièges.",
           4:"Prépare ton cahier et ton crayon. Je te dicte les mots, tu les écris bien lisiblement, tu te relis tout seul, puis on corrige ensemble. Ensuite, quelques phrases pièges sur la règle.",
           5:"Petite révision pour ne pas oublier. Prépare ton cahier : je dicte, tu écris, tu te relis.",
+          6:"On prépare la dictée de mardi. Prépare ton cahier : je te dicte d'abord les mots qui t'ont résisté et ceux qu'on n'a pas encore travaillés, puis quelques phrases pièges.",
+          0:"On prépare la dictée de mardi. Prépare ton cahier : je te dicte d'abord les mots qui t'ont résisté et ceux qu'on n'a pas encore travaillés, puis quelques phrases pièges.",
           1:"On réactive tes pièges avant la dictée de demain. Prépare ton cahier : seulement les mots qui t'ont résisté."},
   lecon:"D'abord l'essentiel, à lire à voix haute. Ensuite tu récites sans regarder, puis tu réponds aux questions pour vérifier que tu as retenu et compris.",
   anglais:"Listen to the word and tap the right picture. Then say it out loud, two times."
@@ -1399,42 +1460,44 @@ function vueEssentiel(x){
 function vueRecite(x){
   var q=x.d;
   carte('<p class="consigne">Récite à voix haute, sans regarder ta leçon.</p><p class="phrase">'+esc(q.q)+'</p>'+
-    '<button class="btn principal" id="verif">J\'ai récité, montre la réponse</button><div class="retour" id="retour" aria-live="polite"></div>');
+    '<button class="btn principal" id="verif">J\'ai récité, je choisis la réponse</button><div class="retour" id="retour" aria-live="polite"></div>');
   parler(q.q+" Récite à voix haute.");
   $("#verif").onclick=function(){
-    var bt=this; bt.remove();
-    var rep=document.createElement("div"); rep.className="regle-carte"; rep.innerHTML="<strong>La réponse :</strong><p>"+esc(q.r)+"</p>";
+    this.remove();
+    var ops=(q.options||[]).indexOf(q.r)>=0 ? q.options : null;
+    if(!ops){ /* ancien format sans réponses proches : on montre la réponse, sans auto-évaluation */
+      var rep=document.createElement("div"); rep.className="regle-carte"; rep.innerHTML="<strong>La réponse :</strong><p>"+esc(q.r)+"</p>";
+      var r=$("#retour"); r.parentNode.insertBefore(rep,r); parler(q.r); suivant(); return;
+    }
+    var p=document.createElement("p"); p.className="consigne"; p.textContent="Laquelle est exactement la bonne réponse ?";
     var ch=document.createElement("div"); ch.className="choix colonne";
-    ch.innerHTML='<button class="btn opt" data-v="su">✓ Je la savais</button><button class="btn opt" data-v="presque">≈ Presque</button><button class="btn opt" data-v="non">✗ Je ne la savais pas</button>';
-    var r=$("#retour"); r.parentNode.insertBefore(rep,r); r.parentNode.insertBefore(ch,r);
-    parler(q.r+". Tu la savais ?");
-    ch.querySelectorAll(".opt").forEach(function(b){
-      b.onclick=function(){
-        verrouiller(); b.classList.add(b.dataset.v==="non"?"barre-x":"juste");
-        if(b.dataset.v==="su"){ gagner(2); S.lecOk.push(q.q); retour("Bravo ! +2","bon"); parler("Bravo !"); }
-        else if(b.dataset.v==="presque"){ gagner(1); S.lecRates.push(q.q); retour("Presque ! +1. Elle reviendra au prochain passage.","bon"); parler("Presque ! Elle reviendra au prochain passage."); }
-        else { S.lecRates.push(q.q); S.pieges.push({r:"lecon",x:q.q+" → "+q.r}); retour("Pas grave : relis la réponse à voix haute. Elle reviendra au prochain passage.","warn"); parler("Pas grave. Relis la réponse à voix haute."); }
-        suivant();
-      };
-    });
+    ch.innerHTML=melange(ops).map(function(o){ return '<button class="btn opt" data-o="'+esc(o)+'">'+esc(o)+'</button>'; }).join("");
+    var r2=$("#retour"); r2.parentNode.insertBefore(p,r2); r2.parentNode.insertBefore(ch,r2);
+    parler("Laquelle est exactement la bonne réponse ?");
+    brancherChoix(x,{q:q.q, reponse:q.r, options:ops, explication:""});
   };
+}
+/* Choix parmi des réponses proches : 2 points du premier coup, 1 point au 2e essai, sinon la bonne réponse est montrée. */
+function brancherChoix(x,q){
+  x.essais=0;
+  document.querySelectorAll(".opt").forEach(function(b){
+    b.onclick=function(){
+      if(b.dataset.o===q.reponse){ if(x.essais===0) S.lecOk.push(q.q); else S.lecRates.push(q.q); parler((x.essais===0?"Bien vu ! ":"Rattrapé ! ")+(q.explication||"")); var g=x.essais===0?2:1; gagner(g); verrouiller(); b.classList.add("juste"); retour((x.essais===0?"Bien vu ! +2":"Rattrapé ! +1")+(q.explication?"<br>"+esc(q.explication):""),"bon"); suivant(); }
+      else if(x.essais===0 && q.options.length>2){ x.essais=1; b.disabled=true; b.classList.add("barre-x"); retour("Pas tout à fait. Relis bien et réfléchis encore.","warn"); parler("Pas tout à fait. Réfléchis encore."); }
+      else { verrouiller(); b.classList.add("barre-x");
+        document.querySelectorAll(".opt").forEach(function(y){ if(y.dataset.o===q.reponse) y.classList.add("juste"); });
+        S.pieges.push({r:"lecon",x:q.q+" → "+q.reponse}); S.lecRates.push(q.q); retour("La bonne réponse : « "+esc(q.reponse)+" ». "+esc(q.explication||"")+" Relis-la à voix haute.","warn"); parler("La bonne réponse était : "+q.reponse+". "+(q.explication||"")); suivant(); }
+    };
+  });
 }
 
 function vueQcm(x){
-  var q=x.d; x.essais=0;
+  var q=x.d;
   carte('<p class="consigne">'+esc(x.niveau)+'</p><p class="phrase">'+esc(q.q)+'</p>'+
     '<div class="choix">'+melange(q.options).map(function(o){ return '<button class="btn opt" data-o="'+esc(o)+'">'+esc(o)+'</button>'; }).join("")+'</div>'+
     '<div class="retour" id="retour" aria-live="polite"></div>');
   parler(q.q);
-  document.querySelectorAll(".opt").forEach(function(b){
-    b.onclick=function(){
-      if(b.dataset.o===q.reponse){ if(x.essais===0) S.lecOk.push(q.q); else S.lecRates.push(q.q); parler((x.essais===0?"Bien vu ! ":"Rattrapé ! ")+(q.explication||"")); var g=x.essais===0?2:1; gagner(g); verrouiller(); b.classList.add("juste"); retour((x.essais===0?"Bien vu ! +2":"Rattrapé ! +1")+"<br>"+esc(q.explication||""),"bon"); suivant(); }
-      else if(x.essais===0 && q.options.length>2){ x.essais=1; b.disabled=true; b.classList.add("barre-x"); retour("Pas tout à fait. Relis la question et réfléchis encore.","warn"); parler("Pas tout à fait. Réfléchis encore."); }
-      else { verrouiller(); b.classList.add("barre-x");
-        document.querySelectorAll(".opt").forEach(function(y){ if(y.dataset.o===q.reponse) y.classList.add("juste"); });
-        S.pieges.push({r:"lecon",x:q.q+" → "+q.reponse}); S.lecRates.push(q.q); retour("La bonne réponse : « "+esc(q.reponse)+" ». "+esc(q.explication||""),"warn"); parler("La bonne réponse était : "+q.reponse+". "+(q.explication||"")); suivant(); }
-    };
-  });
+  brancherChoix(x,q);
 }
 
 function vueOuverture(x){
@@ -1451,7 +1514,8 @@ function fin(tempsEcoule){
   var s=S; S=null;
   var existant=D.seances.find(function(x){ return x._id===s.id; })||{};
   var doc={date:D.today, cycle:D.cycle, contenu:existant.contenu||D.contenu.id, debut:existant.debut||Date.now(), fin:s.fin,
-    termine:true, complet:!tempsEcoule, points:s.points, pieges:s.pieges, missions:s.missions, ouvertures:s.ouvertures, lecon:s.leconFaite||null};
+    termine:true, complet:!tempsEcoule, points:s.points, pieges:s.pieges, missions:s.missions, ouvertures:s.ouvertures, lecon:s.leconFaite||null,
+    motsVus:(s.resMots||[]).map(function(r){ return r.mot; })};
   vueChargement("Le Holocron enregistre ta séance…");
   var p=Store.set("seances/"+s.id,doc);
   if(s.leconFaite){
