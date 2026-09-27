@@ -61,7 +61,9 @@ async function seance(date,avecMots){
   w.addEventListener('error',e=>errs.push(e.message));
   const pause=(ms)=>new Promise(r=>setTimeout(r,ms));
   await pause(100);
-  const go=d.querySelector('#go'); assert(go,date+" : bouton de séance absent");
+  const go=d.querySelector('#go');
+  if(!go && !avecMots && /Pas de séance à l'écran/.test(d.body.textContent)){ console.log("✓ "+date.slice(0,10)+" : pas de séance prévue"); w.close(); return; }
+  assert(go,date+" : bouton de séance absent");
   go.click(); await pause(30);
   let k=0, dicte=0;
   for(let n=0;n<200;n++){

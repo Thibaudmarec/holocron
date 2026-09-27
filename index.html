@@ -975,6 +975,7 @@ var JOURS = {
   2:{court:"Mar", nom:"Mardi", etape:"Dictée en classe", mission:null, slot:false}
 };
 var NB_ANGLAIS = {3:4,4:4,5:3,6:5,0:5,1:3,2:5};
+var ANGLAIS_ACTIF = false; /* mis en pause le 2026-09-27 (décision Thibaud) : à réactiver avec le plan anglais */
 
 /* ================= OUTILS ================= */
 function $(s){ return document.querySelector(s); }
@@ -1220,6 +1221,7 @@ function vueAccueil(){
   document.documentElement.style.setProperty("--charge",charge.toFixed(2));
   var cfg=JOURS[dowOf(D.today)], active=seanceActive(), action;
   if(active) action='<button class="btn principal" id="go">Reprendre ma séance</button><p class="note">Il reste '+fmt(active.fin-Date.now())+'.</p>';
+  else if(!composer(dowOf(D.today)).items.length) action='<p class="fait">Pas de séance à l\'écran aujourd\'hui.</p>';
   else if(peutCommencer()) action='<button class="btn principal" id="go">Commencer ma séance</button><p class="note">15 minutes au maximum.</p>';
   else action='<p class="fait">Séance du jour terminée.</p><p class="note">Le Holocron se recharge. Prochaine séance demain.</p>';
   app.innerHTML='<header>'+cube()+
@@ -1228,11 +1230,28 @@ function vueAccueil(){
     '<div class="jauge" role="img" aria-label="Énergie '+e+' sur '+obj+'"><div style="width:'+(charge*100)+'%"></div></div>'+
     '<p class="energie"><strong>'+e+'</strong> points d\'énergie cette semaine, objectif '+obj+'</p>'+
     '<p class="jour">'+cfg.nom+'<span>'+esc(cfg.etape)+'</span></p>'+
-    '</header><section class="action">'+action+'</section>'+
+    '</header><section class="action">'+action+(active?'':blocPapier())+'</section>'+
     tableauHTML()+
     '<footer>'+boutonGuide()+' <button class="lien" id="parents">Espace parents</button></footer>';
   var go=$("#go"); if(go) go.onclick=function(){ demarrer(active); };
+  brancherPapier(vueAccueil);
   $("#parents").onclick=vueCode; brancherGuide();
+}
+
+/* Dictée papier du week-end avec papa : Erwan confirme lui-même qu'elle est faite (même coche que dans l'espace parents, qui peut la décocher). */
+function papierDuJour(){ var j=dowOf(D.today); return j===6?"sam":j===0?"dim":null; }
+function blocPapier(){
+  var k=papierDuJour(); if(!k || D.today<LANCEMENT) return '';
+  if(D.contrat[k]) return '<p class="note">✓ Dictée papier n°'+(k==="sam"?1:2)+' avec papa : faite.</p>';
+  return '<div class="papier" id="blocPapier"><p class="note">Ta dictée papier n°'+(k==="sam"?1:2)+' avec papa est faite ?</p>'+
+    '<button class="btn" id="papier">✓ Oui, je l\'ai faite</button></div>';
+}
+function brancherPapier(apres){
+  var b=$("#papier"); if(!b) return;
+  b.onclick=function(){
+    var k=papierDuJour(), c=clone(D.contrat)||{}; c[k]=true; b.disabled=true;
+    Store.set("contrat/"+D.cycle,c).then(function(){ D.contrat=c; parler("Dictée papier notée. Bravo !"); if(apres) apres(); else $("#blocPapier").innerHTML='<p class="fait">Dictée papier notée. Bravo !</p>'; });
+  };
 }
 
 /* ================= COMPOSITION DE LA SÉANCE ================= */
@@ -1275,7 +1294,7 @@ function composer(jour){
     var L=D.leconDuJour, np=etatLecon(L.id).passages.length+1;
     blocs.push({cle:"lecon", nom:"La leçon : "+(L.titre||L.matiere||"du jour")+" ("+(np===1?"1er":np+"e")+" passage sur "+NB_PASSAGES+")", items:itemsLecon(L), lecon:L._id});
   }
-  blocs.push({cle:"anglais", nom:"English ear", items:tirer(D.deck,NB_ANGLAIS[jour]||4).map(function(d){return it("en",d);})});
+  if(ANGLAIS_ACTIF) blocs.push({cle:"anglais", nom:"English ear", items:tirer(D.deck,NB_ANGLAIS[jour]||4).map(function(d){return it("en",d);})});
   var items=[];
   blocs.forEach(function(b,i){ items.push({t:"intro",bloc:b,num:i+1,total:blocs.length}); b.items.forEach(function(x){ x.bloc=b; x.num=i+1; x.total=blocs.length; items.push(x); }); });
   return {items:items, blocs:blocs};
@@ -1541,8 +1560,8 @@ function vueBilan(doc,tempsEcoule,erreur){
   app.innerHTML='<section class="bilan">'+cube()+'<h2>'+(tempsEcoule?"Temps écoulé : la séance s'arrête là.":"Séance terminée")+'</h2>'+
     '<p class="gros">+'+doc.points+'</p><p>points de Force. Note-les dans ton carnet Jedi.</p>'+(doc.cahier?'<p class="suite">Montre ton cahier à maman.</p>':'')+liste+
     (erreur?'<p class="retour warn">Attention : la séance n\'a pas pu être enregistrée. Préviens maman.</p>':'')+
-    '<p class="suite">'+suite+'</p><button class="btn principal" id="acc">Retour au Holocron</button></section>';
-  $("#acc").onclick=vueAccueil; $("#acc").focus();
+    blocPapier()+'<p class="suite">'+suite+'</p><button class="btn principal" id="acc">Retour au Holocron</button></section>';
+  $("#acc").onclick=vueAccueil; $("#acc").focus(); brancherPapier();
 }
 
 setInterval(function(){

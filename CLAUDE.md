@@ -22,7 +22,7 @@ PUBLIE = {
               essentiel:[3-5 phrases], recite:[{q, r, options:[r + 2 réponses proches]}] (3-5),
               souvenir:[QCM] (5-6), compris:[QCM] (5-6), ouvertures:[{texte, question}] (2-3) }],
   packs:   { cycle:"AAAA-MM-JJ" (mercredi), pack1:{…}, pack2:{…} },
-  deck:    null ou [{mot, emoji}] (vocabulaire anglais)
+  deck:    null ou [{mot, emoji}] (vocabulaire anglais — module en pause : ANGLAIS_ACTIF = false)
 }
 QCM = {q, options:[3], reponse (recopiée à l'identique d'une option), explication (1 phrase bienveillante)}
 pack = {texteA, surveiller:[…], texteB, erreursB:[{faute (telle qu'écrite dans texteB), correction, test}], leurres:[…]}
