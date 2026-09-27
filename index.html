@@ -2032,7 +2032,7 @@ function vueParents(){
   '<div class="retour" id="retCoches" aria-live="polite"></div></section>'+
 
   '<section><h3>Carnet des mots difficiles</h3>'+
-  '<p class="petit">Chaque mot faux ou rattrapé y entre. Il en sort après avoir été écrit juste du premier coup '+SORTIE_CARNET+' fois de suite. Les anciens mots reviennent le vendredi et le lundi.'+(D.carnetSortis?' Déjà sortis du carnet : '+D.carnetSortis+'.':'')+'</p>'+
+  '<p class="petit">Chaque mot faux ou rattrapé y entre. Il en sort après avoir été écrit juste du premier coup '+SORTIE_CARNET+' fois de suite. Les anciens mots reviennent dans la dictée du lundi.'+(D.carnetSortis?' Déjà sortis du carnet : '+D.carnetSortis+'.':'')+'</p>'+
   (D.carnet && D.carnet.length ? '<div class="tableau"><table><thead><tr><th>Mot</th><th>Série</th><th>Depuis</th></tr></thead><tbody>'+
     D.carnet.map(function(x){ return '<tr><td>'+esc(x.mot)+'</td><td>'+(x.serie||0)+' / '+SORTIE_CARNET+'</td><td>'+dateFr(x.ajoute)+'</td></tr>'; }).join("")+'</tbody></table></div>'
     : '<p>Le carnet est vide pour l\'instant.</p>')+
