@@ -213,7 +213,7 @@ details summary{cursor:pointer;font-weight:700;margin:.6rem 0}
 
 /* ================= RÉGLAGES ================= */
 var CODE_PARENTS = "2808";
-var DUREE_MIN = 15;
+var DUREE_MIN = 30;                     // 30 min par défaut depuis le 08/10 (décision Thibaud)
 var DUREE_WEEKEND = 30;                 // grande dictée Star Wars du samedi et du dimanche (tous les mots)
 var LANCEMENT = "2026-10-07";          // premier mercredi du contrat (validé avec Blandine le 4/10)
 var GAME_SLOT = "1h de jeu";
@@ -762,7 +762,12 @@ var PUBLIE = {
     "test": "Qui est ancienne ? la langue (elle), pas « les Gaulois » : « est »."
    }
   ],
-  "rates": []
+  "rates": [
+   "les Gaulois",
+   "diriger",
+   "enseigner",
+   "un territoire"
+  ]
  },
  "lecons": [
   {
@@ -1462,6 +1467,26 @@ var PUBLIE = {
    "mot": "le Néolithique",
    "phrase": "Au Néolithique, les hommes ont dressé des menhirs.",
    "semaine": "avant"
+  },
+  {
+   "mot": "les Gaulois",
+   "phrase": "Les Gaulois vivaient dans des villages.",
+   "semaine": "2026-10-07"
+  },
+  {
+   "mot": "diriger",
+   "phrase": "Le chef sait diriger sa tribu.",
+   "semaine": "2026-10-07"
+  },
+  {
+   "mot": "enseigner",
+   "phrase": "Les druides aiment enseigner aux enfants.",
+   "semaine": "2026-10-07"
+  },
+  {
+   "mot": "un territoire",
+   "phrase": "Chaque tribu défendait son territoire.",
+   "semaine": "2026-10-07"
   }
  ],
  "deck": null
@@ -1740,7 +1765,7 @@ function vueAccueil(){
   var cfg=JOURS[dowOf(D.today)], active=seanceActive(), action;
   if(active) action='<button class="btn principal" id="go">Reprendre ma séance</button><p class="note">Il reste '+fmt(active.fin-Date.now())+'.</p>';
   else if(!composer(dowOf(D.today)).items.length) action='<p class="fait">Pas de séance à l\'écran aujourd\'hui.</p>';
-  else if(peutCommencer()) action='<button class="btn principal" id="go">Commencer ma séance</button><p class="note">15 minutes au maximum.</p>';
+  else if(peutCommencer()) action='<button class="btn principal" id="go">Commencer ma séance</button><p class="note">'+((dowOf(D.today)===6||dowOf(D.today)===0)?DUREE_WEEKEND:DUREE_MIN)+' minutes au maximum.</p>';
   else action='<p class="fait">Séance du jour terminée.</p><p class="note">Le Holocron se recharge. Prochaine séance demain.</p>';
   app.innerHTML='<header>'+cube()+
     '<h1>Le Holocron d\'Erwan</h1>'+
