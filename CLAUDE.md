@@ -1,7 +1,7 @@
 # Holocron d'Erwan — instructions pour Claude Code
 
 ## Contexte
-- Le Holocron est l'outil d'entraînement quotidien d'**Erwan (9 ans, CM1)** : une séance par jour de 30 minutes maximum, sur sa **tablette Android**, ouverte **sans aucun compte** à l'adresse https://thibaudmarec.github.io/holocron/ (GitHub Pages, branche `main`, fichier `index.html`).
+- Le Holocron est l'outil d'entraînement quotidien d'**Erwan (9 ans, CM1)** : une séance par jour de 30 minutes maximum (1 heure le samedi et le dimanche, pour la grande dictée), sur sa **tablette Android**, ouverte **sans aucun compte** à l'adresse https://thibaudmarec.github.io/holocron/ (GitHub Pages, branche `main`, fichier `index.html`).
 - Tu tournes **sur le PC de Thibaud** (son père), qui te pilote **depuis son téléphone** grâce au contrôle à distance : réponses **courtes, en français**, lisibles sur mobile, sans jargon technique. Il envoie surtout des photos et quelques mots (« feuille », « leçon », « cahier »).
 - Tu as accès à son **vault Obsidian** : `C:\Users\Thibaud\Vault\2nd Cerveau Thibaud`. Respecte les conventions de son `CLAUDE.md` à la racine du vault.
 - Principe éducatif : **la machine prépare, Erwan exécute, les parents valident**. Erwan n'a jamais accès à une IA : tu prépares du contenu fixe, publié dans la page.
