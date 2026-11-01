@@ -31,6 +31,11 @@ if(P.semaine){
     if(!p.test) err("piège "+i+" sans test");
   });
 }
+/* archives des semaines passées (pour les révisions) */
+(P.archives||[]).forEach(a=>{ const n="archive "+a.id;
+  if(!a.id||!(a.mots||[]).length) err(n+" : id ou mots manquants");
+  (a.mots||[]).forEach(m=>{ const v=(m.variantes||[]).filter(x=>x&&x!==m.mot); if(!m.mot||!m.phrase||v.length!==3||new Set(v).size!==3) err(n+" : mot « "+m.mot+" » incomplet (phrase + 3 variantes)"); });
+  (a.pieges||[]).forEach((p,i)=>{ if(!p.phrase||p.phrase.indexOf("___")<0||!Array.isArray(p.options)||p.options.indexOf(p.reponse)<0) err(n+" : piège "+i+" invalide"); }); });
 const vusCarnet=new Set();
 (P.carnet||[]).forEach((x,i)=>{ if(!x.mot||!x.phrase) err("carnet "+i+" : mot ou phrase manquant"); else if(vusCarnet.has(x.mot.toLowerCase())) err("carnet : doublon « "+x.mot+" »"); else vusCarnet.add(x.mot.toLowerCase()); });
 const ids=new Set();
@@ -59,7 +64,7 @@ console.log("✓ Contenu cohérent ("+((P.semaine&&P.semaine.mots)||[]).length+"
 
 /* ---------- 2. Simulation de séances ---------- */
 let stock=null;
-async function seance(date,avecMots){
+async function seance(date,avecMots,revision){
   const dom=new JSDOM(html,{runScripts:"dangerously",url:"https://holocron.test/",beforeParse(w){
     const RD=w.Date, fixe=new RD(date).getTime();
     class FD extends RD{constructor(...a){ if(a.length===0) super(fixe); else super(...a);} static now(){return fixe;}}
@@ -73,12 +78,14 @@ async function seance(date,avecMots){
   w.addEventListener('error',e=>errs.push(e.message));
   const pause=(ms)=>new Promise(r=>setTimeout(r,ms));
   await pause(100);
-  const go=d.querySelector('#go');
+  if(revision){ const rv=d.querySelector('#rev'); assert(rv,date+" : bouton Révisions absent"); rv.click(); await pause(20);
+    const g=d.querySelector('#grande'); assert(g,date+" : grande révision absente"); g.click(); await pause(50); }
+  const go=revision ? {click(){}} : d.querySelector('#go');
   if(!go && !avecMots && /Pas de séance à l'écran/.test(d.body.textContent)){ console.log("✓ "+date.slice(0,10)+" : pas de séance prévue"); w.close(); return; }
   assert(go,date+" : bouton de séance absent");
   go.click(); await pause(30);
   let k=0, dicte=0;
-  for(let n=0;n<200;n++){
+  for(let n=0;n<(revision?800:200);n++){
     const c=d.querySelector('#carte'); if(!c) break;
     if((/Mot n°|Phrase \d+ sur/.test(c.textContent) && d.querySelector('#suite')) || d.querySelector('.orth:not([disabled])')) dicte++;
     const v=d.querySelector('#verif');
@@ -92,8 +99,10 @@ async function seance(date,avecMots){
   assert(d.querySelector('.bilan'),date+" : la séance n'arrive pas au bilan");
   assert.deepStrictEqual(errs,[],date+" : erreurs JavaScript "+errs.join(" | "));
   if(avecMots) assert(dicte>0,date+" : aucun mot dicté dans la séance");
+  const pts=d.querySelector('.gros').textContent;
+  if(revision){ d.querySelector('#acc').click(); await pause(50); assert(d.querySelector('#go'),date+" : après une révision, la séance du jour doit rester possible"); }
   stock=w.localStorage.getItem('holocron-v2');
-  console.log("✓ Séance du "+date.slice(0,10)+" ("+d.querySelector('.gros').textContent+" points)");
+  console.log((revision?"✓ Grande révision du ":"✓ Séance du ")+date.slice(0,10)+" ("+pts+" points)");
   w.close();
 }
 (async()=>{
@@ -101,6 +110,8 @@ async function seance(date,avecMots){
   const jour=(n,h)=>{ const x=new Date(base); x.setDate(x.getDate()+n); return x.toISOString().slice(0,10)+"T"+h; };
   /* mer, jeu, ven, sam, dim, lun, mar — du mercredi au lundi, la séance doit faire travailler les mots */
   for(const [n,h] of [[0,"18:40:00"],[1,"17:00:00"],[2,"17:00:00"],[3,"10:00:00"],[4,"10:00:00"],[5,"18:40:00"],[6,"18:40:00"]]) await seance(jour(n,h), n<=5);
+  await seance(jour(7,"10:00:00"),false,true); /* grande révision (tout, 1 h), puis la séance du jour reste possible */
+  await seance(jour(7,"18:40:00"),false); /* mercredi suivant, feuille pas encore chargée : découverte papier */
   console.log("✓ Tous les tests passent");
   process.exit(0);
 })().catch(e=>{ console.error("ÉCHEC : "+e.message); process.exit(1); });
