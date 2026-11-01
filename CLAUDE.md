@@ -16,6 +16,7 @@ La maîtresse donne le **mercredi** une feuille (une règle d'orthographe + une 
 - Lun : mots les plus durs en choix piégés, puis dictée sur le cahier de ceux qui résistent encore. · Mar : dictée en classe.
 - « Mots les plus durs » = ratés cette semaine (choix piégés, dictées, mots signalés par les parents) d'abord, puis ceux marqués `difficile`.
 - Le Holocron compose seul la séance selon le jour. Tu ne changes que le **contenu**.
+- **Révisions** (bouton de l'accueil, à tout moment) : Erwan ou un parent coche les leçons (`lecons`), les listes de mots (`semaine` + `archives`) et/ou le carnet, choisit 15, 30, 45 ou 60 min, ou lance la « Grande révision » (tout, 1 h). Ça ne compte pas comme séance du jour et ne fait pas avancer les passages des leçons ; les mots ratés vont au carnet.
 
 ## Ce que tu modifies : uniquement l'objet `PUBLIE` en tête du script de `index.html`
 Ne touche au reste du code **que si Thibaud demande explicitement une évolution de l'appli**.
@@ -26,10 +27,12 @@ PUBLIE = {
              mots:[{mot, phrase, variantes:[3 écritures fausses très proches], difficile?:true}],
              pieges:[{phrase:"… ___ …", options:[2 ou 3], reponse, test}],
              rates?:[mots de la liste, écrits comme sur la feuille, signalés faux par maman] },
-  lecons:  [{ id (unique, jamais réutilisé), titre, matiere, echeance?:"AAAA-MM-JJ",
+  lecons:  [{ id (unique, jamais réutilisé), titre, matiere, echeance?:"AAAA-MM-JJ", revisionSeule?:true (leçon passée :
+              seulement dans « Révisions », jamais programmée dans les séances du jour ; ouvertures facultatives),
               essentiel:[3-5 phrases], recite:[{q, r, options:[r + 2 réponses proches]}] (3-5),
               souvenir:[QCM] (5-6), compris:[QCM] (5-6), ouvertures:[{texte, question}] (2-3) }],
   packs:   { cycle:"AAAA-MM-JJ" (mercredi), pack1:{…}, pack2:{…} },
+  archives:[{id (mercredi), titre, regle, mots (avec variantes), pieges}] (les semaines passées, pour « Révisions »),
   carnet:  [{mot, phrase, semaine:"AAAA-MM-JJ" ou "avant"}] (mots à ajouter au carnet des mots difficiles de la tablette :
             importés une seule fois chacun, ne jamais retirer une entrée — sinon elle serait réimportée si on la remet),
   deck:    null ou [{mot, emoji}] (vocabulaire anglais — module en pause : ANGLAIS_ACTIF = false)
@@ -49,13 +52,14 @@ pack = {texteA, surveiller:[…], texteB, erreursB:[{faute (telle qu'écrite dan
    - texte B : 4 ou 5 phrases, **exactement 4 erreurs** (règle ou mots de la liste), chacune un mot ou un nombre entier tel qu'écrit dans le texte (Erwan les touche à l'écran) + 1 ou 2 leurres corrects ;
    - la dictée n°2 est un autre texte, qui contient elle aussi tous les mots ; elle peut réintégrer 2 ou 3 mots difficiles des semaines passées (voir l'archive des mots dans le vault).
 6. Ajoute la semaine en haut du journal de la note du vault **« 📒 Archive des mots de dictée — Erwan »** (règle et **tous** les mots), selon le modèle de section de la note, et la règle dans « Règles déjà travaillées ». Ajoute aussi la règle (et son « À retenir ») dans **« 📚 Leçons — Erwan (CM1 2026-2027) »**.
-7. Les anciennes semaines ne restent pas dans `PUBLIE` : seule la semaine en cours y figure (le carnet des mots difficiles vit dans la tablette).
+7. Avant de remplacer `semaine`, **déplace la semaine sortante dans `archives`** (id, titre, regle, mots, pieges — sans `rates` ni `packs`) : elle reste disponible dans « Révisions ». Seule la nouvelle semaine va dans `semaine` et `packs`.
 
 ## Tâche « leçon » (photo d'une leçon, souvent prise par Erwan)
 - Transcris fidèlement (souvent manuscrit, au crayon). Si un passage est illisible ou semble faux, **signale-le à Thibaud** au lieu d'inventer.
 - `essentiel` et questions **strictement dans le contenu de la leçon** ; `compris` = appliquer à un cas nouveau ; `recite` = ce qui se sait par cœur (définitions, règles, listes) : Erwan récite à voix haute puis **choisit la bonne réponse** parmi `options` = la réponse exacte `r` + 2 réponses **proches** (un seul détail faux : un mot, une lettre, un élément de liste en trop ou en moins). **Jamais d'auto-évaluation** (« je la savais / je ne la savais pas ») : la seule auto-correction admise est la comparaison des mots écrits sur le cahier ; `ouvertures` = un fait **exact et vérifiable**, adapté à 9 ans, + une question ouverte (une ouverture par passage).
 - `id` : `matiere-sujet-AAAA-MM` (ex. `fr-types-phrases-2026-09`), jamais réutilisé. `echeance` si Thibaud donne la date du contrôle.
-- Chaque leçon passe 3 fois automatiquement (J, J+1, J+3 ou veille de l'échéance). Retire de `PUBLIE` les leçons terminées depuis plus de 3 semaines.
+- Chaque leçon passe 3 fois automatiquement (J, J+1, J+3 ou veille de l'échéance). **Ne retire jamais une leçon de `PUBLIE`** : une fois ses 3 passages faits, elle ne repasse plus dans les séances du jour, mais elle reste dans « Révisions ».
+- Leçon **passée** (envoyée après coup, déjà vue en classe) : ajoute-la avec `revisionSeule: true`, sauf si Thibaud veut qu'elle passe dans les séances du jour.
 - **Avant de publier, envoie à Thibaud un résumé court** (titre, essentiel, points douteux) et attends son accord.
 - Ajoute la leçon en haut de **« 📚 Leçons — Erwan (CM1 2026-2027) »** (transcription fidèle, essentiel, à réciter, points douteux, id Holocron, suivi).
 
