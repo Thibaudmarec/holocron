@@ -266,44 +266,73 @@ var DECK = [
    deck    : [{mot,emoji}] (vocabulaire anglais, optionnel) */
 var PUBLIE = {
  "semaine": {
-  "id": "2026-10-07",
-  "titre": "L'artisanat gaulois",
+  "id": "2026-11-04",
+  "titre": "Les monuments gallo-romains",
   "regle": {
-   "titre": "Le verbe se conjugue avec son sujet",
-   "resume": "Le verbe se conjugue en fonction de son sujet (les druides enseignent). Attention : le sujet peut être après le verbe (sujet inversé) ou séparé de lui par des mots (on les respecte)."
+   "titre": "Écrire a ou à, ont ou on",
+   "resume": "a et ont sont le verbe avoir : on peut les mettre au passé (avait, avaient). à est une préposition, et on peut se remplacer par il."
   },
   "mots": [
    {
-    "mot": "la France",
-    "phrase": "La France est un pays d'Europe.",
+    "mot": "un Gaulois",
+    "phrase": "Un Gaulois vivait dans ce village.",
     "variantes": [
-     "la france",
-     "la Frence",
-     "la Franse"
-    ]
-   },
-   {
-    "mot": "les Gaulois",
-    "phrase": "Les Gaulois vivaient dans des villages.",
-    "variantes": [
-     "les gaulois",
-     "les Gauloix",
-     "les Golois"
+     "un gaulois",
+     "un Gauloi",
+     "un Gauloix"
     ],
     "difficile": true
    },
    {
-    "mot": "un jour",
-    "phrase": "Un jour, je visiterai la Lune.",
+    "mot": "la Gaule",
+    "phrase": "La Gaule était couverte de forêts.",
     "variantes": [
-     "un jours",
-     "un jourt",
-     "un joure"
+     "la gaule",
+     "la Gaulle",
+     "la Gôle"
     ]
    },
    {
+    "mot": "un Romain",
+    "phrase": "Un Romain portait une toge.",
+    "variantes": [
+     "un romain",
+     "un Romin",
+     "un Romains"
+    ]
+   },
+   {
+    "mot": "un Gallo-romain",
+    "phrase": "Un Gallo-romain parlait souvent latin.",
+    "variantes": [
+     "un Gallo romain",
+     "un Galo-romain",
+     "un Gallo-romin"
+    ],
+    "difficile": true
+   },
+   {
+    "mot": "le latin",
+    "phrase": "Les Romains parlaient le latin.",
+    "variantes": [
+     "le Latin",
+     "le latain",
+     "le lattin"
+    ]
+   },
+   {
+    "mot": "une coutume",
+    "phrase": "Cette fête est une ancienne coutume.",
+    "variantes": [
+     "une coutûme",
+     "une coutumme",
+     "une cootume"
+    ],
+    "difficile": true
+   },
+   {
     "mot": "une langue",
-    "phrase": "Le français est une belle langue.",
+    "phrase": "Le latin est une langue ancienne.",
     "variantes": [
      "une lange",
      "une langu",
@@ -311,275 +340,264 @@ var PUBLIE = {
     ]
    },
    {
-    "mot": "un peuple",
-    "phrase": "Les Gaulois étaient un peuple courageux.",
+    "mot": "un monument",
+    "phrase": "Ce monument est très ancien.",
     "variantes": [
-     "un peupe",
-     "un peuble",
-     "un peupple"
+     "un monumant",
+     "un monnument",
+     "un monumment"
     ]
    },
    {
-    "mot": "un territoire",
-    "phrase": "Chaque tribu défendait son territoire.",
+    "mot": "un style",
+    "phrase": "Cette maison a un style romain.",
     "variantes": [
-     "un térritoire",
-     "un teritoire",
-     "un territoir"
-    ],
-    "difficile": true
-   },
-   {
-    "mot": "une tribu",
-    "phrase": "La tribu s'installe près de la rivière.",
-    "variantes": [
-     "une tribue",
-     "une tribut",
-     "une tribus"
-    ],
-    "difficile": true
-   },
-   {
-    "mot": "un artisan",
-    "phrase": "Un artisan fabrique des objets à la main.",
-    "variantes": [
-     "un artizan",
-     "un artisant",
-     "un arthisan"
-    ],
-    "difficile": true
-   },
-   {
-    "mot": "un bijou, des bijoux",
-    "phrase": "Elle porte un bijou en or.",
-    "variantes": [
-     "un bijoux, des bijoux",
-     "un bijou, des bijous",
-     "un bijout, des bijoux"
-    ],
-    "difficile": true
-   },
-   {
-    "mot": "un casque",
-    "phrase": "Le guerrier porte un casque en métal.",
-    "variantes": [
-     "un caske",
-     "un casc",
-     "un casques"
+     "un stile",
+     "un stylle",
+     "un stil"
     ]
    },
    {
-    "mot": "un chef, une cheffe",
-    "phrase": "Le chef du village est très respecté.",
+    "mot": "un pont",
+    "phrase": "Un pont traverse la rivière.",
     "variantes": [
-     "un chèf, une chèffe",
-     "un chef, une chefe",
-     "un cheff, une cheffe"
+     "un pon",
+     "un ponts",
+     "un pond"
+    ]
+   },
+   {
+    "mot": "le théâtre",
+    "phrase": "Nous allons au théâtre ce soir.",
+    "variantes": [
+     "le téâtre",
+     "le théatre",
+     "le théâtr"
     ],
     "difficile": true
    },
    {
-    "mot": "l'habileté",
-    "phrase": "L'artisan travaille avec habileté.",
+    "mot": "une maison",
+    "phrase": "Ma maison a un grand jardin.",
     "variantes": [
-     "l'abileté",
-     "l'habilté",
-     "l'habiletée"
+     "une maisson",
+     "une mèson",
+     "une maizon"
+    ]
+   },
+   {
+    "mot": "un temple",
+    "phrase": "Les Romains ont construit un temple.",
+    "variantes": [
+     "un tempe",
+     "un tample",
+     "un temples"
+    ]
+   },
+   {
+    "mot": "la réalité",
+    "phrase": "Ce rêve semble être la réalité.",
+    "variantes": [
+     "la réalitée",
+     "la réaliter",
+     "la rèalité"
     ],
     "difficile": true
    },
    {
-    "mot": "le métal",
-    "phrase": "Le casque est fait de métal.",
+    "mot": "le fils, la fille",
+    "phrase": "Le fils du chef est courageux.",
     "variantes": [
-     "le métale",
-     "le mètal",
-     "le métail"
+     "le fil, la fille",
+     "le fis, la fille",
+     "le fils, la file"
     ],
     "difficile": true
    },
    {
-    "mot": "un motif",
-    "phrase": "Ce bouclier porte un joli motif.",
+    "mot": "l'honneur",
+    "phrase": "C'est un honneur de te rencontrer.",
     "variantes": [
-     "un motife",
-     "un motive",
-     "un mottif"
-    ]
-   },
-   {
-    "mot": "un objet",
-    "phrase": "Range cet objet dans ta boîte.",
-    "variantes": [
-     "un objé",
-     "un objait",
-     "un obget"
-    ]
-   },
-   {
-    "mot": "un dieu, une déesse",
-    "phrase": "Les Gaulois priaient plus d'un dieu.",
-    "variantes": [
-     "un dieux, une déesse",
-     "un dieu, une déèsse",
-     "un dieu, une désse"
+     "l'honeur",
+     "l'onneur",
+     "l'honneure"
     ],
     "difficile": true
    },
    {
-    "mot": "une cérémonie",
-    "phrase": "Le druide prépare une cérémonie.",
+    "mot": "un empereur",
+    "phrase": "Un empereur dirigeait Rome.",
     "variantes": [
-     "une cérémonnie",
-     "une sérémonie",
-     "une cérémoni"
+     "un empreur",
+     "un ampereur",
+     "un empereure"
     ],
     "difficile": true
    },
    {
-    "mot": "un sage",
-    "phrase": "Le vieux druide est un sage.",
+    "mot": "un dieu",
+    "phrase": "Mars est un dieu romain.",
     "variantes": [
-     "un sache",
-     "un saje",
-     "un sages"
+     "un dieux",
+     "un dieut",
+     "un diheu"
     ]
    },
    {
-    "mot": "combattre",
-    "phrase": "Les guerriers sont prêts à combattre.",
+    "mot": "une croyance",
+    "phrase": "Cette croyance est très ancienne.",
     "variantes": [
-     "combatre",
-     "conbattre",
-     "combbattre"
+     "une croillance",
+     "une croyence",
+     "une croyanse"
     ],
     "difficile": true
    },
    {
-    "mot": "habiter",
-    "phrase": "J'aimerais habiter près de la mer.",
+    "mot": "l'origine",
+    "phrase": "Quelle est l'origine de ce mot ?",
     "variantes": [
-     "abiter",
-     "habité",
-     "habitter"
+     "l'orijine",
+     "l'originne",
+     "l'orrigine"
     ]
    },
    {
-    "mot": "aimer",
-    "phrase": "Il faut aimer les animaux.",
+    "mot": "adopter",
+    "phrase": "Nous allons adopter un chat.",
     "variantes": [
-     "aimé",
-     "émer",
-     "aimmer"
+     "adopté",
+     "addopter",
+     "adoptter"
     ]
    },
    {
-    "mot": "fabriquer",
-    "phrase": "L'artisan va fabriquer un bouclier.",
+    "mot": "appeler",
+    "phrase": "Je vais appeler mon ami.",
     "variantes": [
-     "fabricquer",
-     "fabriqué",
-     "fabrikker"
-    ]
-   },
-   {
-    "mot": "travailler",
-    "phrase": "Il faut travailler pour progresser.",
-    "variantes": [
-     "travailer",
-     "travaillé",
-     "travayer"
+     "apeler",
+     "appeller",
+     "appelé"
     ],
     "difficile": true
    },
    {
-    "mot": "conseiller",
-    "phrase": "Le druide doit conseiller le chef.",
+    "mot": "construire",
+    "phrase": "Les ouvriers vont construire un pont.",
     "variantes": [
-     "conseiler",
-     "conseillé",
-     "consseiller"
+     "contruire",
+     "construir",
+     "constuire"
     ],
     "difficile": true
    },
    {
-    "mot": "diriger",
-    "phrase": "Le chef sait diriger sa tribu.",
+    "mot": "obliger",
+    "phrase": "Personne ne peut t'obliger à mentir.",
     "variantes": [
-     "dirijer",
-     "dirigé",
-     "dirriger"
+     "obligé",
+     "oblijer",
+     "obbliger"
     ]
    },
    {
-    "mot": "enseigner",
-    "phrase": "Les druides aiment enseigner aux enfants.",
+    "mot": "conserver",
+    "phrase": "Il faut conserver ce vieux livre.",
     "variantes": [
-     "ensseigner",
-     "enseigné",
-     "anseigner"
+     "concerver",
+     "conservé",
+     "consserver"
+    ]
+   },
+   {
+    "mot": "petit",
+    "phrase": "Mon chien est petit.",
+    "variantes": [
+     "peti",
+     "petis",
+     "pettit"
+    ]
+   },
+   {
+    "mot": "nombreux, nombreuse",
+    "phrase": "Les visiteurs sont nombreux.",
+    "variantes": [
+     "nombreu, nombreuse",
+     "nombreux, nombreuze",
+     "nonbreux, nonbreuse"
     ],
     "difficile": true
    },
    {
-    "mot": "respecter",
-    "phrase": "Il faut respecter les règles du jeu.",
+    "mot": "romain",
+    "phrase": "Ce pont est romain.",
     "variantes": [
-     "respekter",
-     "respecté",
-     "réspecter"
+     "romin",
+     "romains",
+     "rommain"
     ]
    },
    {
-    "mot": "grand",
-    "phrase": "Mon frère est plus grand que moi.",
+    "mot": "carré",
+    "phrase": "Ce jardin est carré.",
     "variantes": [
-     "grant",
-     "gran",
-     "grend"
-    ]
-   },
-   {
-    "mot": "même",
-    "phrase": "Nous avons le même sac.",
-    "variantes": [
-     "mème",
-     "mêmme",
-     "meme"
-    ]
-   },
-   {
-    "mot": "délicat",
-    "phrase": "Ce bijou est très délicat.",
-    "variantes": [
-     "délica",
-     "délicas",
-     "dèlicat"
+     "caré",
+     "carrer",
+     "quarré"
     ],
     "difficile": true
    },
    {
-    "mot": "gaulois",
-    "phrase": "Ce village gaulois résiste aux Romains.",
+    "mot": "polythéiste",
+    "phrase": "Un peuple polythéiste prie plusieurs dieux.",
     "variantes": [
-     "golois",
-     "gauloix",
-     "gaulloi"
+     "politéiste",
+     "polythéïste",
+     "polithéiste"
+    ],
+    "difficile": true
+   },
+   {
+    "mot": "après que",
+    "phrase": "Il est parti après que tu es arrivé.",
+    "variantes": [
+     "aprés que",
+     "après qe",
+     "apré que"
+    ],
+    "difficile": true
+   },
+   {
+    "mot": "progressivement",
+    "phrase": "Il fait progressivement plus froid.",
+    "variantes": [
+     "progressivemant",
+     "progresivement",
+     "progressivment"
+    ],
+    "difficile": true
+   },
+   {
+    "mot": "alors",
+    "phrase": "Il pleuvait, alors je suis rentré.",
+    "variantes": [
+     "alor",
+     "alort",
+     "allors"
     ]
    },
    {
-    "mot": "religieux, religieuse",
-    "phrase": "Le druide est un chef religieux.",
+    "mot": "par exemple",
+    "phrase": "J'aime les fruits, par exemple les pommes.",
     "variantes": [
-     "religieu, religieuse",
-     "religieux, religieuze",
-     "relijieux, relijieuse"
-    ],
-    "difficile": true
+     "par éxemple",
+     "par exemples",
+     "par egzemple"
+    ]
    },
    {
     "mot": "mais",
-    "phrase": "J'ai faim, mais le repas n'est pas prêt.",
+    "phrase": "Il fait beau, mais il fait froid.",
     "variantes": [
      "mai",
      "mait",
@@ -587,187 +605,137 @@ var PUBLIE = {
     ]
    },
    {
-    "mot": "plusieurs",
-    "phrase": "J'ai plusieurs crayons dans ma trousse.",
+    "mot": "également",
+    "phrase": "Elle parle également anglais.",
     "variantes": [
-     "plusieur",
-     "plusieures",
-     "plusieurt"
-    ]
-   },
-   {
-    "mot": "souvent",
-    "phrase": "Je vais souvent à la piscine.",
-    "variantes": [
-     "souvant",
-     "souven",
-     "souvents"
+     "égalemant",
+     "égallement",
+     "égalment"
     ],
     "difficile": true
    },
    {
-    "mot": "avec",
-    "phrase": "Je joue avec mon chien.",
+    "mot": "quand même",
+    "phrase": "Il pleut, mais je sors quand même.",
     "variantes": [
-     "avek",
-     "avèc",
-     "avecque"
-    ]
-   },
-   {
-    "mot": "beaucoup",
-    "phrase": "Il y a beaucoup de monde au marché.",
-    "variantes": [
-     "beaucou",
-     "baucoup",
-     "beaucoups"
-    ]
-   },
-   {
-    "mot": "comme",
-    "phrase": "Il est fort comme un ours.",
-    "variantes": [
-     "come",
-     "kome",
-     "commes"
-    ]
-   },
-   {
-    "mot": "aussi",
-    "phrase": "Moi aussi, j'aime les crêpes.",
-    "variantes": [
-     "ausi",
-     "aussie",
-     "ossi"
-    ]
-   },
-   {
-    "mot": "parfois",
-    "phrase": "Parfois, il pleut le dimanche.",
-    "variantes": [
-     "parfoi",
-     "parfoit",
-     "par fois"
+     "quant même",
+     "quand mème",
+     "quan même"
     ],
     "difficile": true
    }
   ],
   "pieges": [
    {
-    "phrase": "Les artisans gaulois ___ des bijoux en or.",
+    "phrase": "César ___ envahi la Gaule.",
     "options": [
-     "fabriquent",
-     "fabrique"
+     "a",
+     "à"
     ],
-    "reponse": "fabriquent",
-    "test": "Qui fabrique ? Les artisans, donc « ils » : -ent."
+    "reponse": "a",
+    "test": "« César avait envahi » marche : a."
    },
    {
-    "phrase": "Regarde le casque que ___ les guerriers.",
+    "phrase": "Les soldats marchent ___ Rome.",
     "options": [
-     "portent",
-     "porte"
+     "a",
+     "à"
     ],
-    "reponse": "portent",
-    "test": "Sujet inversé : qui porte ? les guerriers (ils), donc « portent »."
+    "reponse": "à",
+    "test": "« marchent avait Rome » ne marche pas : à."
    },
    {
-    "phrase": "Le chef des tribus ___ ses soldats.",
+    "phrase": "Les Romains ___ construit un temple.",
     "options": [
-     "dirige",
-     "dirigent"
+     "ont",
+     "on"
     ],
-    "reponse": "dirige",
-    "test": "Qui dirige ? le chef (il), pas « les tribus » : « dirige »."
+    "reponse": "ont",
+    "test": "« Ils avaient construit » marche : ont."
    },
    {
-    "phrase": "Les druides, très sages, ___ les jeunes Gaulois.",
+    "phrase": "___ l'appelle Maison carrée.",
     "options": [
-     "conseillent",
-     "conseille"
+     "On",
+     "Ont"
     ],
-    "reponse": "conseillent",
-    "test": "Des mots séparent le sujet du verbe : qui conseille ? les druides (ils), donc -ent."
+    "reponse": "On",
+    "test": "« Il l'appelle » marche : on."
    },
    {
-    "phrase": "Nous les ___ beaucoup.",
+    "phrase": "Le Jedi ___ un sabre laser.",
     "options": [
-     "respectons",
-     "respecte"
+     "a",
+     "à"
     ],
-    "reponse": "respectons",
-    "test": "Qui respecte ? « nous », donc -ons. « les » n'est pas le sujet."
+    "reponse": "a",
+    "test": "« Le Jedi avait un sabre » marche : a."
    },
    {
-    "phrase": "Dans ce village ___ plusieurs artisans.",
+    "phrase": "Luke part ___ la recherche de Yoda.",
     "options": [
-     "habitent",
-     "habite"
+     "a",
+     "à"
     ],
-    "reponse": "habitent",
-    "test": "Sujet inversé : qui habite ? plusieurs artisans (ils), donc « habitent »."
+    "reponse": "à",
+    "test": "« part avait la recherche » ne marche pas : à."
    },
    {
-    "phrase": "On les ___ souvent au marché.",
+    "phrase": "Les droïdes ___ réparé le vaisseau.",
     "options": [
-     "voit",
-     "voient"
+     "ont",
+     "on"
     ],
-    "reponse": "voit",
-    "test": "Le sujet est « on » (comme « il ») : « voit ». « les » n'est pas le sujet."
+    "reponse": "ont",
+    "test": "« Ils avaient réparé » marche : ont."
    },
    {
-    "phrase": "Le Jedi et son Padawan ___ contre les droïdes.",
+    "phrase": "Demain, ___ partira pour Tatooine.",
     "options": [
-     "combattent",
-     "combat"
+     "on",
+     "ont"
     ],
-    "reponse": "combattent",
-    "test": "Deux sujets, c'est « ils » : « combattent »."
+    "reponse": "on",
+    "test": "« Demain, il partira » marche : on."
    },
    {
-    "phrase": "Les bijoux de la cheffe ___ délicats.",
+    "phrase": "Le Gaulois ___ peur du Romain.",
     "options": [
-     "sont",
-     "est"
+     "a",
+     "à"
     ],
-    "reponse": "sont",
-    "test": "Qui est délicat ? les bijoux (ils), pas « la cheffe » : « sont »."
+    "reponse": "a",
+    "test": "« Le Gaulois avait peur » marche : a."
    },
    {
-    "phrase": "Que ___ ces artisans avec le métal ?",
+    "phrase": "Il habite ___ côté du théâtre.",
     "options": [
-     "fabriquent",
-     "fabrique"
+     "a",
+     "à"
     ],
-    "reponse": "fabriquent",
-    "test": "Sujet inversé : ces artisans (ils), donc « fabriquent »."
+    "reponse": "à",
+    "test": "« habite avait côté » ne marche pas : à."
    },
    {
-    "phrase": "Tu ___ avec ton père dans l'atelier.",
+    "phrase": "Les Gaulois ___ adopté le latin.",
     "options": [
-     "travailles",
-     "travaille"
+     "ont",
+     "on"
     ],
-    "reponse": "travailles",
-    "test": "Avec « tu », le verbe prend un s."
+    "reponse": "ont",
+    "test": "« Ils avaient adopté » marche : ont."
    },
    {
-    "phrase": "La langue des Gaulois ___ très ancienne.",
+    "phrase": "Ici, ___ parle le latin.",
     "options": [
-     "est",
-     "sont"
+     "on",
+     "ont"
     ],
-    "reponse": "est",
-    "test": "Qui est ancienne ? la langue (elle), pas « les Gaulois » : « est »."
+    "reponse": "on",
+    "test": "« Ici, il parle » marche : on."
    }
   ],
-  "rates": [
-   "les Gaulois",
-   "diriger",
-   "enseigner",
-   "un territoire"
-  ]
+  "rates": []
  },
  "lecons": [
   {
@@ -2423,93 +2391,93 @@ var PUBLIE = {
   }
  ],
  "packs": {
-  "cycle": "2026-10-07",
+  "cycle": "2026-11-04",
   "pack1": {
-   "texteA": "Dans les archives du Temple Jedi, un jeune Padawan étudie un peuple lointain : les Gaulois, qui vivaient en France il y a très longtemps. Chaque tribu devait habiter et défendre son territoire. Les Gaulois parlaient une langue que les Romains ne comprenaient pas. Dans chaque village vivaient plusieurs familles. L'habileté de chaque artisan permettait de fabriquer un bijou délicat ou un casque. Le métal servait aussi, avec l'or, à décorer chaque objet d'un motif. Les druides étaient des sages : ils devaient conseiller le chef et enseigner aux enfants. Pendant une cérémonie religieuse, on priait un dieu ou une déesse. Les guerriers savaient combattre, mais ils savaient aussi aimer la musique et travailler la terre. Parfois, le plus grand chef devait diriger toutes les tribus. Les Gaulois aimaient beaucoup les fêtes. Un jour, le Padawan comprend qu'il faut respecter chaque peuple, comme le dit souvent son maître. Les Jedi ont le même respect pour toutes les planètes.",
+   "texteA": "Dans les archives du Temple Jedi, un jeune Padawan étudie une planète lointaine, la Terre. Il y a très longtemps, un Romain nommé César a envahi la Gaule. Après que les soldats ont gagné, chaque Gaulois a dû obéir à un empereur. On pouvait alors garder sa langue, mais il fallait apprendre le latin. Progressivement, les Gaulois ont voulu adopter une nouvelle coutume. Un Gallo-romain pouvait habiter une maison de style romain. Les Romains savaient construire un pont, un temple ou un théâtre. Par exemple, un monument se dressait souvent au milieu d'un espace carré. Rome ne voulait pas obliger chaque peuple à oublier sa croyance. Les Romains étaient polythéistes : ils priaient un dieu pour chaque chose, et ils savaient également appeler les dieux à l'aide. À l'origine, ces monuments étaient très nombreux. Le fils d'un petit artisan pouvait avoir l'honneur de les conserver. Le Padawan a du mal à croire que c'est la réalité, mais il a quand même envie d'en apprendre plus.",
    "surveiller": [
-    "Gaulois",
-    "France",
-    "territoire",
-    "vivaient",
-    "habileté",
-    "bijou",
-    "délicat",
-    "religieuse",
-    "déesse",
-    "combattre",
-    "travailler",
-    "respecter"
+    "a envahi",
+    "ont gagné",
+    "a dû",
+    "à un empereur",
+    "On pouvait",
+    "Gallo-romain",
+    "coutume",
+    "théâtre",
+    "polythéistes",
+    "l'honneur",
+    "progressivement",
+    "quand même"
    ],
-   "texteB": "Dans le village gaulois, les artisans fabrique des bijous en métal. Regarde le casque que portent les guerriers. Les druides, très sages, enseigne la langue aux enfants. Le chef de la tribut dirige le peuple avec habileté.",
+   "texteB": "Le jeune Jedi à trouvé un vieux monument gallo-romain. On dit qu'un empreur l'a fait construire. Les Gaulois on adopté cette coutûme. Ils ont appris le latin à l'école. Chaque Romain a une grande maison.",
    "erreursB": [
     {
-     "faute": "fabrique",
-     "correction": "fabriquent",
-     "test": "Qui fabrique ? les artisans (ils) : -ent."
+     "faute": "à",
+     "correction": "a",
+     "test": "« Le jeune Jedi avait trouvé » marche : a, sans accent."
     },
     {
-     "faute": "bijous",
-     "correction": "bijoux",
-     "test": "Mot de la liste : un bijou, des bijoux, avec un x."
+     "faute": "empreur",
+     "correction": "empereur",
+     "test": "Mot de la liste : em-pe-reur, avec un e au milieu."
     },
     {
-     "faute": "enseigne",
-     "correction": "enseignent",
-     "test": "« très sages » sépare le sujet du verbe : les druides (ils) enseignent."
+     "faute": "on",
+     "correction": "ont",
+     "test": "« Ils avaient adopté » marche : ont."
     },
     {
-     "faute": "tribut",
-     "correction": "tribu",
-     "test": "Mot de la liste : une tribu, sans t ni e."
+     "faute": "coutûme",
+     "correction": "coutume",
+     "test": "Mot de la liste : coutume s'écrit sans accent."
     }
    ],
    "leurres": [
-    "portent",
-    "dirige"
+    "à l'école",
+    "On dit"
    ]
   },
   "pack2": {
-   "texteA": "Un jour, Maître Obi-Wan raconte à son Padawan l'histoire des Gaulois, un peuple qui vivait sur le territoire de la France. Chaque tribu avait son chef, et parfois une cheffe. Leur plus grand village était protégé par des remparts. Les Gaulois savaient travailler le métal avec soin. On admirait l'habileté de leurs forgerons. Un artisan pouvait fabriquer un casque, un bouclier ou un bijou orné d'un motif délicat. Chaque objet avait souvent une valeur religieuse. Les druides, des sages très respectés, devaient enseigner les secrets de la nature et conseiller les guerriers. Lors d'une cérémonie, ils parlaient à un dieu ou à une déesse dans une langue mystérieuse. Les Gaulois aimaient habiter près des forêts. Ils savaient combattre, mais ils préféraient aimer la paix et diriger leurs troupeaux. Obi-Wan explique qu'il faut respecter ce peuple courageux, comme on respecte les Jedi. Il y avait beaucoup de tribus, et plusieurs parlaient la même langue. Aussi, le Padawan veut en apprendre davantage.",
+   "texteA": "Maître Yoda montre à son Padawan un vieil Holocron sur l'histoire de la Gaule. À l'origine, chaque Gaulois parlait sa langue et suivait une coutume de sa tribu. Puis un Romain est arrivé avec ses légions. Après que la guerre a pris fin, un empereur a voulu construire des villes. On a alors vu apparaître un pont, un théâtre et un temple pour chaque dieu, car les Romains étaient polythéistes. Les Gaulois ont progressivement appris le latin. Ils ont aussi pu adopter le style romain pour leur maison. On peut appeler Gallo-romain un habitant de cette époque. Par exemple, le fils d'un Gaulois pouvait avoir l'honneur de servir à Rome. Rome ne voulait pas obliger ce petit peuple à changer sa croyance. De nombreux monuments ont été bâtis. On y voyait également un grand bassin carré. Yoda explique qu'il faut conserver ces traces, car elles montrent la réalité du passé. C'est un vieux récit, mais le Padawan l'écoute quand même avec passion.",
    "surveiller": [
-    "Gaulois",
-    "France",
-    "cheffe",
-    "métal",
-    "habileté",
-    "délicat",
-    "religieuse",
-    "sages",
-    "enseigner",
-    "cérémonie",
-    "déesse",
-    "plusieurs"
+    "À l'origine",
+    "a pris",
+    "a voulu",
+    "On a",
+    "ont progressivement",
+    "Gallo-romain",
+    "fils",
+    "l'honneur",
+    "croyance",
+    "polythéistes",
+    "également",
+    "quand même"
    ],
-   "texteB": "Dans cette tribu vit plusieurs artisans. Ils travaille le métal avec habilité. Les Gaulois respectent leur chef, qui les dirige souvent. Pendant la cérémonie, les sages conseille le peuple.",
+   "texteB": "Depuis longtemps, on admire ce téâtre a côté du temple. Un Gallo-romain a construit ce pont. Les Romains ont appelé leur dieu à l'aide. Ont peut encore voir ce monument aujourd'hui. Il a gardé toute sa beauté : cette réalitée étonne les curieux.",
    "erreursB": [
     {
-     "faute": "vit",
-     "correction": "vivent",
-     "test": "Sujet inversé : qui vit ? plusieurs artisans (ils), donc « vivent »."
+     "faute": "téâtre",
+     "correction": "théâtre",
+     "test": "Mot de la liste : théâtre prend un h après le t."
     },
     {
-     "faute": "travaille",
-     "correction": "travaillent",
-     "test": "Qui travaille ? ils : -ent."
+     "faute": "a",
+     "correction": "à",
+     "test": "« ce théâtre avait côté » ne marche pas : à, avec un accent."
     },
     {
-     "faute": "habilité",
-     "correction": "habileté",
-     "test": "Mot de la liste : l'habileté, avec « eté » à la fin."
+     "faute": "Ont",
+     "correction": "On",
+     "test": "« Il peut encore voir » marche : on."
     },
     {
-     "faute": "conseille",
-     "correction": "conseillent",
-     "test": "Qui conseille ? les sages (ils) : -ent."
+     "faute": "réalitée",
+     "correction": "réalité",
+     "test": "Mot de la liste : réalité finit par é, sans e."
     }
    ],
    "leurres": [
-    "respectent",
-    "dirige"
+    "on admire",
+    "a construit"
    ]
   }
  },
@@ -3887,6 +3855,504 @@ var PUBLIE = {
      ],
      "reponse": "pensée",
      "test": "Après la consonne n, un seul s suffit pour faire [s]."
+    }
+   ]
+  },
+  {
+   "id": "2026-10-07",
+   "titre": "L'artisanat gaulois",
+   "regle": {
+    "titre": "Le verbe se conjugue avec son sujet",
+    "resume": "Le verbe se conjugue en fonction de son sujet (les druides enseignent). Attention : le sujet peut être après le verbe (sujet inversé) ou séparé de lui par des mots (on les respecte)."
+   },
+   "mots": [
+    {
+     "mot": "la France",
+     "phrase": "La France est un pays d'Europe.",
+     "variantes": [
+      "la france",
+      "la Frence",
+      "la Franse"
+     ]
+    },
+    {
+     "mot": "les Gaulois",
+     "phrase": "Les Gaulois vivaient dans des villages.",
+     "variantes": [
+      "les gaulois",
+      "les Gauloix",
+      "les Golois"
+     ],
+     "difficile": true
+    },
+    {
+     "mot": "un jour",
+     "phrase": "Un jour, je visiterai la Lune.",
+     "variantes": [
+      "un jours",
+      "un jourt",
+      "un joure"
+     ]
+    },
+    {
+     "mot": "une langue",
+     "phrase": "Le français est une belle langue.",
+     "variantes": [
+      "une lange",
+      "une langu",
+      "une lengue"
+     ]
+    },
+    {
+     "mot": "un peuple",
+     "phrase": "Les Gaulois étaient un peuple courageux.",
+     "variantes": [
+      "un peupe",
+      "un peuble",
+      "un peupple"
+     ]
+    },
+    {
+     "mot": "un territoire",
+     "phrase": "Chaque tribu défendait son territoire.",
+     "variantes": [
+      "un térritoire",
+      "un teritoire",
+      "un territoir"
+     ],
+     "difficile": true
+    },
+    {
+     "mot": "une tribu",
+     "phrase": "La tribu s'installe près de la rivière.",
+     "variantes": [
+      "une tribue",
+      "une tribut",
+      "une tribus"
+     ],
+     "difficile": true
+    },
+    {
+     "mot": "un artisan",
+     "phrase": "Un artisan fabrique des objets à la main.",
+     "variantes": [
+      "un artizan",
+      "un artisant",
+      "un arthisan"
+     ],
+     "difficile": true
+    },
+    {
+     "mot": "un bijou, des bijoux",
+     "phrase": "Elle porte un bijou en or.",
+     "variantes": [
+      "un bijoux, des bijoux",
+      "un bijou, des bijous",
+      "un bijout, des bijoux"
+     ],
+     "difficile": true
+    },
+    {
+     "mot": "un casque",
+     "phrase": "Le guerrier porte un casque en métal.",
+     "variantes": [
+      "un caske",
+      "un casc",
+      "un casques"
+     ]
+    },
+    {
+     "mot": "un chef, une cheffe",
+     "phrase": "Le chef du village est très respecté.",
+     "variantes": [
+      "un chèf, une chèffe",
+      "un chef, une chefe",
+      "un cheff, une cheffe"
+     ],
+     "difficile": true
+    },
+    {
+     "mot": "l'habileté",
+     "phrase": "L'artisan travaille avec habileté.",
+     "variantes": [
+      "l'abileté",
+      "l'habilté",
+      "l'habiletée"
+     ],
+     "difficile": true
+    },
+    {
+     "mot": "le métal",
+     "phrase": "Le casque est fait de métal.",
+     "variantes": [
+      "le métale",
+      "le mètal",
+      "le métail"
+     ],
+     "difficile": true
+    },
+    {
+     "mot": "un motif",
+     "phrase": "Ce bouclier porte un joli motif.",
+     "variantes": [
+      "un motife",
+      "un motive",
+      "un mottif"
+     ]
+    },
+    {
+     "mot": "un objet",
+     "phrase": "Range cet objet dans ta boîte.",
+     "variantes": [
+      "un objé",
+      "un objait",
+      "un obget"
+     ]
+    },
+    {
+     "mot": "un dieu, une déesse",
+     "phrase": "Les Gaulois priaient plus d'un dieu.",
+     "variantes": [
+      "un dieux, une déesse",
+      "un dieu, une déèsse",
+      "un dieu, une désse"
+     ],
+     "difficile": true
+    },
+    {
+     "mot": "une cérémonie",
+     "phrase": "Le druide prépare une cérémonie.",
+     "variantes": [
+      "une cérémonnie",
+      "une sérémonie",
+      "une cérémoni"
+     ],
+     "difficile": true
+    },
+    {
+     "mot": "un sage",
+     "phrase": "Le vieux druide est un sage.",
+     "variantes": [
+      "un sache",
+      "un saje",
+      "un sages"
+     ]
+    },
+    {
+     "mot": "combattre",
+     "phrase": "Les guerriers sont prêts à combattre.",
+     "variantes": [
+      "combatre",
+      "conbattre",
+      "combbattre"
+     ],
+     "difficile": true
+    },
+    {
+     "mot": "habiter",
+     "phrase": "J'aimerais habiter près de la mer.",
+     "variantes": [
+      "abiter",
+      "habité",
+      "habitter"
+     ]
+    },
+    {
+     "mot": "aimer",
+     "phrase": "Il faut aimer les animaux.",
+     "variantes": [
+      "aimé",
+      "émer",
+      "aimmer"
+     ]
+    },
+    {
+     "mot": "fabriquer",
+     "phrase": "L'artisan va fabriquer un bouclier.",
+     "variantes": [
+      "fabricquer",
+      "fabriqué",
+      "fabrikker"
+     ]
+    },
+    {
+     "mot": "travailler",
+     "phrase": "Il faut travailler pour progresser.",
+     "variantes": [
+      "travailer",
+      "travaillé",
+      "travayer"
+     ],
+     "difficile": true
+    },
+    {
+     "mot": "conseiller",
+     "phrase": "Le druide doit conseiller le chef.",
+     "variantes": [
+      "conseiler",
+      "conseillé",
+      "consseiller"
+     ],
+     "difficile": true
+    },
+    {
+     "mot": "diriger",
+     "phrase": "Le chef sait diriger sa tribu.",
+     "variantes": [
+      "dirijer",
+      "dirigé",
+      "dirriger"
+     ]
+    },
+    {
+     "mot": "enseigner",
+     "phrase": "Les druides aiment enseigner aux enfants.",
+     "variantes": [
+      "ensseigner",
+      "enseigné",
+      "anseigner"
+     ],
+     "difficile": true
+    },
+    {
+     "mot": "respecter",
+     "phrase": "Il faut respecter les règles du jeu.",
+     "variantes": [
+      "respekter",
+      "respecté",
+      "réspecter"
+     ]
+    },
+    {
+     "mot": "grand",
+     "phrase": "Mon frère est plus grand que moi.",
+     "variantes": [
+      "grant",
+      "gran",
+      "grend"
+     ]
+    },
+    {
+     "mot": "même",
+     "phrase": "Nous avons le même sac.",
+     "variantes": [
+      "mème",
+      "mêmme",
+      "meme"
+     ]
+    },
+    {
+     "mot": "délicat",
+     "phrase": "Ce bijou est très délicat.",
+     "variantes": [
+      "délica",
+      "délicas",
+      "dèlicat"
+     ],
+     "difficile": true
+    },
+    {
+     "mot": "gaulois",
+     "phrase": "Ce village gaulois résiste aux Romains.",
+     "variantes": [
+      "golois",
+      "gauloix",
+      "gaulloi"
+     ]
+    },
+    {
+     "mot": "religieux, religieuse",
+     "phrase": "Le druide est un chef religieux.",
+     "variantes": [
+      "religieu, religieuse",
+      "religieux, religieuze",
+      "relijieux, relijieuse"
+     ],
+     "difficile": true
+    },
+    {
+     "mot": "mais",
+     "phrase": "J'ai faim, mais le repas n'est pas prêt.",
+     "variantes": [
+      "mai",
+      "mait",
+      "mès"
+     ]
+    },
+    {
+     "mot": "plusieurs",
+     "phrase": "J'ai plusieurs crayons dans ma trousse.",
+     "variantes": [
+      "plusieur",
+      "plusieures",
+      "plusieurt"
+     ]
+    },
+    {
+     "mot": "souvent",
+     "phrase": "Je vais souvent à la piscine.",
+     "variantes": [
+      "souvant",
+      "souven",
+      "souvents"
+     ],
+     "difficile": true
+    },
+    {
+     "mot": "avec",
+     "phrase": "Je joue avec mon chien.",
+     "variantes": [
+      "avek",
+      "avèc",
+      "avecque"
+     ]
+    },
+    {
+     "mot": "beaucoup",
+     "phrase": "Il y a beaucoup de monde au marché.",
+     "variantes": [
+      "beaucou",
+      "baucoup",
+      "beaucoups"
+     ]
+    },
+    {
+     "mot": "comme",
+     "phrase": "Il est fort comme un ours.",
+     "variantes": [
+      "come",
+      "kome",
+      "commes"
+     ]
+    },
+    {
+     "mot": "aussi",
+     "phrase": "Moi aussi, j'aime les crêpes.",
+     "variantes": [
+      "ausi",
+      "aussie",
+      "ossi"
+     ]
+    },
+    {
+     "mot": "parfois",
+     "phrase": "Parfois, il pleut le dimanche.",
+     "variantes": [
+      "parfoi",
+      "parfoit",
+      "par fois"
+     ],
+     "difficile": true
+    }
+   ],
+   "pieges": [
+    {
+     "phrase": "Les artisans gaulois ___ des bijoux en or.",
+     "options": [
+      "fabriquent",
+      "fabrique"
+     ],
+     "reponse": "fabriquent",
+     "test": "Qui fabrique ? Les artisans, donc « ils » : -ent."
+    },
+    {
+     "phrase": "Regarde le casque que ___ les guerriers.",
+     "options": [
+      "portent",
+      "porte"
+     ],
+     "reponse": "portent",
+     "test": "Sujet inversé : qui porte ? les guerriers (ils), donc « portent »."
+    },
+    {
+     "phrase": "Le chef des tribus ___ ses soldats.",
+     "options": [
+      "dirige",
+      "dirigent"
+     ],
+     "reponse": "dirige",
+     "test": "Qui dirige ? le chef (il), pas « les tribus » : « dirige »."
+    },
+    {
+     "phrase": "Les druides, très sages, ___ les jeunes Gaulois.",
+     "options": [
+      "conseillent",
+      "conseille"
+     ],
+     "reponse": "conseillent",
+     "test": "Des mots séparent le sujet du verbe : qui conseille ? les druides (ils), donc -ent."
+    },
+    {
+     "phrase": "Nous les ___ beaucoup.",
+     "options": [
+      "respectons",
+      "respecte"
+     ],
+     "reponse": "respectons",
+     "test": "Qui respecte ? « nous », donc -ons. « les » n'est pas le sujet."
+    },
+    {
+     "phrase": "Dans ce village ___ plusieurs artisans.",
+     "options": [
+      "habitent",
+      "habite"
+     ],
+     "reponse": "habitent",
+     "test": "Sujet inversé : qui habite ? plusieurs artisans (ils), donc « habitent »."
+    },
+    {
+     "phrase": "On les ___ souvent au marché.",
+     "options": [
+      "voit",
+      "voient"
+     ],
+     "reponse": "voit",
+     "test": "Le sujet est « on » (comme « il ») : « voit ». « les » n'est pas le sujet."
+    },
+    {
+     "phrase": "Le Jedi et son Padawan ___ contre les droïdes.",
+     "options": [
+      "combattent",
+      "combat"
+     ],
+     "reponse": "combattent",
+     "test": "Deux sujets, c'est « ils » : « combattent »."
+    },
+    {
+     "phrase": "Les bijoux de la cheffe ___ délicats.",
+     "options": [
+      "sont",
+      "est"
+     ],
+     "reponse": "sont",
+     "test": "Qui est délicat ? les bijoux (ils), pas « la cheffe » : « sont »."
+    },
+    {
+     "phrase": "Que ___ ces artisans avec le métal ?",
+     "options": [
+      "fabriquent",
+      "fabrique"
+     ],
+     "reponse": "fabriquent",
+     "test": "Sujet inversé : ces artisans (ils), donc « fabriquent »."
+    },
+    {
+     "phrase": "Tu ___ avec ton père dans l'atelier.",
+     "options": [
+      "travailles",
+      "travaille"
+     ],
+     "reponse": "travailles",
+     "test": "Avec « tu », le verbe prend un s."
+    },
+    {
+     "phrase": "La langue des Gaulois ___ très ancienne.",
+     "options": [
+      "est",
+      "sont"
+     ],
+     "reponse": "est",
+     "test": "Qui est ancienne ? la langue (elle), pas « les Gaulois » : « est »."
     }
    ]
   }
