@@ -266,7 +266,7 @@ var DECK = [
    deck    : [{mot,emoji}] (vocabulaire anglais, optionnel) */
 var PUBLIE = {
  "semaine": {
-  "id": "2026-11-11",
+  "id": "2026-11-18",
   "titre": "La vie des seigneurs au Moyen Âge",
   "regle": {
    "titre": "Le pluriel des noms et des adjectifs (2)",
@@ -2605,7 +2605,7 @@ var PUBLIE = {
   }
  ],
  "packs": {
-  "cycle": "2026-11-11",
+  "cycle": "2026-11-18",
   "pack1": {
    "texteA": "Sur une planète lointaine, un jeune Padawan découvre un monde qui ressemble au Moyen Âge. Un seigneur vit dans un château fort, au plus haut point de sa terre. Ce lieu doit se protéger de chaque attaque d'un voisin jaloux. Le rempart est très épais, et les créneaux permettent de placer les archers. Par une meurtrière, on peut surveiller la vallée sans être vu. Le donjon peut se composer de plusieurs niveaux. Le seigneur aime posséder un joyau différent pour chaque fête, et il garde ses plus beaux joyaux dans un coffre. Ce soir, il offre un banquet somptueux à chaque invité. Un flambeau sert à éclairer les murs, et un grand feu dans la cheminée sert à chauffer la salle. Les musiciens jouent un chant joyeux, puis un conteur récite un fabliau amusant. Les enfants préfèrent un jeu de dés, assis sur un banc bas. Les visiteurs sont nombreux, et la voisine du seigneur porte une belle robe.",
    "surveiller": [
@@ -5559,9 +5559,14 @@ function afficher(){
   var dans=b.items, rang=dans.indexOf(x)+1;
   app.innerHTML='<div class="barre"><span class="mission">Mission '+x.num+' sur '+x.total+'</span>'+
     (x.t!=="intro"?'<span>'+rang+' / '+dans.length+'</span>':'')+
-    '<span class="points" id="points">+'+S.points+'</span><span class="chrono" id="chrono">'+fmt(S.fin-Date.now())+'</span>'+boutonGuide()+'</div>'+
+    '<span class="points" id="points">+'+S.points+'</span><span class="chrono" id="chrono">'+fmt(S.fin-Date.now())+'</span>'+boutonGuide()+
+    (S.i>0?'<button class="btn-guide" id="prec" aria-label="Revenir en arrière">← Retour</button>':'')+'</div>'+
     (S.alerte?'<p class="bandeau">Encore 2 minutes.</p>':'')+'<main class="carte" id="carte"></main>';
   brancherGuide();
+  var pr=$("#prec"); if(pr) pr.onclick=reculer;
+  /* carte déjà faite (on est revenu en arrière) : ce qu'il y refait ne compte pas une 2e fois */
+  S.fait=S.fait||{};
+  S.snap = S.fait[S.i] ? {pieges:S.pieges.length, resMots:(S.resMots||[]).length, lecOk:S.lecOk.length, lecRates:S.lecRates.length, orthRates:(S.orthRates||[]).length, points:S.points} : null;
   ({intro:vueIntro, decouverte:vueDecouverte, piege:vuePiege, dictMot:vueDictMot, relecture:vueRelecture, corrMot:vueCorrMot,
     regle:vueRegle, orth:vueOrth, maman:vueMaman, choixMode:vueChoixMode, dictPhrase:vueDictPhrase, remise:vueRemise, dictParent:vueDictParent, corrTexte:vueCorrTexte, rendre:vueRendre, chasse:vueChasse, en:vueEn, essentiel:vueEssentiel, recite:vueRecite, qcm:vueQcm, ouverture:vueOuverture})[x.t](x);
 }
@@ -5575,11 +5580,27 @@ function suivant(label){
   b.textContent=label || (S.i===S.items.length-1?"Terminer":"Suivant");
   b.onclick=avancer; $("#carte").appendChild(b); b.focus();
 }
+/* Bouton « ← Retour » : revenir au mot / à la phrase / à la question précédente sans tout recommencer */
+function annulerDoublon(){
+  var n=S.snap; if(!n) return;
+  S.pieges.length=n.pieges; if(S.resMots) S.resMots.length=n.resMots; S.lecOk.length=n.lecOk; S.lecRates.length=n.lecRates;
+  if(S.orthRates) S.orthRates.length=n.orthRates; S.points=n.points; S.snap=null;
+}
+function reculer(){
+  if(!S || S.i<=0) return;
+  if(parole) speechSynthesis.cancel();
+  S.fait=S.fait||{};
+  if($("#suite") && S.items[S.i].t!=="intro") S.fait[S.i]=true; /* carte déjà répondue : elle ne comptera pas deux fois */
+  annulerDoublon();
+  S.i--; afficher();
+}
 function avancer(){
   if(parole) speechSynthesis.cancel();
   var x=S.items[S.i];
   if(x.bloc && x.bloc.cle==="lecon" && S.i+1<S.items.length && S.items[S.i+1].bloc!==x.bloc) S.leconFaite=x.bloc.lecon;
   if(x.bloc && x.bloc.cle==="lecon" && S.i===S.items.length-1) S.leconFaite=x.bloc.lecon;
+  annulerDoublon();
+  S.fait=S.fait||{}; S.fait[S.i]=true;
   S.i++;
   if(S.i>=S.items.length) fin(false); else afficher();
 }
